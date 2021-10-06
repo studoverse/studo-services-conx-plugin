@@ -1,0 +1,9 @@
+{
+  "$supersonic.home.menu-entry": "Start",
+  "$supersonic.home.title": "Das ist deine Session",
+  "$supersonic.hello.title": "Hallo Welt",
+  "$supersonic.hello.content": "Wenn du grüne Grußbotschaften siehst, dann funktioniert die Verbindung zur Datenbank.<br>Diese Grußebatschaften kommen aus der <b>greetings Tabelle</b>.<br>Wenn WIRD GELADEN angezeigt wird, hat irgend etwas nicht funktioniert.",
+  "$supersonic.hello.loading": "WIRD GELADEN ...",
+  "$supersonic.whoami.title": "Wer bin ich",
+  "$supersonic.whoami.content": "Das ist die Identitäts- und Rollen-information der authentifizierten Identität."
+}

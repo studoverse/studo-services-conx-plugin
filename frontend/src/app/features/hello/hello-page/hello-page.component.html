@@ -1,0 +1,15 @@
+<div class="center">
+  <p [innerHTML]="'$supersonic.hello.content' | translate"></p>
+
+  <span *ngIf="!greetings" class="db-is-working-indicator">
+    {{'$supersonic.hello.loading' | translate}}
+  </span>
+  <span>
+    <ul *ngIf="greetings" class="db-is-working-indicator">
+      <li *ngFor="let greeting of greetings">
+        {{greeting.text}}
+      </li>
+    </ul>
+  </span>
+
+</div>

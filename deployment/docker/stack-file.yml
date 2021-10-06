@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+
+    backend:
+        image: ${docker.registry}/${docker.artefact.id}:${docker.artefact.version}
+        environment:
+            - CO_JAVA_OPTIONS=${backend_java_options}
+
+            # database config
+            - ENV_QUARKUS_DATASOURCE_JDBC_URL=jdbc:oracle:thin:@${db_connect_string}
+            - ENV_QUARKUS_DATASOURCE_USERNAME=\${backend_db_username:-${stack.db.username}}
+            - ENV_QUARKUS_DATASOURCE_PASSWORD_ENCRYPTED=\${backend_db_password_${stack.db.username}}
+            - ENV_QUARKUS_LIQUIBASE_MIGRATE_AT_START=true
+            - ENV_QUARKUS_HIBERNATE_ORM_LOG_SQL=false
+
+            # oidc config
+            - ENV_OID_CLIENT_ID=${stack.oidc.app-user.client.id}
+            - ENV_QUARKUS_OIDC_AUTH_SERVER_URL=${co_auth_server_authurl}
+            - ENV_QUARKUS_OIDC_AUTHENTICATION_REDIRECT_PATH=${web_context_root}/co/${stack.url.prefix}/api/auth/authn/login
+            - ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH=${web_context_root}/co/${stack.url.prefix}
+            - ENV_QUARKUS_OIDC_LOGOUT_LOGOUT_PATH=${web_context_root}/co/${stack.url.prefix}/api/auth/authn/logout
+            - ENV_QUARKUS_OIDC_LOGOUT_POST_LOGOUT_PATH=${web_context_root}/co/${stack.url.prefix}/api/auth/authn/post-logout
+
+            # oidc client config
+            - ENV_QUARKUS_OIDC_CLIENT_CLIENT_ID=\${backend_back_channel_client_id:-${stack.oidc.app.client.id}}
+            - ENV_QUARKUS_OIDC_CLIENT_AUTH_SERVER_URL=${co_auth_server_authurl}
+            - ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET=${backend_back_channel_client_secret}
+
+            # proxy config
+            - ENV_QUARKUS_HTTP_PROXY_PROXY_ADDRESS_FORWARDING=true
+            - ENV_QUARKUS_HTTP_PROXY_PROXY_ENABLE_FORWARDED_HOST=true
+
+            # conx common config
+            - ENV_CONX_FRONTEND_URL_FOR_PROD=${co_service_baseurl}/co/${stack.url.prefix}/app
+            - ENV_CONX_BACKEND_URL_FOR_PROD=${co_service_baseurl}/co/${stack.url.prefix}/api
+            - ENV_CONX_PUBLIC_API_URL=${co_service_baseurl}/co/public
+            - ENV_CONX_AUTH_URL_PREFIX_INTERCEPTOR_PATH=/${stack.url.prefix}
+            - ENV_CONX_HTTP_ACCESS_LOG_HEADERS=${backend_http_access_log_headers:-false}
+            - ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS=${backend_http_access_log_security_headers:-false}
+
+        deploy:
+            labels:
+                - "ingress=co"
+                - "traefik.enable=true"
+                - "co.router.network=default"
+                - "co.globalUniqueId=${globalUniqueId}"
+                - "traefik.http.services.${stack.id}-backend.loadbalancer.server.port=8080"
+                - "traefik.http.routers.${stack.id}-backend.entrypoints=web"
+
+                # Entrypoint REST
+                - "traefik.http.routers.${stack.id}-backend.rule=PathPrefix(`/${stack.url.prefix}`)"
+                - "traefik.http.routers.${stack.id}-backend.middlewares=${stack.id}-proxy-headers"
+
+                # Other Special Endpoints
+                - "traefik.http.routers.${stack.id}-q-health.rule=PathPrefix(`/${stack.url.prefix}/q/health`)"
+                - "traefik.http.routers.${stack.id}-q-health.middlewares=${stack.id}-proxy-headers,${stack.id}-backend-stripprefix"
+
+                # Define Middleware Tools
+                - "traefik.http.middlewares.${stack.id}-backend-stripprefix.stripprefix.prefixes=/${stack.url.prefix}"
+                - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Host=${co_service_name}"
+                - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+                - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Port=443"
+                - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Ssl=true"
+                - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Prefix=${web_context_root}/co"
+            resources:
+                limits:
+                    memory: ${backend_memory:-536870912}
+            replicas: ${backend_replicas:-1}
+            restart_policy:
+                condition: on-failure
+                delay: 2s
+                max_attempts: ${backend_max_restart_attempts:-5}
+        healthcheck:
+            test: [ "CMD", "wget", "--quiet", "-O", "/dev/null", "http://localhost:8080/q/health/live" ]
+            interval: 30s
+            timeout: 10s
+            start_period: 20s
+            retries: ${backend_healthcheck_retries:-5}

@@ -1,0 +1,20 @@
+{
+  "/studo/services/api": {
+    "secure": false,
+    "target": "http://localhost:8080",
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/q/swagger-ui": {
+    "secure": false,
+    "target": "http://localhost:8080",
+    "changeOrigin": false,
+    "logLevel": "debug"
+  },
+  "/q/openapi": {
+    "secure": false,
+    "target": "http://localhost:8080",
+    "changeOrigin": false,
+    "logLevel": "debug"
+  }
+}

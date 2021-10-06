@@ -1,0 +1,492 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.studo</groupId>
+    <artifactId>studo-services</artifactId>
+    <version>0.0.1</version>
+
+    <properties>
+        <!-- java and maven properties -->
+        <compiler-plugin.version>3.8.1</compiler-plugin.version>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- CAMPUSonline COnX platform version -->
+        <conx.platform.version>0.4.0-SNAPSHOT</conx.platform.version>
+        <!-- the quarkus platform version must correlate to the COnX platform version -->
+        <quarkus.platform.version>1.13.5.Final</quarkus.platform.version>
+
+        <!-- docker registry (can be overridden) and image name -->
+        <docker.registry>docker.campusonline.community</docker.registry>
+        <docker.artefact.id>${project.artifactId}</docker.artefact.id>
+        <docker.artefact.version>${project.version}</docker.artefact.version>
+
+        <!-- defining the name and filter properties for the docker swarm stack file (/build/stack-file.yml) -->
+        <stack.id>${project.artifactId}</stack.id>
+        <stack.url.prefix>studo/services</stack.url.prefix>
+        <stack.db.username>STUDO_SERVICES</stack.db.username>
+        <stack.oidc.app-user.client.id>${project.artifactId}-app-user</stack.oidc.app-user.client.id>
+        <stack.oidc.app.client.id>${project.artifactId}-app</stack.oidc.app.client.id>
+
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>campusonline-public-maven</id>
+            <name>CAMPUSonline Public Maven Repository</name>
+            <url>https://conexus.tugraz.at/nexus/repository/campusonline-public-maven</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>campusonline-public-maven-plugins</id>
+            <name>CAMPUSonline Public Maven Plugin Repository</name>
+            <url>https://conexus.tugraz.at/nexus/repository/campusonline-public-maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <!-- we skip the deployment of the jar, because we are no library project -->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- we filter the deployment/build folder to generate the stack-file.yaml for our app -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>process-deployment-resources</id>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/deployment</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/deployment</outputDirectory>
+                            <escapeString>\</escapeString>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- we rename the generic stack-file.yml name to our app specific name -->
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>rename-stack-file</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <overWrite>true</overWrite>
+                            <sourceFile>${project.build.directory}/deployment/docker/stack-file.yml</sourceFile>
+                            <destinationFile>${project.build.directory}/deployment/docker/${stack.id}.yml</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- we use the quarkus-maven-plugin to prepare the compiled artefacts to run in a docker container -->
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- we use a specific maven-compiler-plugin to specify our desired java version and project encodings -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <parameters>${maven.compiler.parameters}</parameters>
+                </configuration>
+            </plugin>
+
+            <!-- we use the maven maven-surefire-plugin for running tests -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+                <configuration>
+                    <systemProperties>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+
+            <!-- we use the co-openapi-generator to generate an openapi file which is used for TS model generation -->
+            <plugin>
+                <groupId>at.campusonline.conx.api</groupId>
+                <artifactId>co-openapi-generator</artifactId>
+                <version>${conx.platform.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>gen-pub-openapi</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- frontend build, we use the frontend-maven-plugin to specify a fix node and npm version -->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <workingDirectory>frontend</workingDirectory>
+                </configuration>
+                <executions>
+                    <!-- we use a fix node and npm version -->
+                    <execution>
+                        <id>install node and npm</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Make sure these match the version you installed on your system -->
+                            <nodeVersion>v14.17.4</nodeVersion>
+                            <npmVersion>6.14.14</npmVersion>
+                        </configuration>
+                    </execution>
+                    <!-- we generate the typescript model by using the previously generated openapi.yaml file -->
+                    <execution>
+                        <id>gen-from-backend-model</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>npx</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>openapi-typescript ${project.basedir}/target/classes/META-INF/openapi.yaml -o meta/model.ts</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- we install all npm dependencies -->
+                        <id>npm install</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <!-- Optional configuration which provides for running any yarn command -->
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- we run a frontend production build -->
+                    <execution>
+                        <id>npm run build for production</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build-prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- we use a docker plugin to generate a docker image and push it to the specified docker registry -->
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>quarkus.profile</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.33.0</version>
+                        <configuration>
+                            <useColor>true</useColor>
+                            <verbose>all</verbose>
+                            <images>
+                                <image>
+                                    <!-- the docker image name is composed automatically -->
+                                    <!-- this name will be referenced in the stack-file.yml -->
+                                    <name>${docker.registry}/${docker.artefact.id}:${docker.artefact.version}</name>
+                                    <build>
+                                        <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                                        <contextDir>${project.basedir}</contextDir>
+                                        <tags>
+                                            <tag>${docker.artefact.version}</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>push</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <!-- we import the COnX platform dependency versions -->
+    <!-- the COnX platform dependencies are a set of managed dependencies which will fit together -->
+    <!-- it also implies a fix quarkus version will be imported -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>at.campusonline.conx.api</groupId>
+                <artifactId>pub-universe-bom</artifactId>
+                <version>${conx.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- currently COnX uses a logback for logging, so we have to disable the standard quarkus logging -->
+        <!-- this will change in the near future -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-core</artifactId>
+            <exclusions>
+                <!-- this is essential -->
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- QUARKUS dependencies -->
+
+        <!-- we use resteasy for our JAX-RS implementation  under the hood -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+        </dependency>
+        <!-- we use hibernate as JPA provider under the hood -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+        </dependency>
+        <!-- for JPA queries and repositories we use the panache framework -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm-panache</artifactId>
+        </dependency>
+        <!-- we also like to use bean validation -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-validator</artifactId>
+        </dependency>
+        <!-- for json serialization we use resteasy jsonb -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jsonb</artifactId>
+        </dependency>
+        <!-- for xml serialization we use resteasy jaxb -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jaxb</artifactId>
+        </dependency>
+        <!-- to communicate with other rest services we use the quarkus restclient (microprofile) -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client</artifactId>
+        </dependency>
+        <!-- for the openapi.yaml file generation we include also smallrye-openapi -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <!-- to support the login with keycloak we use the oidc dependency -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc</artifactId>
+        </dependency>
+        <!-- we authentic our app by using access tokens which are generated by the keycloak  -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc-client</artifactId>
+        </dependency>
+        <!-- to append the access tokens generated by keycloak to our rest requests we use this dependency -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc-client-filter</artifactId>
+        </dependency>
+        <!-- we install our database changes by using liquibase -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-liquibase</artifactId>
+        </dependency>
+        <!-- we like to use yaml styl four our application properties -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-config-yaml</artifactId>
+        </dependency>
+        <!-- for our health endpoints wie use smallrye-health (microprofile) -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
+        </dependency>
+        <!-- we use reactive routes for our AppHackAuthenticationInterceptorFilter which solves the DAD problem  -->
+        <!-- the quarkus oidc plugin can not handle the DAD in the URL -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-vertx-web</artifactId>
+        </dependency>
+        <!-- we use undertow to specify our servlet configuration for serving the frontend -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-undertow</artifactId>
+        </dependency>
+
+        <!-- TESTING dependencies -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-test-security</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- third party dependencies (only the oracle jdbc driver) -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+        </dependency>
+
+        <!-- COnX dependencies -->
+
+        <!-- the campusonline-extension supports the encryption of secrets -->
+        <!-- and currently logback.xml for logging (this will change in the near future) -->
+        <dependency>
+            <groupId>at.campusonline.quarkus</groupId>
+            <artifactId>campusonline-extension</artifactId>
+        </dependency>
+        <!-- we use the auth api for authentication and authorization -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api</artifactId>
+        </dependency>
+        <!-- for authentication and authorization we need to import the quarkus specific implementation -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api-impl-quarkus</artifactId>
+        </dependency>
+        <!-- we need the dad hack dependency to support the DAD in the oidc plugin -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api-oidc-dad-hack-quarkus</artifactId>
+        </dependency>
+        <!-- Endpoints for authentication and authorization -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api-rest-services</artifactId>
+        </dependency>
+        <!-- support internationalization -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-i18n-api-rest-services</artifactId>
+        </dependency>
+        <!-- COnX specific JAX-RS extensions -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-jaxrs-api</artifactId>
+        </dependency>
+        <!-- we wan to use special logging (Intellij http file style) for incoming and outgoing REST requests -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-jaxrs-api-logging-impl</artifactId>
+        </dependency>
+        <!-- we wan to use special logging (Intellij http file style) for incoming and outgoing REST requests -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-jaxrs-api-impl-quarkus</artifactId>
+        </dependency>
+        <!-- endpoints to show CAMPUSonline desktop specific information in the app  -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-desktop-rest-services-quarkus-impl</artifactId>
+        </dependency>
+        <!-- use the COnX logging facade -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-logging-api</artifactId>
+        </dependency>
+        <!-- use the COnX logging facade implementation for quarkus -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-logging-api-impl</artifactId>
+        </dependency>
+        <!-- COnX specific status and version endpoints -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-jaxrs-status-service</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

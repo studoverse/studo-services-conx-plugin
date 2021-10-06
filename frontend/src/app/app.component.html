@@ -1,0 +1,59 @@
+<mat-sidenav-container [coaDesktopFixedHeaderDirective]="desktop">
+
+  <coa-theme-loader
+    [desktop]="desktop"
+    [mode]="mode"></coa-theme-loader>
+
+  <mat-sidenav #sidenav mode="over">
+    <coa-desktop-sidebar
+      [loadSidebar]="loadSidebar"
+      [session]="session"
+      [desktop]="desktop"
+      [page]="page"
+      [menu]="menu"
+      (triggerLanguage)="onLanguageSelect($event)"
+      (triggerCloseSidebar)="sidenav.close()"
+      (triggerLogin)="onLogin()"
+      (triggerLogout)="onLogout()">
+    </coa-desktop-sidebar>
+  </mat-sidenav>
+
+  <header>
+    <coa-desktop-header
+      [session]="session"
+      [desktop]="desktop"
+      [page]="page"
+      (triggerLogin)="onLogin()"
+      (triggerLogout)="onLogout()"
+      (triggerSidebar)="sidenav.open(); onSidenavOpen();"
+      (triggerLanguage)="onLanguageSelect($event)">
+    </coa-desktop-header>
+
+    <nav>
+      <coa-desktop-nav
+        [menu]="menu"
+        [page]="page">
+      </coa-desktop-nav>
+    </nav>
+
+    <coa-desktop-loading-indicator [mode]="mode">
+    </coa-desktop-loading-indicator>
+  </header>
+
+  <coa-desktop-debug debugContainer="auth">
+    <coa-auth-debug [authActionResource]="authActionResource"></coa-auth-debug>
+  </coa-desktop-debug>
+
+  <main>
+    <coa-main-content
+      [page]="page"
+      [menu]="menu">
+      <router-outlet #o="outlet"></router-outlet>
+    </coa-main-content>
+  </main>
+
+  <footer>
+    <coa-desktop-footer [desktop]="desktop"></coa-desktop-footer>
+  </footer>
+
+</mat-sidenav-container>

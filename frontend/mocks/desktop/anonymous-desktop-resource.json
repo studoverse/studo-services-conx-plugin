@@ -1,0 +1,18 @@
+{
+  "footer": {
+    "info": {
+      "key": "$desktop.footer-info"
+    },
+    "links": [
+      {
+        "label": {
+          "key": "$desktop.imprint"
+        },
+        "href": "/"
+      }
+    ]
+  },
+  "header": { },
+  "theme": {
+  }
+}

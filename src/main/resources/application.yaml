@@ -1,0 +1,97 @@
+quarkus:
+
+    datasource:
+        db-kind: other
+        username: ${ENV_QUARKUS_DATASOURCE_USERNAME}
+        password: ${ENV_QUARKUS_DATASOURCE_PASSWORD_ENCRYPTED}
+        jdbc:
+            url: ${ENV_QUARKUS_DATASOURCE_JDBC_URL}
+            driver: oracle.jdbc.OracleDriver
+
+    liquibase:
+        migrate-at-start: ${ENV_QUARKUS_LIQUIBASE_MIGRATE_AT_START:true}
+
+    hibernate-orm:
+        second-level-caching-enabled: false
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        fetch:
+            max-depth: 0
+        jdbc:
+            statement-fetch-size: 1000
+        log:
+            sql: ${ENV_QUARKUS_HIBERNATE_ORM_LOG_SQL:false}
+            jdbc-warnings: true
+
+    oidc:
+        auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
+        client-id: ${ENV_OID_CLIENT_ID}
+        application-type: web_app
+        authentication:
+            redirect-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_REDIRECT_PATH:/}
+            restore-path-after-redirect: true
+            cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
+        token:
+            refresh-expired: true
+        logout:
+            path: ${ENV_QUARKUS_OIDC_LOGOUT_LOGOUT_PATH:/}
+            post-logout-path: ${ENV_QUARKUS_OIDC_LOGOUT_POST_LOGOUT_PATH:/}
+
+    oidc-client:
+        client-id: ${ENV_QUARKUS_OIDC_CLIENT_CLIENT_ID}
+        auth-server-url: ${ENV_QUARKUS_OIDC_CLIENT_AUTH_SERVER_URL}
+        early-tokens-acquisition: false
+        credentials:
+            secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
+            client-secret:
+                method: post
+
+    http:
+        proxy:
+            proxy-address-forwarding: true
+            enable-forwarded-host: true
+
+    log:
+        level: ${ENV_QUARKUS_LOG_LEVEL:INFO}
+        category:
+            "at.campusonline":
+                level: ${ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL:INFO}
+                min-level: ${ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL:INFO}
+            "io.quarkus.oidc":
+                level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
+                min-level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
+
+co-public-api/mp-rest/url: ${ENV_CONX_PUBLIC_API_URL}
+co-public-api/mp-rest/scope: javax.inject.Singleton
+
+conx:
+    backend-url: ${ENV_CONX_BACKEND_URL_FOR_DEV}
+    frontend-url: ${ENV_CONX_FRONTEND_URL_FOR_DEV}
+    public-api-url: ${ENV_CONX_PUBLIC_API_URL}
+
+    http:
+        access-log-headers: ${ENV_CONX_HTTP_ACCESS_LOG_HEADERS:false}
+        access-log-security-headers: ${ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS:false}
+
+    auth:
+        url:
+            # if running behind a proxy X-Forwarded-Prefix header value will be added
+            # to all auth urls
+            prefix-interceptor:
+                enabled: true
+                path: ${ENV_CONX_AUTH_URL_PREFIX_INTERCEPTOR_PATH}
+        context-types: org
+        role-namespaces: VERANSTALTUNGEN,EXAMPLES
+        role-cache:
+            enabled: true
+            expires-in-seconds: 1000
+
+"%prod":
+
+    conx:
+        backend-url: ${ENV_CONX_BACKEND_URL_FOR_PROD}
+        frontend-url: ${ENV_CONX_FRONTEND_URL_FOR_PROD}
+
+"%test":
+    quarkus:
+        application:
+            version: 1.0.0

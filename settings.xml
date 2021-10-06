@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>repos</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>campusonline-public-maven</id>
+                    <name>CAMPUSonline Public Maven</name>
+                    <url>https://conexus.tugraz.at/nexus/repository/campusonline-public-maven</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <mirrors>
+        <mirror>
+            <id>campusonline-public-maven-mirror</id>
+            <name>CAMPUSonline Public Maven</name>
+            <url>https://nexus.campusonline.community/repository/campusonline-public-maven</url>
+            <mirrorOf>campusonline-public-maven,co-central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>campusonline-public-maven-plugins-mirror</id>
+            <name>CAMPUSonline Public Maven</name>
+            <url>https://nexus.campusonline.community/repository/campusonline-public-maven</url>
+            <mirrorOf>campusonline-public-maven-plugins,co-central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+</settings>

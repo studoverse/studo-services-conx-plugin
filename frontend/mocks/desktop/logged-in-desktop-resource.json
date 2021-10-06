@@ -1,0 +1,47 @@
+{
+  "footer": {
+    "info": {
+      "key": "$desktop.footer-info"
+    },
+    "links": [
+      {
+        "href": "https://trunkline.tugraz.at/trunk_dev/ee/ui/ca2/app/desktop/#/about",
+        "label": {
+          "key": "$desktop.imprint"
+        }
+      }
+    ]
+  },
+  "header": {
+
+    "logoLink": {
+      "href": "https://trunkline.tugraz.at/trunk_dev/ee/ui/ca2/app/desktop/#/",
+      "label": {
+        "key": "$desktop.home"
+      }
+    }
+  },
+  "meta": {
+    "systemThemeLink": {
+      "href": "http://localhost:4200/app/assets/css-variables.css"
+    }
+  },
+  "profile": {
+    "profileImageLink": {
+      "href": "https://trunkline.tugraz.at/trunk_dev/visitenkarte.showImage?pPersonenGruppe=3&pPersonenId=29004859AC599F73"
+    },
+    "settingsLink": {
+      "href": "https://trunkline.tugraz.at/trunk_dev/ee/ui/ca2/app/desktop/#/brm.sys.dtop.settings/settings?$ctx=design=ca;lang=de",
+      "label": {
+        "key": "$desktop.personal-settings"
+      }
+    },
+    "userName": "MOCK CO Systemadministrator",
+    "vcardLink": {
+      "href": "https://trunkline.tugraz.at/trunk_dev/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/visitenkarte.show_vcard?$ctx=design=ca2;header=max;lang=de&pPersonenGruppe=3&pPersonenId=29004859AC599F73",
+      "label": {
+        "key": "$desktop.personal-vcard"
+      }
+    }
+  }
+}

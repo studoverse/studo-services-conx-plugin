@@ -1,0 +1,18 @@
+{
+  "cached": {
+    "items": [
+      "F/64177@org-1",
+      "F/66733-H@org-14179"
+    ],
+    "identity": {
+      "internalIdentityId": 1,
+      "name": "MOCK CO Systemadministrator",
+      "obfuscatedIdentityId": "MOCK_OBFUSCATED_ID",
+      "staffId": 1,
+      "studentId": 123
+    }
+  },
+  "exp": 1610045041,
+  "fromCache": true,
+  "iat": 1610044041
+}

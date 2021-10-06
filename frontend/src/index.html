@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Supersonic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base>
+  <script>
+    // dynamically calculating base href - sd
+    const href = location.href;
+    const base = document.getElementsByTagName("base")[0];
+    base.href = href.substr(0,href.indexOf("/app") + 4) + "/";
+    console.info("base.href: ", base.href);
+  </script>
+</head>
+<body>
+  <div id="id-loader">
+    <span>Loading ...</span>
+  </div>
+  <app-root></app-root>
+</body>
+</html>

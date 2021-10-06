@@ -1,0 +1,122 @@
+:root {
+
+  /* COLOR DEFINITION */
+  --primary-color: #007934; /*#34b233;*/
+  --primary-dark-color: #006329;
+  --primary-ligth-color: #34b233;
+
+  --secondary-color:  var(--primary-color); /*#51ae32;*/
+  --secondary-dark-color: var(--primary-dark-color);
+  --secondary-ligh-color: var(--primary-ligth-color);
+
+  --white: #fff;
+
+  --main-content-background-color: var(--white);
+
+  /* LOGO SPECS */
+  --logo-url: url('https://online.medunigraz.at/mug_online/ee/theme/ca2/images/logos/mug_logo-mobile2.png?<%=ANTI_CACHE_TOKEN%>');
+  --logo-background-size: 160px;
+  --logo-width: 200px;
+  --logo-height: 40px;
+
+  /* LOGO MOBILE */
+  --logo-mobile-url: url('https://online.medunigraz.at/mug_online/ee/theme/ca2/images/logos/mug_logo-mobile2s.png?<%=ANTI_CACHE_TOKEN%>');
+  --logo-mobile-background-size: 50px;
+  --logo-mobile-width: 50px;
+  --logo-mobile-height: 40px;
+
+  /* LOGO EXTRA SMALL DEVICES */
+  --logo-mobile-xs-url: url('https://online.medunigraz.at/mug_online/ee/theme/ca2/images/logos/mug_logo-mobile2.png?<%=ANTI_CACHE_TOKEN%>');
+  --logo-mobile-xs-background-size: 50px;
+  --logo-mobile-xs-width: 50px;
+  --logo-mobile-xs-height: 40px;
+
+  /* HEADER */
+  --ca-primary-header-row-height: 40px;
+  --ca-primary-header-row-text-color: var(--white);
+  --ca-primary-header-row-background-color: var(--primary-color);
+  --header-button-background-hover: var(--primary-dark-color);
+  --header-button-text-color-hover: var(--white);
+  --header-button-background-color-hover: var(--primary-dark-color);
+
+    /* PRIMARY BUTTON */
+  --primary-button-background-color: var(--primary-color);
+  --primary-button-background-color-hover: var(--primary-dark-color);
+
+  --primary-button-border-color: var(--primary-color);
+  --primary-button-border-color-hover: var(--primary-dark-color);
+
+  --primary-button-text-color: var(--white);
+  --primary-button-text-color-hover: var(--white);
+
+  /* SECONDARY (DEFAULT) BUTTON */
+  --default-button-background-color: transparent;
+  --default-button-background-color-hover: var(--secondary-color);
+
+  --default-button-border-color: var(--secondary-color);
+  --default-button-border-color-hover: var(--secondary-color);
+
+  --default-button-text-color: var(--secondary-color);
+  --default-button-text-color-hover: var(--white);
+
+  /* LANGUAGE SWITCH */
+  --header-button-toggle-checked: var(--button-toggle-checked);
+  --header-button-toggle-text-checked: var(--button-toggle-text-checked);
+
+  /* SIDENAV-TOGGLE */
+  --sidebar-logx-text-color: var(--primary-button-text-color);
+  --sidebar-logx-background-color: var(--primary-button-background-color);
+  --sidebar-logx-hover-color: var(--primary-button-background-color-hover);
+  --sidebar-logx-hover-text-color: var(--primary-button-text-color-hover);
+
+  /* FOOTER */
+  --footer-background-color: var(--ca-primary-header-row-background-color);
+  --footer-text-color: var(--white);
+  /* keep aware, there should be enough contrast to $footer-background-color */
+  --footer-link-text-color: var(--white);
+
+
+
+
+    /* GLOBAL TEXTUAL LINK COLOR */
+    --link-color:                 var(--primary-color);
+    --link-color-hover:           var(--primary-dark-color);
+    --link-background-color-hover: transparent;
+    --link-text-decoration-hover: underline;
+
+    /* SIDENAV-TOGGLE */
+    --sidebar-logx-text-color: var(--primary-button-text-color);
+    --sidebar-logx-background-color: var(--primary-button-background-color);
+    --sidebar-logx-background-color-hover: var(--primary-button-background-color-hover);
+    --sidebar-logx-text-color-hover: var(--primary-button-text-color-hover);
+
+    /* DETAILVIEW-TOGGLE */
+    --button-toggle-checked:          var(--secondary-color);
+    --button-toggle-text-checked:     var(--white);
+
+    /* LOGIN */
+    --login-background-color: var(--primary-color);
+    --login-background-image: url('https://online.medunigraz.at/mug_online/ee/theme/ca2/images/loginpage_bg.png?theme_1601982494397');
+    --login-text-color: var(--primary-button-text-color);
+    --login-button-color: var(--login-background-color);
+    --login-button-background-hover: var(--primary-button-background-color-hover);
+    --login-button-color-hover: var(--primary-buton-text-color-hover);
+
+    /* Home/Desktop - folder background */
+     --folder-background-color:       #f5f5f5;
+     --folder-background-color-hover: #eee;
+     --folder-border-color:           var(--primary-color);
+     --folder-border-color-hover:     var(--primary-dark-color);
+     --folder-text-color:             var(--link-color);
+     --folder-text-color-hover:       var(--link-hover-color);
+
+    /* Home/Desktop - Application background */
+    --access-entry-background-color: #f5f5f5;
+    --access-entry-background-color-hover: var(--folder-background-color-hover);
+    --access-entry-border-color:     #ccc;
+    --access-entry-border-color-hover: var(--link-hover-color);
+    --access-entry-text-color:        var(--link-color);
+    --access-entry-text-color-hover:  var(--link-color);
+
+	--page-container-padding: 0px;
+}

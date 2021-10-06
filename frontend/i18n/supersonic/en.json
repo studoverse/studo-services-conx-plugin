@@ -1,0 +1,9 @@
+{
+  "$supersonic.home.menu-entry": "Home",
+  "$supersonic.home.title": "This is your session",
+  "$supersonic.hello.title": "Hello world",
+  "$supersonic.hello.content": "If you see a green greeting messages, the connection to the database is working.<br>The greetings are retrieved from the <b>greetings table</b>.<br>If the text says LOADING, something does not work.",
+  "$supersonic.hello.loading": "LOADING ...",
+  "$supersonic.whoami.title": "Who Am I",
+  "$supersonic.whoami.content": "These are the identity and role information of the authenticated identity."
+}
