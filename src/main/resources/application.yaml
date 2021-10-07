@@ -69,7 +69,7 @@ quarkus:
         registry: ${ENV_DOCKER_REGISTRY:conexus.tugraz.at}
         group: studo
         name: studo-services
-        tag: ${project.version}
+        tag: ${ENV_DOCKER_TAG:snapshot}
 
 co-public-api/mp-rest/url: ${ENV_CONX_PUBLIC_API_URL}
 co-public-api/mp-rest/scope: javax.inject.Singleton

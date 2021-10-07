@@ -14,9 +14,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["RoleExampleResource"];
-          };
+          "application/json": components["schemas"]["RoleExampleResource"];
         };
       };
     };
@@ -47,9 +45,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
-          };
+          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
         };
       };
     };
@@ -59,9 +55,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["GreetingListResource"];
-          };
+          "application/json": components["schemas"]["GreetingListResource"];
         };
       };
     };
@@ -103,9 +97,17 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": string;
-          };
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/attendance": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          "application/json": components["schemas"]["AttendanceDto"];
         };
       };
     };
@@ -115,9 +117,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -153,9 +153,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["DesktopResource"];
-          };
+          "application/json": components["schemas"]["DesktopResource"];
         };
       };
     };
@@ -165,9 +163,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -182,9 +178,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["GreetingResource"];
-          };
+          "application/json": components["schemas"]["GreetingResource"];
         };
       };
     };
@@ -199,9 +193,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": string;
-          };
+          "application/json": string;
         };
       };
     };
@@ -211,9 +203,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -228,17 +218,23 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": string;
-          };
+          "application/json": string;
         };
       };
     };
   };
 }
 
+export interface operations {}
+
 export interface components {
   schemas: {
+    AttendanceDto: {
+      courses?: components["schemas"]["CourseDto"][];
+      organisations?: components["schemas"]["OrganisationDto"][];
+      students?: components["schemas"]["StudentDto"][];
+      users?: components["schemas"]["UserDto"][];
+    };
     AuthIdentityResource: {
       externalPersonId?: number;
       internalIdentityId?: number;
@@ -258,6 +254,29 @@ export interface components {
       fromCache?: boolean;
       iat?: number;
       sessionReference?: string;
+    };
+    CourseDto: {
+      academicYear?: string;
+      courseId?: number;
+      courseNumber?: string;
+      groups?: components["schemas"]["CourseGroupDto"][];
+      name?: string;
+      organizationId?: number;
+      semester?: string;
+    };
+    CourseEventDto: {
+      end?: string;
+      eventId?: number;
+      place?: string;
+      start?: string;
+      teachingUnits?: number;
+    };
+    CourseGroupDto: {
+      courseId?: number;
+      events?: components["schemas"]["CourseEventDto"][];
+      groupId?: number;
+      lecturers?: number[];
+      name?: string;
     };
     DesktopFooterResource: {
       info?: components["schemas"]["I18nTextResource"];
@@ -308,9 +327,14 @@ export interface components {
       modifiedAt?: string;
       modifiedByClientId?: string;
       modifiedByPersonUid?: string;
-      type?: components["schemas"]["ModificationType"] & unknown;
+      type?: components["schemas"]["ModificationType"] & { [key: string]: any };
     };
     ModificationType: "CREATE" | "DELETE" | "UPDATE";
+    OrganisationDto: {
+      moderators?: number[];
+      organizationId?: number;
+      organizationName?: string;
+    };
     RoleExampleResource: {
       exampleRead?: boolean;
     };
@@ -323,16 +347,30 @@ export interface components {
       userGroup?: string;
       valid?: boolean;
     };
+    SimplifiedCourseDto: {
+      courseId?: number;
+      groupId?: number;
+    };
+    StudentDto: {
+      courses?: components["schemas"]["SimplifiedCourseDto"][];
+      matriculationNumber?: string;
+      studyPrograms?: string[];
+      userId?: number;
+    };
     UiLinkResource: {
       href?: string;
       label?: components["schemas"]["I18nTextResource"];
       target?: string;
     };
+    UserDto: {
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+      obfuscatedId?: string;
+      permissions?: string[];
+      userId?: number;
+    };
     MapStringString: { [key: string]: string };
     MapStringSetString: { [key: string]: string[] };
   };
 }
-
-export interface operations {}
-
-export interface external {}

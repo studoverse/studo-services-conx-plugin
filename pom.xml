@@ -393,9 +393,27 @@
             <artifactId>quarkus-config-yaml</artifactId>
         </dependency>
 
+        <!-- custom -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <version>3.0.8</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
         </dependency>
 
         <!-- for our health endpoints wie use smallrye-health (microprofile) -->

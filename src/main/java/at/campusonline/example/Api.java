@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic;
+package at.campusonline.example;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

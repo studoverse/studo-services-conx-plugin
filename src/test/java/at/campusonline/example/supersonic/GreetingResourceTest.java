@@ -1,5 +1,6 @@
 package at.campusonline.example.supersonic;
 
+import at.campusonline.example.Api;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import org.junit.jupiter.api.Disabled;
