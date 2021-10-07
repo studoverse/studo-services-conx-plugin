@@ -14,3 +14,8 @@ client.test("Keycloak Access Token successfully received.", function() {
 ###
 GET http://localhost:8080/studo/services/api/greetings
 Authorization: Bearer {{access_token}}
+
+
+###
+GET http://localhost:8080/studo/services/api/attendance
+Authorization: Bearer {{access_token}}

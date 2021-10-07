@@ -23,18 +23,30 @@ quarkus:
             jdbc-warnings: true
 
     oidc:
-        auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
-        client-id: ${ENV_OID_CLIENT_ID}
-        application-type: web_app
-        authentication:
-            redirect-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_REDIRECT_PATH:/}
-            restore-path-after-redirect: true
-            cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
-        token:
-            refresh-expired: true
-        logout:
-            path: ${ENV_QUARKUS_OIDC_LOGOUT_LOGOUT_PATH:/}
-            post-logout-path: ${ENV_QUARKUS_OIDC_LOGOUT_POST_LOGOUT_PATH:/}
+        service:
+            auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
+            client-id: ${ENV_OID_CLIENT_ID}
+            application-type: service
+            credentials:
+                # add separate client secret
+                secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
+            authentication:
+                cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
+            roles:
+                role-claim-path: scope
+        user:
+            auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
+            client-id: ${ENV_OID_CLIENT_ID}
+            application-type: web_app
+            authentication:
+                redirect-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_REDIRECT_PATH:/}
+                restore-path-after-redirect: true
+                cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
+            token:
+                refresh-expired: true
+            logout:
+                path: ${ENV_QUARKUS_OIDC_LOGOUT_LOGOUT_PATH:/}
+                post-logout-path: ${ENV_QUARKUS_OIDC_LOGOUT_POST_LOGOUT_PATH:/}
 
     oidc-client:
         client-id: ${ENV_QUARKUS_OIDC_CLIENT_CLIENT_ID}
