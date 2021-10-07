@@ -19,6 +19,8 @@ build:
         - snapshot
     tags:
         - co-cloud
+    variables:
+        BUILD_TAG: snapshot
     script:
         - mvn $MAVEN_CLI_OPTS versions:set -DnewVersion=$BUILD_TAG
         - mvn $MAVEN_CLI_OPTS -DskipTests=true package -Dquarkus.profile=prod
