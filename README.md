@@ -1,19 +1,34 @@
 # TODOS
 
 * pu-views nach STUDO_SERVICES granten
+  * sammeln
+  * deployment/sql_scripts folder hinterlegen
+  * trunk_dev einspielen
 
-* Tabellen als Liquibase Script
+* Tabellen als Liquibase Scripts
+  * extracten der filter Tabellen von C02
+  * migrate to liquibase
+    * für Tabellen
+    * für content der Tabellen (soll leicht ausklinkbar sein)
 
 * Arbs Quarkus Code nach studo-services moven
   * POM merge
   * application yaml merge
 
+* CI auf gitlab.com im studo-services projekt
+
 * Authorisation
   * Scope studo-services.read scope anlegen
   * @RolesAllowed("studo-services.read")
-  * Umstellung auf von service app auf hybrid
-  * Tenant Resolver
+  * Mapping von JWT Scopes auf roles
+    
+    (* Umstellung auf von service app auf web-app und service)
+  
+  (* Tenant Resolver
+    /api/service => service
+    /api/user => web-app)
 
+* Doku zur Inbetriebnahme
 
 # Studo Services
 
