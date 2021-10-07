@@ -93,7 +93,7 @@
             <column name="RESOURCE_TYPE" type="varchar(20)" />
         </createTable>
 
-        <createTable tableName="co_loc_course_state_filter_pk">
+        <createTable tableName="co_loc_course_state_filter">
             <!--
 
             -->
