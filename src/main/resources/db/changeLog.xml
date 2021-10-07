@@ -97,9 +97,10 @@
             <!--
 
             -->
-            <column name="STATE_FILTER" type="varchar(200)">
+            <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="STATE_FILTER" type="varchar(200)"/>
         </createTable>
     </changeSet>
 
