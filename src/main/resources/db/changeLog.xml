@@ -33,6 +33,9 @@
     
     <changeSet id="create-filter-tables" author="STUDO">
         <createTable tableName="co_loc_attendance_function">
+            <!--
+                List of person functions (e.g. full-time teacher) which can then be used to assign rights
+            -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -40,12 +43,18 @@
         </createTable>
 
         <createTable tableName="co_loc_attendance_org">
+            <!--
+                CampusOnline organisations which are synchronised
+            -->
             <column name="ORG_NR" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
 
         <createTable tableName="co_loc_course_filter">
+            <!--
+                List of person functions (e.g. full-time teacher) which can then be used to assign rights
+            -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -55,6 +64,9 @@
         </createTable>
 
         <createTable tableName="co_loc_event_type_filter">
+            <!--
+                The semester(s) whose courses and enrollments are selected
+            -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -62,6 +74,9 @@
         </createTable>
 
         <createTable tableName="co_loc_prefix">
+            <!--
+                Prefix to be added in front of student IDs to avoid duplicate ID problem between students and teachers
+            -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -69,6 +84,9 @@
         </createTable>
 
         <createTable tableName="co_loc_resource_type_filter">
+            <!--
+                Type of events (e.g. fixed event, web event) to be synchronised
+            -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
