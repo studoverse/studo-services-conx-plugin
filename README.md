@@ -1,3 +1,20 @@
+# TODOS
+
+* pu-views nach STUDO_SERVICES granten
+
+* Tabellen als Liquibase Script
+
+* Arbs Quarkus Code nach studo-services moven
+  * POM merge
+  * application yaml merge
+
+* Authorisation
+  * Scope studo-services.read scope anlegen
+  * @RolesAllowed("studo-services.read")
+  * Umstellung auf von service app auf hybrid
+  * Tenant Resolver
+
+
 # Studo Services
 
 * https://trunkline.tugraz.at/trunk_dev/co/studo/services/app/
