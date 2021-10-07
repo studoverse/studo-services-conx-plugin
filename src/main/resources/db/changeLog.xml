@@ -225,6 +225,10 @@
             <column name="RESOURCE_TYPE">WT</column>
         </insert>
 
+        <insert tableName="co_loc_course_state_filter">
+            <column name="STATE_FILTER">BF</column>
+        </insert>
+
 
     </changeSet>
 
