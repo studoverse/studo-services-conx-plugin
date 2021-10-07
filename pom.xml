@@ -26,7 +26,7 @@
         <docker.registry>docker.campusonline.community</docker.registry>
         <docker.group>studo</docker.group>
         <docker.artefact.id>${project.artifactId}</docker.artefact.id>
-        <docker.artefact.version>${project.version}</docker.artefact.version>
+        <docker.artefact.version>snapshot</docker.artefact.version>
 
         <!-- defining the name and filter properties for the docker swarm stack file (/build/stack-file.yml) -->
         <stack.id>${project.artifactId}</stack.id>
