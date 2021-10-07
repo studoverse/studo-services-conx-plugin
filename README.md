@@ -1,3 +1,10 @@
+# Studo Services
+
+* https://trunkline.tugraz.at/trunk_dev/co/studo/services/app/
+* http://localhost:8080/studo/services/api/role-examples?org-id=1
+* http://localhost:8080/studo/services/api/role-examples/check-demo-1?org-id=1
+* http://localhost:8080/studo/services/api/role-examples/check-demo-2?org-id=1
+
 # CAMPUSonline Supersonic App Template
 
 This project is the standard implementation to build an CAMPUSonline app (backend and frontend).
