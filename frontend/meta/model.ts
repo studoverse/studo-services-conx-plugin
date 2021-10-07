@@ -4,6 +4,75 @@
  */
 
 export interface paths {
+  "/auth/authn/login/{any}": {
+    get: {
+      parameters: {
+        path: {
+          any: string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/auth/authz/logout": {
+    get: {
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/auth-demo/subject": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
+          };
+        };
+      };
+    };
+  };
+  "/greetings": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["GreetingListResource"];
+          };
+        };
+      };
+    };
+  };
+  "/auth/authn/logout": {
+    get: {
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/auth/authz/redirection{any}": {
+    get: {
+      parameters: {
+        path: {
+          any: string;
+        };
+        query: {
+          session_code?: string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
   "/translations/{language}": {
     get: {
       parameters: {
@@ -17,56 +86,150 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": string;
+          content: {
+            "application/json": string;
+          };
         };
       };
     };
   };
-  "/attendance": {
+  "/auth/authz/login": {
     get: {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["AttendanceDto"];
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
+        };
+      };
+    };
+  };
+  "/auth/authn/post-logout": {
+    get: {
+      parameters: {
+        query: {
+          state?: string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/auth/authz/authorization{any}": {
+    get: {
+      parameters: {
+        path: {
+          any: string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/user/desktop": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["DesktopResource"];
+          };
+        };
+      };
+    };
+  };
+  "/auth-demo/session": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
+        };
+      };
+    };
+  };
+  "/greetings/{example-id}": {
+    get: {
+      parameters: {
+        path: {
+          "example-id": number;
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["GreetingResource"];
+          };
+        };
+      };
+    };
+  };
+  "/auth/authz/session": {
+    get: {
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
         };
       };
     };
   };
 }
 
-export interface operations {}
-
 export interface components {
   schemas: {
-    AttendanceDto: {
-      courses?: components["schemas"]["CourseDto"][];
-      organisations?: components["schemas"]["OrganisationDto"][];
-      students?: components["schemas"]["StudentDto"][];
-      users?: components["schemas"]["UserDto"][];
-    };
-    CourseDto: {
-      academicYear?: string;
-      courseId?: number;
-      courseNumber?: string;
-      groups?: components["schemas"]["CourseGroupDto"][];
+    AuthIdentityResource: {
+      externalPersonId?: number;
+      internalIdentityId?: number;
       name?: string;
-      organizationId?: number;
-      semester?: string;
+      obfuscatedIdentityId?: string;
+      staffId?: number;
+      studentId?: number;
     };
-    CourseEventDto: {
-      end?: string;
-      eventId?: number;
-      place?: string;
-      start?: string;
-      teachingUnits?: number;
+    AuthRolesOfIdentitySetResource: {
+      items?: string[];
+      identity?: components["schemas"]["AuthIdentityResource"];
     };
-    CourseGroupDto: {
-      courseId?: number;
-      events?: components["schemas"]["CourseEventDto"][];
-      groupId?: number;
-      lecturers?: number[];
-      name?: string;
+    CachedAuthRolesOfIdentitySetResource: {
+      cachedEntity?: components["schemas"]["AuthRolesOfIdentitySetResource"];
+      debug?: string;
+      exp?: number;
+      fromCache?: boolean;
+      iat?: number;
+      sessionReference?: string;
     };
+    DesktopFooterResource: {
+      info?: components["schemas"]["I18nTextResource"];
+      links?: components["schemas"]["UiLinkResource"][];
+    };
+    DesktopHeaderResource: {
+      homeLink?: components["schemas"]["UiLinkResource"];
+      logoLink?: components["schemas"]["UiLinkResource"];
+    };
+    DesktopMetaResource: {
+      customThemeLink?: components["schemas"]["EmbeddedLinkResource"];
+      systemThemeLink?: components["schemas"]["EmbeddedLinkResource"];
+    };
+    DesktopResource: {
+      footer?: components["schemas"]["DesktopFooterResource"];
+      header?: components["schemas"]["DesktopHeaderResource"];
+      meta?: components["schemas"]["DesktopMetaResource"];
+    };
+    EmbeddedLinkResource: {
+      href?: string;
+      type?: components["schemas"]["EmbeddedLinkType"];
+    };
+    EmbeddedLinkType: "CSS" | "IMAGE" | "SCRIPT";
     /** All erroneous requests result in this CAMPUSonline specific error resource. */
     ErrorResource: {
       detail?: string;
@@ -78,38 +241,44 @@ export interface components {
       title?: string;
       type: string;
     };
+    GreetingListResource: {
+      items?: components["schemas"]["GreetingResource"][];
+    };
+    GreetingResource: {
+      id?: number;
+      text?: string;
+    };
+    I18nTextResource: {
+      key: string;
+      replacements?: { [key: string]: string };
+    };
     /** Generic resource to track modifications (create, update, delete) of a specific resource */
     ModificationResource: {
       modifiedAt?: string;
       modifiedByClientId?: string;
       modifiedByPersonUid?: string;
-      type?: components["schemas"]["ModificationType"] & { [key: string]: any };
+      type?: components["schemas"]["ModificationType"] & unknown;
     };
     ModificationType: "CREATE" | "DELETE" | "UPDATE";
-    OrganisationDto: {
-      moderators?: number[];
-      organizationId?: number;
-      organizationName?: string;
+    Session: {
+      debug?: string;
+      language?: string;
+      obfuscatedIdentityId?: string;
+      requiresRedirectToSessionProvider?: boolean;
+      sessionReference?: string;
+      userGroup?: string;
+      valid?: boolean;
     };
-    SimplifiedCourseDto: {
-      courseId?: number;
-      groupId?: number;
-    };
-    StudentDto: {
-      courses?: components["schemas"]["SimplifiedCourseDto"][];
-      matriculationNumber?: string;
-      studyPrograms?: string[];
-      userId?: number;
-    };
-    UserDto: {
-      email?: string;
-      firstName?: string;
-      lastName?: string;
-      obfuscatedId?: string;
-      permissions?: string[];
-      userId?: number;
+    UiLinkResource: {
+      href?: string;
+      label?: components["schemas"]["I18nTextResource"];
+      target?: string;
     };
     MapStringString: { [key: string]: string };
     MapStringSetString: { [key: string]: string[] };
   };
 }
+
+export interface operations {}
+
+export interface external {}

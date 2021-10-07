@@ -187,7 +187,7 @@
                             <npmVersion>6.14.14</npmVersion>
                         </configuration>
                     </execution>
-                    <!-- we generate the typescript model by using the previously generated openapi.yaml file -->
+                    <!-- we generate the typescript model by using the previously generated openapi.yaml file
                     <execution>
                         <id>gen-from-backend-model</id>
                         <phase>compile</phase>
@@ -198,6 +198,7 @@
                             <arguments>openapi-typescript ${project.basedir}/target/classes/META-INF/openapi.yaml -o meta/model.ts</arguments>
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <!-- set npm config-->
                         <id>npm config</id>
