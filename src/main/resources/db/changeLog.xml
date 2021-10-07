@@ -34,7 +34,7 @@
     <changeSet id="create-filter-tables" author="STUDO">
         <createTable tableName="co_loc_attendance_function">
             <!--
-                List of person functions (e.g. full-time teacher) which can then be used to assign rights
+                List of person functions (e.g. full-time teacher) that are used to select the users to be sent
             -->
             <column name="ID" type="number">
                 <constraints primaryKey="true" nullable="false"/>
@@ -44,7 +44,7 @@
 
         <createTable tableName="co_loc_attendance_org">
             <!--
-                CampusOnline organisations which are synchronised
+                CampusOnline organisations whose data is to be synchronised
             -->
             <column name="ORG_NR" type="number">
                 <constraints primaryKey="true" nullable="false"/>
