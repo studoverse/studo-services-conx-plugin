@@ -110,6 +110,66 @@
             <column name="FUNCTION_TYPE">F_LG</column>
         </insert>
 
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14201</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14022</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14166</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14036</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14037</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14038</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14162</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14200</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14032</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14031</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14139</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14160</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14018</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14017</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14016</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14011</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14007</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14006</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14199</column>
+        </insert>
+        <insert tableName="co_loc_attendance_org">
+            <column name="ORG_NR">14012</column>
+        </insert>
 
     </changeSet>
 
