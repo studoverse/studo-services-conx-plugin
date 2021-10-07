@@ -92,6 +92,15 @@
             </column>
             <column name="RESOURCE_TYPE" type="varchar(20)" />
         </createTable>
+
+        <createTable tableName="co_loc_course_state_filter_pk">
+            <!--
+
+            -->
+            <column name="STATE_FILTER" type="varchar(200)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
     <changeSet id="insert-C02-filter-tables" author="STUDO">
