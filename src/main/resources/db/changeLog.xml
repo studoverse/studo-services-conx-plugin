@@ -227,6 +227,7 @@
         </insert>
 
         <insert tableName="co_loc_course_state_filter">
+            <column name="ID">1</column>
             <column name="STATE_FILTER">BF</column>
         </insert>
 
