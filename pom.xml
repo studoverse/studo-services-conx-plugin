@@ -24,6 +24,7 @@
 
         <!-- docker registry (can be overridden) and image name -->
         <docker.registry>docker.campusonline.community</docker.registry>
+        <docker.group>studo</docker.group>
         <docker.artefact.id>${project.artifactId}</docker.artefact.id>
         <docker.artefact.version>${project.version}</docker.artefact.version>
 
@@ -391,6 +392,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-config-yaml</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+
         <!-- for our health endpoints wie use smallrye-health (microprofile) -->
         <dependency>
             <groupId>io.quarkus</groupId>
