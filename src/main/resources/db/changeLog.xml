@@ -30,6 +30,51 @@
             <column name="text">nuqneH qo'!</column>
         </insert>
     </changeSet>
+    
+    <changeSet id="create-filter-tables" author="STUDO">
+        <createTable tableName="co_loc_attendance_function">
+            <column name="ID" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="FUNCTION_TYPE" type="varchar(100)" />
+        </createTable>
+
+        <createTable tableName="co_loc_attendance_org">
+            <column name="ORG_NR" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="co_loc_course_filter">
+            <column name="ID" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ACADEMIC_YEAR" type="varchar(10)" />
+            <column name="SEMESTER_W" type="varchar(1)" />
+            <column name="SEMESTER_S" type="varchar(1)" />
+        </createTable>
+
+        <createTable tableName="co_loc_event_type_filter">
+            <column name="ID" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="EVENT_TYPE" type="varchar(100)" />
+        </createTable>
+
+        <createTable tableName="co_loc_prefix">
+            <column name="ID" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PREFIX" type="varchar(100)" />
+        </createTable>
+
+        <createTable tableName="co_loc_resource_type_filter">
+            <column name="ID" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="RESOURCE_TYPE" type="varchar(20)" />
+        </createTable>
+    </changeSet>
 
 
 </databaseChangeLog>
