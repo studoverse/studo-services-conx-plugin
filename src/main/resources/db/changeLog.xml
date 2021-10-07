@@ -76,5 +76,41 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="insert-C02-filter-tables" author="STUDO">
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">1</column>
+            <column name="FUNCTION_TYPE">F_KO_STR</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">2</column>
+            <column name="FUNCTION_TYPE">F_BA_STS</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">3</column>
+            <column name="FUNCTION_TYPE">P_BT_FAC</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">4</column>
+            <column name="FUNCTION_TYPE">R_LG</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">6</column>
+            <column name="FUNCTION_TYPE">R_SG</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">7</column>
+            <column name="FUNCTION_TYPE">R_SR</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">11</column>
+            <column name="FUNCTION_TYPE">F_SG</column>
+        </insert>
+        <insert tableName="co_loc_attendance_function">
+            <column name="ID">12</column>
+            <column name="FUNCTION_TYPE">F_LG</column>
+        </insert>
+
+
+    </changeSet>
 
 </databaseChangeLog>
