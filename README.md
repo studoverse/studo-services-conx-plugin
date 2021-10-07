@@ -1,24 +1,28 @@
 # TODOS
 
-* pu-views nach STUDO_SERVICES granten (Zoli, Valentin) 
+* pu-views nach STUDO_SERVICES granten (Zoli, Valentin) => DONE 
   * sammeln
   * deployment/sql_scripts folder hinterlegen
   * trunk_dev einspielen (Zoni)
 
-* Tabellen als Liquibase Scripts (Zoli, Valentin)
+* Tabellen als Liquibase Scripts (Zoli, Valentin) => DONE
   * extracten der filter Tabellen von C02
   * migrate to liquibase
     * für Tabellen
     * für content der Tabellen (soll leicht ausklinkbar sein)
 
-* Arbs Quarkus Code nach studo-services moven (Arb, Zoni, Luke)
+* Arbs Quarkus Code nach studo-services moven (Arb, Zoni, Luke) => DONE
   * POM merge
   * application yaml merge
   * arb and running bringen
 
 * CI auf gitlab.com im studo-services projekt (Luke) => DONE
 
-* Authorisation (alle)
+* Frontend wieder enablen (zoni)
+* Deployment Fehler analysieren (zoni)
+* Redirect mit JWT schreiben (Valentin)
+
+* Authorisation (alle) (zoni)
   * Scope studo-services.read scope anlegen
   * @RolesAllowed("studo-services.read")
   * Mapping von JWT Scopes auf roles
