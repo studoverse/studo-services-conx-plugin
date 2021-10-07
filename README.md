@@ -31,6 +31,15 @@
 
 * Doku zur Inbetriebnahme
 
+# Installation 
+mvn process resources
+
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0001_app.client
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app_user.client
+coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0001_create_schema.sql
+coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0002_grants.sql
+coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
+
 # Studo Services
 
 * https://trunkline.tugraz.at/trunk_dev/co/studo/services/app/
