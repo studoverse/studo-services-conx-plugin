@@ -171,6 +171,34 @@
             <column name="ORG_NR">14012</column>
         </insert>
 
+        <insert tableName="co_loc_course_filter">
+            <column name="ID">1</column>
+            <column name="ACADEMIC_YEAR">2021/22</column>
+            <column name="SEMESTER_W">W</column>
+            <column name="SEMESTER_S">S</column>
+        </insert>
+
+        <insert tableName="co_loc_event_type_filter">
+            <column name="ID">1</column>
+            <column name="EVENT_TYPE">A</column>
+        </insert>
+
+        <insert tableName="co_loc_prefix">
+            <column name="ID">1</column>
+            <column name="PREFIX">8</column>
+        </insert>
+
+
+        <insert tableName="co_loc_resource_type_filter">
+            <column name="ID">1</column>
+            <column name="RESOURCE_TYPE">FT</column>
+        </insert>
+        <insert tableName="co_loc_resource_type_filter">
+            <column name="ID">2</column>
+            <column name="RESOURCE_TYPE">WT</column>
+        </insert>
+
+
     </changeSet>
 
 </databaseChangeLog>
