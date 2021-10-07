@@ -198,6 +198,18 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <!-- set npm config-->
+                        <id>npm config</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <!-- Optional configuration which provides for running any yarn command -->
+                        <configuration>
+                            <arguments>config set @campusonline:registry=https://conexus.tugraz.at/nexus/repository/campusonline-public-npm/</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <!-- we install all npm dependencies -->
                         <id>npm install</id>
                         <phase>prepare-package</phase>
