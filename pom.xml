@@ -391,6 +391,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-config-yaml</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-container-image-jib</artifactId>
+        </dependency>
+
         <!-- for our health endpoints wie use smallrye-health (microprofile) -->
         <dependency>
             <groupId>io.quarkus</groupId>

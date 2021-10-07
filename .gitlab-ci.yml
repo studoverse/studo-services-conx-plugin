@@ -1,44 +1,36 @@
 stages:
     - build
-    - build-docker
 
 variables:
     MAVEN_OPTS: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-    CONTAINER_IMAGE: "docker.campusonline.community/studo/studo-services:snapshot"
+    QUARKUS_JIB_BASE_JVM_IMAGE: "fabric8/java-alpine-openjdk11-jre"
+    QUARKUS_CONTAINER_IMAGE_BUILD: "false"
+    QUARKUS_CONTAINER_IMAGE_PUSH: "false"
+    QUARKUS_CONTAINER_IMAGE_REGISTRY: "docker.campusonline.community"
+    QUARKUS_CONTAINER_IMAGE_GROUP: "studo"
+    QUARKUS_CONTAINER_IMAGE_NAME: "studo-services"
+    QUARKUS_CONTAINER_IMAGE_TAG: "${CI_COMMIT_SHORT_SHA}"
+    QUARKUS_CONTAINER_IMAGE_USERNAME: "${DOCKER_USER}"
+    QUARKUS_CONTAINER_IMAGE_PASSWORD: "${DOCKER_PASSWORD}"
 
 cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
         - /var/maven/.m2
 
-build:
-    image: maven:3-openjdk-11
+build-docker:
+    image: maven:latest
     stage: build
     only:
         - snapshot
     tags:
         - co-cloud
     variables:
-        BUILD_TAG: snapshot
+        QUARKUS_CONTAINER_IMAGE_BUILD: "true"
+        QUARKUS_CONTAINER_IMAGE_PUSH: "true"
     script:
-        - mvn $MAVEN_CLI_OPTS versions:set -DnewVersion=$BUILD_TAG
-        - mvn $MAVEN_CLI_OPTS -DskipTests=true package -Dquarkus.profile=prod
+        - mvn $MAVEN_CLI_OPTS clean -Dmaven.deploy.skip=true deploy
     artifacts:
         paths:
             - target/quarkus-app/*
-
-build-docker:
-    image:
-        name: gcr.io/kaniko-project/executor:debug
-        entrypoint: [ "" ]
-    stage: build-docker
-    only:
-        - snapshot
-    tags:
-        - co-cloud
-    script:
-        - echo "build docker image ..."
-        - mkdir -p /kaniko/.docker
-        - echo "{\"auths\":{\"docker.campusonline.community\":{\"username\":\"${DOCKER_USER}\",\"password\":\"${DOCKER_PASSWORD}\"}}}" > /kaniko/.docker/config.json
-        - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/src/main/docker/Dockerfile --destination ${CONTAINER_IMAGE}
