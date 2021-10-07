@@ -60,6 +60,17 @@ quarkus:
                 level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
                 min-level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
 
+    jib:
+        base-jvm-image: conexus.tugraz.at/campusonline/co-quarkus:1-latest
+
+    container-image:
+        build: ${ENV_DOCKER_BUILD:false}
+        push: ${ENV_DOCKER_PUSH:false}
+        registry: ${ENV_DOCKER_REGISTRY:conexus.tugraz.at}
+        group: studo
+        name: studo-services
+        tag: ${project.version}
+
 co-public-api/mp-rest/url: ${ENV_CONX_PUBLIC_API_URL}
 co-public-api/mp-rest/scope: javax.inject.Singleton
 
