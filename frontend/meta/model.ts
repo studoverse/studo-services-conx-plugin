@@ -30,9 +30,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
-          };
+          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
         };
       };
     };
@@ -42,9 +40,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["GreetingListResource"];
-          };
+          "application/json": components["schemas"]["GreetingListResource"];
         };
       };
     };
@@ -86,9 +82,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": string;
-          };
+          "application/json": string;
         };
       };
     };
@@ -98,9 +92,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -136,9 +128,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["DesktopResource"];
-          };
+          "application/json": components["schemas"]["DesktopResource"];
         };
       };
     };
@@ -148,9 +138,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -165,9 +153,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["GreetingResource"];
-          };
+          "application/json": components["schemas"]["GreetingResource"];
         };
       };
     };
@@ -177,14 +163,14 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
   };
 }
+
+export interface operations {}
 
 export interface components {
   schemas: {
@@ -257,7 +243,7 @@ export interface components {
       modifiedAt?: string;
       modifiedByClientId?: string;
       modifiedByPersonUid?: string;
-      type?: components["schemas"]["ModificationType"] & unknown;
+      type?: components["schemas"]["ModificationType"] & { [key: string]: any };
     };
     ModificationType: "CREATE" | "DELETE" | "UPDATE";
     Session: {
@@ -278,7 +264,3 @@ export interface components {
     MapStringSetString: { [key: string]: string[] };
   };
 }
-
-export interface operations {}
-
-export interface external {}

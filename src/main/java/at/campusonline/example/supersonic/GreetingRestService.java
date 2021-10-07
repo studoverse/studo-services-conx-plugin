@@ -4,6 +4,9 @@ import at.campusonline.example.supersonic.model.GreetingListResource;
 import at.campusonline.example.supersonic.model.GreetingResource;
 import at.campusonline.example.supersonic.persistence.GreetingEntity;
 import at.campusonline.example.supersonic.persistence.GreetingRepository;
+import at.campusonline.pub.auth.api.context.SecurityContext;
+import at.campusonline.pub.auth.api.role.ContextRole;
+import at.campusonline.pub.auth.api.subject.SecuritySubject;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
