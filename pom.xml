@@ -24,6 +24,7 @@
 
         <!-- docker registry (can be overridden) and image name -->
         <docker.registry>docker.campusonline.community</docker.registry>
+        <docker.group>studo</docker.group>
         <docker.artefact.id>${project.artifactId}</docker.artefact.id>
         <docker.artefact.version>${project.version}</docker.artefact.version>
 

@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
     backend:
-        image: ${docker.registry}/${docker.artefact.id}:${docker.artefact.version}
+        image: ${docker.registry}/${docker.group}/${docker.artefact.id}:${docker.artefact.version}
         environment:
             - CO_JAVA_OPTIONS=${backend_java_options}
 
