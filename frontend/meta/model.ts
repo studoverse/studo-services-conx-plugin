@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+  "/role-examples": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": components["schemas"]["RoleExampleResource"];
+          };
+        };
+      };
+    };
+  };
   "/auth/authn/login/{any}": {
     get: {
       parameters: {
@@ -30,7 +47,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
+          content: {
+            "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
+          };
         };
       };
     };
@@ -40,7 +59,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["GreetingListResource"];
+          content: {
+            "application/json": components["schemas"]["GreetingListResource"];
+          };
         };
       };
     };
@@ -82,7 +103,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": string;
+          content: {
+            "application/json": string;
+          };
         };
       };
     };
@@ -92,7 +115,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["Session"];
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
         };
       };
     };
@@ -128,7 +153,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["DesktopResource"];
+          content: {
+            "application/json": components["schemas"]["DesktopResource"];
+          };
         };
       };
     };
@@ -138,7 +165,9 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["Session"];
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
         };
       };
     };
@@ -153,7 +182,26 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["GreetingResource"];
+          content: {
+            "application/json": components["schemas"]["GreetingResource"];
+          };
+        };
+      };
+    };
+  };
+  "/role-examples/check-demo-1": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": string;
+          };
         };
       };
     };
@@ -163,14 +211,31 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          "application/json": components["schemas"]["Session"];
+          content: {
+            "application/json": components["schemas"]["Session"];
+          };
+        };
+      };
+    };
+  };
+  "/role-examples/check-demo-2": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          content: {
+            "application/json": string;
+          };
         };
       };
     };
   };
 }
-
-export interface operations {}
 
 export interface components {
   schemas: {
@@ -243,9 +308,12 @@ export interface components {
       modifiedAt?: string;
       modifiedByClientId?: string;
       modifiedByPersonUid?: string;
-      type?: components["schemas"]["ModificationType"] & { [key: string]: any };
+      type?: components["schemas"]["ModificationType"] & unknown;
     };
     ModificationType: "CREATE" | "DELETE" | "UPDATE";
+    RoleExampleResource: {
+      exampleRead?: boolean;
+    };
     Session: {
       debug?: string;
       language?: string;
@@ -264,3 +332,7 @@ export interface components {
     MapStringSetString: { [key: string]: string[] };
   };
 }
+
+export interface operations {}
+
+export interface external {}
