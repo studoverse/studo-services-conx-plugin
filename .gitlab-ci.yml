@@ -4,7 +4,6 @@ stages:
 variables:
     MAVEN_OPTS: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
     MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-    QUARKUS_JIB_BASE_JVM_IMAGE: "fabric8/java-alpine-openjdk11-jre"
     QUARKUS_CONTAINER_IMAGE_BUILD: "false"
     QUARKUS_CONTAINER_IMAGE_PUSH: "false"
     QUARKUS_CONTAINER_IMAGE_REGISTRY: "docker.campusonline.community"
