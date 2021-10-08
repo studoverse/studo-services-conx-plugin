@@ -1,5 +1,6 @@
 package com.studo.services.attendance.rest;
 
+import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
 import com.studo.services.attendance.dto.AttendanceDto;
 import com.studo.services.attendance.service.CourseService;
 import com.studo.services.attendance.service.OrganisationService;
@@ -18,6 +19,7 @@ import javax.ws.rs.Produces;
  */
 @GZIP
 @ApplicationScoped
+@UserSessionDisabled
 @Produces("application/json")
 @Path("attendance")
 public class AttendanceResource {
@@ -42,5 +44,11 @@ public class AttendanceResource {
                 studentService.getStudents(),
                 userService.getUsers()
         );
+    }
+
+    @GET
+    @Path("test")
+    public String test() {
+        return "blabla";
     }
 }

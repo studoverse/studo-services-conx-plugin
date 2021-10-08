@@ -17,5 +17,5 @@ Authorization: Bearer {{access_token}}
 
 
 ###
-GET http://localhost:8080/studo/services/api/attendance
+GET http://localhost:8080/studo/services/api/attendance/test
 Authorization: Bearer {{access_token}}

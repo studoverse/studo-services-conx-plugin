@@ -208,7 +208,9 @@
                         </goals>
                         <!-- Optional configuration which provides for running any yarn command -->
                         <configuration>
-                            <arguments>config set @campusonline:registry=https://conexus.tugraz.at/nexus/repository/campusonline-public-npm/</arguments>
+                            <arguments>config set
+                                @campusonline:registry=https://conexus.tugraz.at/nexus/repository/campusonline-public-npm/
+                            </arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -490,6 +492,11 @@
             <groupId>at.campusonline.conx.api</groupId>
             <artifactId>pub-jaxrs-api-impl-quarkus</artifactId>
         </dependency>
+        <!-- endpoints to show CAMPUSonline desktop specific information in the app  -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-desktop-rest-services-quarkus-impl</artifactId>
+        </dependency>
         <!-- use the COnX logging facade -->
         <dependency>
             <groupId>at.campusonline.conx.api</groupId>
@@ -505,6 +512,24 @@
             <groupId>at.campusonline.conx.api</groupId>
             <artifactId>pub-jaxrs-status-service</artifactId>
         </dependency>
+
+        <!-- we use the auth api for authentication and authorization -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api</artifactId>
+        </dependency>
+        <!-- for authentication and authorization we need to import the quarkus specific implementation -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api-impl-quarkus</artifactId>
+        </dependency>
+        <!-- Endpoints for authentication and authorization -->
+        <dependency>
+            <groupId>at.campusonline.conx.api</groupId>
+            <artifactId>pub-auth-api-rest-services</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 </project>

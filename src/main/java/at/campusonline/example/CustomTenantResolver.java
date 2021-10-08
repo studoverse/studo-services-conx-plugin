@@ -10,7 +10,10 @@ public class CustomTenantResolver implements TenantResolver {
 
   @Override
   public String resolve(RoutingContext context) {
-    return "service";
+    if (context.request().path().startsWith("/studo/services/api/attendance")) {
+      return "service";
+    }
+    return "user";
   }
 
 }
