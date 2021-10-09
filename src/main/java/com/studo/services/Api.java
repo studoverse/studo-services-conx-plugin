@@ -1,4 +1,4 @@
-package at.campusonline.example;
+package com.studo.services;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

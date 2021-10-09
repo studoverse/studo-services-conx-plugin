@@ -1,6 +1,6 @@
-package at.campusonline.example.supersonic;
+package com.studo.services.supersonic;
 
-import at.campusonline.example.supersonic.model.RoleExampleResource;
+import com.studo.services.supersonic.model.RoleExampleResource;
 import at.campusonline.pub.auth.api.context.SecurityContext;
 import at.campusonline.pub.auth.api.guard.SecurityGuard;
 import at.campusonline.pub.auth.api.judge.RoleJudge;
@@ -11,7 +11,6 @@ import at.campusonline.pub.auth.api.subject.SecuritySubject;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.naming.NoPermissionException;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic.persistence;
+package com.studo.services.supersonic.persistence;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

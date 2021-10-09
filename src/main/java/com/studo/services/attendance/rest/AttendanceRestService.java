@@ -22,7 +22,7 @@ import javax.ws.rs.Produces;
 @UserSessionDisabled
 @Produces("application/json")
 @Path("attendance")
-public class AttendanceResource {
+public class AttendanceRestService {
 
     @Inject
     StudentService studentService;

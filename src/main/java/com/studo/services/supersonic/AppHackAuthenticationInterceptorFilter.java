@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic;
+package com.studo.services.supersonic;
 
 import at.campusonline.pub.auth.api.oidc.dad.hack.quarkus.HackAuthenticationInterceptorFilter;
 import io.quarkus.vertx.web.RouteFilter;

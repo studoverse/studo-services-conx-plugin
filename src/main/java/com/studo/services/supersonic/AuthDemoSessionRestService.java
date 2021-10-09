@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic;
+package com.studo.services.supersonic;
 
 import at.campusonline.pub.shared.rest.api.base.Session;
 

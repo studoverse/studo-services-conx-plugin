@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic;
+package com.studo.services.supersonic;
 
 import at.campusonline.pub.auth.api.subject.SecuritySubject;
 import at.campusonline.pub.auth.rest.api.roles.rolesofidentities.AuthRolesOfIdentitySetResource;

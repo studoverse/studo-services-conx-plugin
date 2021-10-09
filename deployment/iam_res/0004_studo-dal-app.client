@@ -1,0 +1,9 @@
+//@realm=CAMPUSonline
+{
+  "clientId": "studo-dal-app",
+  "publicClient": false,
+  "standardFlowEnabled": false,
+  "serviceAccountsEnabled": true,
+  "enabled": true,
+  "defaultClientScopes": ["studo-services.read"]
+}

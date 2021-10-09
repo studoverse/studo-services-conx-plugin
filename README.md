@@ -3,7 +3,7 @@
 * pu-views nach STUDO_SERVICES granten (Zoli, Valentin) => DONE 
   * sammeln
   * deployment/sql_scripts folder hinterlegen
-  * trunk_dev einspielen (Zoni)
+  * trunk_dev einspielen => DONE
 
 * Tabellen als Liquibase Scripts (Zoli, Valentin) => DONE
   * extracten der filter Tabellen von C02
@@ -12,26 +12,26 @@
     * für content der Tabellen (soll leicht ausklinkbar sein)
 
 * Arbs Quarkus Code nach studo-services moven (Arb, Zoni, Luke) => DONE
-  * POM merge
-  * application yaml merge
-  * arb and running bringen
+  * POM merge => DONE
+  * application yaml merge => DONE
+  * arb and running bringen => DONE
 
 * CI auf gitlab.com im studo-services projekt (Luke) => DONE
 
-* Frontend wieder enablen (zoni)
-* Deployment Fehler analysieren (zoni)
+* Frontend wieder enablen (zoni) => DONE
+* Deployment Fehler analysieren (zoni) => DONE
 * Redirect mit JWT schreiben (Valentin)
 
-* Authorisation (alle) (zoni)
-  * Scope studo-services.read scope anlegen
-  * @RolesAllowed("studo-services.read")
-  * Mapping von JWT Scopes auf roles
+* Authorisation (alle) (zoni)  => DONE
+  * Scope studo-services.read scope anlegen  => DONE
+  * @RolesAllowed("studo-services.read")  => DONE
+  * Mapping von JWT Scopes auf roles  => DONE
     
-    (* Umstellung auf von service app auf web-app und service)
+    (* Umstellung auf von service app auf web-app und service)  => DONE
   
-  (* Tenant Resolver
-    /api/service => service
-    /api/user => web-app)
+  * Tenant Resolver  => DONE
+    /api/studo/services/api/attendance => service => DONE
+    else => web app => DONE
 
 * Doku zur Inbetriebnahme
 

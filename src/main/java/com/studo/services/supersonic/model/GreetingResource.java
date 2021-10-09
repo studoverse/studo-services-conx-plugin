@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic.model;
+package com.studo.services.supersonic.model;
 
 import java.math.BigInteger;
 

@@ -19,3 +19,11 @@ Authorization: Bearer {{access_token}}
 ###
 GET http://localhost:8080/studo/services/api/attendance/test
 Authorization: Bearer {{access_token}}
+
+###
+GET http://localhost:8080/studo/services/api/attendance/hello-world
+Authorization: Bearer {{access_token}}
+
+###
+GET http://localhost:8080/studo/services/api/attendance/secure-hello-world
+Authorization: Bearer {{access_token}}

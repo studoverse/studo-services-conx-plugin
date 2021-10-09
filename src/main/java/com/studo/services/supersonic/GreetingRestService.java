@@ -1,12 +1,10 @@
-package at.campusonline.example.supersonic;
+package com.studo.services.supersonic;
 
-import at.campusonline.example.supersonic.model.GreetingListResource;
-import at.campusonline.example.supersonic.model.GreetingResource;
-import at.campusonline.example.supersonic.persistence.GreetingEntity;
-import at.campusonline.example.supersonic.persistence.GreetingRepository;
-import at.campusonline.pub.auth.api.context.SecurityContext;
-import at.campusonline.pub.auth.api.role.ContextRole;
-import at.campusonline.pub.auth.api.subject.SecuritySubject;
+import com.studo.services.supersonic.model.GreetingListResource;
+import com.studo.services.supersonic.model.GreetingResource;
+import com.studo.services.supersonic.persistence.GreetingEntity;
+import com.studo.services.supersonic.persistence.GreetingRepository;
+import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -16,6 +14,7 @@ import java.math.BigInteger;
 import java.util.stream.Collectors;
 
 @RequestScoped
+@UserSessionDisabled
 @Path(GreetingRestService.PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class GreetingRestService {

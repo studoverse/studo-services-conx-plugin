@@ -1,4 +1,4 @@
-package at.campusonline.example.supersonic.persistence;
+package com.studo.services.supersonic.persistence;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 

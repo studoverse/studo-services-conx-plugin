@@ -1,4 +1,4 @@
-package at.campusonline.example;
+package com.studo.services;
 
 import io.quarkus.oidc.TenantResolver;
 import io.vertx.ext.web.RoutingContext;
