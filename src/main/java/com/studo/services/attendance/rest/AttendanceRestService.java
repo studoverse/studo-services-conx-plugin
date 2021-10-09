@@ -15,13 +15,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 /**
+ *
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
  */
 @GZIP
 @ApplicationScoped
+// disable the user session to allow machine to machine communication
 @UserSessionDisabled
 @Produces("application/json")
-@Path("attendance")
+@Path("rest/attendance")
 public class AttendanceRestService {
 
     @Inject

@@ -39,6 +39,9 @@ services:
             - ENV_CONX_HTTP_ACCESS_LOG_HEADERS=${backend_http_access_log_headers:-false}
             - ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS=${backend_http_access_log_security_headers:-false}
 
+            # app specific properties
+            - ENV_STUDO_SERVICE_TOKEN_SECRET=${backend_studo_service_token_secret}
+
         deploy:
             labels:
                 - "ingress=co"

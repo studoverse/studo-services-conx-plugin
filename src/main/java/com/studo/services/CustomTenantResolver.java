@@ -10,9 +10,12 @@ public class CustomTenantResolver implements TenantResolver {
 
   @Override
   public String resolve(RoutingContext context) {
-    if (context.request().path().startsWith("/studo/services/api/attendance")) {
+    // every endpoint which supports machine to machine communication has to start with /rest/**
+    if (context.request().path().startsWith("/studo/services/api/rest/")) {
       return "service";
     }
+
+    // otherwise we expect a GUI is accessing our rest services
     return "user";
   }
 

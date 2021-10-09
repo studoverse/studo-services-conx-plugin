@@ -7,9 +7,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+// disable the user session to allow machine to machine communication
 @UserSessionDisabled
 @Produces("application/json")
-@Path("attendance")
+@Path("rest/attendance")
 public class AttendanceTestRestService {
 
   @GET
