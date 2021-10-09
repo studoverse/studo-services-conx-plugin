@@ -24,3 +24,6 @@ GET http://localhost:8080/studo/services/api/rest/attendance/secure-hello-world
 ### check if the dal client has access to the secure-hello-world, because of its scope studo-services.read
 GET http://localhost:8080/studo/services/api/rest/attendance/secure-hello-world
 Authorization: Bearer {{access_token}}
+
+###
+GET https://trunkline.tugraz.at/trunk_dev/co/studo/services/api/attendance/redirect

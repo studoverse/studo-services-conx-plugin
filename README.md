@@ -1,3 +1,15 @@
+# Technical Infos
+
+You have to add the following property to your .env file:
+ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
+
+* If you like to implement a pure rest service, you have to use the @UserSessionDisabled annotation
+  and use a /rest Path Prefix
+* If you like to prevent anonymous access use the @RolesAllowed("studo-services.read") annotation
+
+[Example REST Service with and without security annotations](src/main/java/com/studo/services/attendance/rest/AttendanceTestRestService.java)
+[Redirect JWT example](src/main/java/com/studo/services/attendance/rest/AttendanceRedirectRestService.java)
+
 # TODOS
 
 * pu-views nach STUDO_SERVICES granten (Zoli, Valentin) => DONE 
@@ -20,7 +32,7 @@
 
 * Frontend wieder enablen (zoni) => DONE
 * Deployment Fehler analysieren (zoni) => DONE
-* Redirect mit JWT schreiben (Valentin)
+* Redirect mit JWT schreiben (zoni) => DONE
 
 * Authorisation (alle) (zoni)  => DONE
   * Scope studo-services.read scope anlegen  => DONE
