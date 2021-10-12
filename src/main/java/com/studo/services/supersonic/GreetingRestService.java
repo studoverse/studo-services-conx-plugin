@@ -1,10 +1,10 @@
 package com.studo.services.supersonic;
 
+import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
 import com.studo.services.supersonic.model.GreetingListResource;
 import com.studo.services.supersonic.model.GreetingResource;
 import com.studo.services.supersonic.persistence.GreetingEntity;
 import com.studo.services.supersonic.persistence.GreetingRepository;
-import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

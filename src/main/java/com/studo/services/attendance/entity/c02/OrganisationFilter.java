@@ -11,7 +11,8 @@ import java.math.BigDecimal;
  */
 @Entity
 @Immutable
-@Table(name = "CO_LOC_ATTENDANCE_ORG")
+@Table(name = "CO_LOC_ATTENDANCE_ORG_V")
+@Deprecated
 public class OrganisationFilter extends PanacheEntityBase {
 
     @Id

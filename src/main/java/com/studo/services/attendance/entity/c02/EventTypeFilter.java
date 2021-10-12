@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Immutable
 @Table(name = "CO_LOC_EVENT_TYPE_FILTER")
+@Deprecated
 public class EventTypeFilter extends PanacheEntity {
     @Column(name = "EVENT_TYPE")
     public String eventType;

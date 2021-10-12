@@ -10,7 +10,10 @@ import java.math.BigDecimal;
  */
 @AllArgsConstructor
 @RegisterForReflection
-public class SimplifiedCourseDto {
-    public BigDecimal courseId;
-    public BigDecimal groupId;
+public class StaffDto {
+    public BigDecimal id;
+    public String lastName;
+    public String firstName;
+    public String title;
+    public String email;
 }

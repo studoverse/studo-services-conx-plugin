@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Immutable
 @Table(name = "CO_LOC_COURSE_STATE_FILTER")
+@Deprecated
 public class CourseStateFilter extends PanacheEntity {
     @Column(name = "STATE_FILTER")
     public String stateFilter;

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Immutable
 @Table(name = "CO_LOC_ATTENDANCE_FUNCTION")
+@Deprecated
 public class FunctionFilter extends PanacheEntity {
     @Column(name = "FUNCTION_TYPE")
     public String functionType;

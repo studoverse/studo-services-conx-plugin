@@ -1,11 +1,7 @@
 package com.studo.services.attendance.repository;
 
-import com.studo.services.attendance.entity.c02.CourseStateFilter;
-import com.studo.services.attendance.entity.c02.EventTypeFilter;
-import com.studo.services.attendance.entity.c02.OrganisationFilter;
-import com.studo.services.attendance.entity.c02.ResourceTypeFilter;
+import com.studo.services.attendance.entity.c02.*;
 import com.studo.services.attendance.entity.course.CourseEntity;
-import com.studo.services.attendance.entity.c02.CourseFilter;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;

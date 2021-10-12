@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Immutable
 @Table(name = "CO_LOC_RESOURCE_TYPE_FILTER")
+@Deprecated
 public class ResourceTypeFilter extends PanacheEntity {
     @Column(name = "RESOURCE_TYPE")
     public String courseResourceType;

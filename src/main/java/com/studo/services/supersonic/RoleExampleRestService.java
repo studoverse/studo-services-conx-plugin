@@ -1,6 +1,5 @@
 package com.studo.services.supersonic;
 
-import com.studo.services.supersonic.model.RoleExampleResource;
 import at.campusonline.pub.auth.api.context.SecurityContext;
 import at.campusonline.pub.auth.api.guard.SecurityGuard;
 import at.campusonline.pub.auth.api.judge.RoleJudge;
@@ -8,6 +7,7 @@ import at.campusonline.pub.auth.api.object.GenericSecuredObject;
 import at.campusonline.pub.auth.api.object.SecuredObject;
 import at.campusonline.pub.auth.api.role.ContextRole;
 import at.campusonline.pub.auth.api.subject.SecuritySubject;
+import com.studo.services.supersonic.model.RoleExampleResource;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

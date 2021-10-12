@@ -1,10 +1,6 @@
 package com.studo.services.attendance.entity.course;
 
-import com.studo.services.attendance.entity.organisation.OrganisationEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
@@ -42,12 +38,9 @@ public class CourseEntity extends PanacheEntityBase {
     @Column(name = "LV_STATUS_ALLE")
     public String allStates;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ORG_NR_BETREUT", referencedColumnName = "NR")
-    public OrganisationEntity organisationEntity;
+    @Column(name = "ORG_NR_BETREUT")
+    public BigDecimal organisationId;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "courseEntity")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "courseEntity")
     public List<CourseGroupEntity> courseGroupEntities;
 }
