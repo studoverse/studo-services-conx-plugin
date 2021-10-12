@@ -33,8 +33,4 @@ public class CourseRepository implements PanacheRepository<CourseEntity> {
         List<EventTypeFilter> eventTypeFilters = EventTypeFilter.listAll();
         return eventTypeFilters.stream().map(eventTypeFilter -> eventTypeFilter.eventType).collect(Collectors.toList());
     }
-    public List<String> getCourseStateFilter() {
-        List<CourseStateFilter> eventTypeFilters = CourseStateFilter.listAll();
-        return eventTypeFilters.stream().map(eventTypeFilter -> eventTypeFilter.stateFilter).collect(Collectors.toList());
-    }
 }
