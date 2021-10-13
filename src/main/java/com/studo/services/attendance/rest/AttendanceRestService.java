@@ -49,7 +49,7 @@ public class AttendanceRestService {
     UserService userService;
 
     @ConfigProperty(name = "studo-service.token-secret")
-    String secret;
+    String secret; // mysecretmysecretmysecretmysecretmysecretmysecret for local developement
 
     private void checkAuthorizationHeader(String secret) {
         if (!Objects.equals(secret, this.secret.substring(0,32))) {
