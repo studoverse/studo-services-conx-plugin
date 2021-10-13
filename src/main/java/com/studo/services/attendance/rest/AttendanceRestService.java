@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 // disable the user session to allow machine to machine communication
 @UserSessionDisabled
+//@RolesAllowed("studo-services.read")
 @Produces("application/json")
 @Path("rest/attendance")
 public class AttendanceRestService {
@@ -48,11 +49,14 @@ public class AttendanceRestService {
     @Inject
     UserService userService;
 
+    @HeaderParam(value = "X-Authorization")
+    String authorizationHeader;
+
     @ConfigProperty(name = "studo-service.token-secret")
     String secret; // mysecretmysecretmysecretmysecretmysecretmysecret for local developement
 
-    private void checkAuthorizationHeader(String secret) {
-        if (!Objects.equals(secret, this.secret.substring(0,32))) {
+    private void checkAuthorizationHeader() {
+        if (!Objects.equals(authorizationHeader, this.secret.substring(0,32))) {
             throw new SecurityException("Invalid authorization header");
         }
     }
@@ -63,10 +67,9 @@ public class AttendanceRestService {
             @DefaultValue("2021/22") @QueryParam(value = "academicYear") String academicYear,
             @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters,
             @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
-            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes,
-            @HeaderParam(value = "X-Authorization") String secret
+            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         List<CourseEntity> courseEntities = courseService.getCourseEntities( academicYear, semesters);
 
         return new CoursesAndUsers(
@@ -81,10 +84,9 @@ public class AttendanceRestService {
     @Path("users") // max 999 elements
     public UsersDto getUsers(
             @QueryParam(value = "ids") List<String> ids,
-            @QueryParam(value = "idName") String idName,
-            @HeaderParam(value = "X-Authorization") String secret
+            @QueryParam(value = "idName") String idName
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         if (!idName.equals("obfuscatedId") && !idName.equals("staffId") && !idName.equals("studentId")) {
             throw new IllegalArgumentException("Invalid idName"); // Don't allow sql injections and only allow filters with good performance
         }
@@ -145,10 +147,9 @@ public class AttendanceRestService {
             @DefaultValue("2021/22") @QueryParam(value = "academicYear") String academicYear,
             @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters, // Either "W" or "S"
             @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
-            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes,
-            @HeaderParam(value = "X-Authorization") String secret
+            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         List<CourseEntity> courseEntities = courseService.getCourseEntities(academicYear, semesters);
         return courseService.getCourses(courseEntities, resourceTypes, eventTypes);
     }
@@ -156,37 +157,30 @@ public class AttendanceRestService {
     @GET
     @Path("functions")
     public List<FunctionEntity> getFunctions(
-            @QueryParam(value = "functionTypes") List<String> functionTypes,
-            @HeaderParam(value = "X-Authorization") String secret
+            @QueryParam(value = "functionTypes") List<String> functionTypes
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         return userService.getFunctions(functionTypes);
     }
 
     @GET
     @Path("allFunctionsSlow")
-    public List<FunctionEntity> getAllFunctionsSlow(
-            @HeaderParam(value = "X-Authorization") String secret
-    ) {
-        checkAuthorizationHeader(secret);
+    public List<FunctionEntity> getAllFunctionsSlow() {
+        checkAuthorizationHeader();
         return userService.getAllFunctionsSlow();
     }
 
     @GET
     @Path("organisations")
-    public List<OrganisationDto> getOrganisations(
-            @HeaderParam(value = "X-Authorization") String secret
-    ) {
-        checkAuthorizationHeader(secret);
+    public List<OrganisationDto> getOrganisations() {
+        checkAuthorizationHeader();
         return organisationService.getOrganisations();
     }
 
     @GET
     @Path("studiesSlow") // Returns also studies from students who are not active students anymore
-    public List<StudyEntity> getAllStudiesSlow(
-            @HeaderParam(value = "X-Authorization") String secret
-    ) {
-        checkAuthorizationHeader(secret);
+    public List<StudyEntity> getAllStudiesSlow() {
+        checkAuthorizationHeader();
         return StudyEntity.listAll();
     }
 
@@ -197,10 +191,9 @@ public class AttendanceRestService {
     @GET
     @Path("studiesSlow")
     public List<StudyEntity> getStudies(
-            @QueryParam("status") List<String> status,
-            @HeaderParam(value = "X-Authorization") String secret
+            @QueryParam("status") List<String> status
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         return StudyEntity.list("status in ?1", status);
     }
 
@@ -208,19 +201,16 @@ public class AttendanceRestService {
     @Path("studies")
     public List<StudyEntity> getStudies(
             @QueryParam("studentIds") List<String> studentIds,
-            @QueryParam("status") List<String> status,
-            @HeaderParam(value = "X-Authorization") String secret
+            @QueryParam("status") List<String> status
     ) {
-        checkAuthorizationHeader(secret);
+        checkAuthorizationHeader();
         return StudyEntity.list("studentId in ?1 and status in ?2", studentIds, status);
     }
 
     @GET
     @Path("test")
-    public String test(
-            @HeaderParam(value = "X-Authorization") String secret
-    ) {
-        checkAuthorizationHeader(secret);
+    public String test() {
+        checkAuthorizationHeader();
         return "blabla";
     }
 }
