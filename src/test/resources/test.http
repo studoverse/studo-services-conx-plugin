@@ -27,3 +27,5 @@ Authorization: Bearer {{access_token}}
 
 ###
 GET https://trunkline.tugraz.at/trunk_dev/co/studo/services/api/attendance/redirect
+
+GET http://localhost:4200/studo/services/api/attendance/redirect

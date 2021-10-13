@@ -35,6 +35,9 @@ public class AttendanceRedirectRestService {
   @ConfigProperty(name = "studo-service.token-secret")
   String secret;
 
+  @ConfigProperty(name = "studo-service.dal-base-url")
+  String dalBaseUrl;
+
   /**
    * ensure the secret has the right length
    */
@@ -70,7 +73,7 @@ public class AttendanceRedirectRestService {
 
     // this uri redirect to the studo dal application
     // currently we use a fake endpoint to verify data is transported correctly
-    URI uri = UriBuilder.fromUri("rest/temporary-dal-endpoint")
+    URI uri = UriBuilder.fromUri(dalBaseUrl)
             .queryParam(TOKEN_PARAMETER, getEncryptedStudoServiceToken())
             .build();
 

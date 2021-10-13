@@ -111,6 +111,7 @@ conx:
 # app specific properties
 studo-service:
     token-secret: ${ENV_STUDO_SERVICE_TOKEN_SECRET}
+    dal-base-url: ${ENV_STUDO_SERVICE_DAL_BASE_URL}
 
 "%prod":
 
