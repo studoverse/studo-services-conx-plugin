@@ -13,8 +13,8 @@ import java.util.List;
 @ApplicationScoped
 public class OrganisationRepository implements PanacheRepository<OrganisationEntity> {
 
-    public List<OrganisationEntity> getOrganisationEntities(List<BigDecimal> orgIDs) {
-        return OrganisationEntity.list("NR in ?1", orgIDs);
+    public List<OrganisationEntity> getOrganisationEntities() {
+        return OrganisationEntity.listAll();
     }
 
 }

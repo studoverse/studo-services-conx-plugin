@@ -4,6 +4,7 @@ import com.studo.services.attendance.entity.function.FunctionEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @ApplicationScoped
 public class FunctionRepository implements PanacheRepository<FunctionEntity> {
-    public List<FunctionEntity> getFunctionEntities(List<String> functions){
-        return list("KURZBEZEICHNUNG in ?1", functions);
+    public List<FunctionEntity> getFunctionEntities(List<BigDecimal> orgIds){
+        return list("organisationId in ?1", orgIds);
     }
 }

@@ -21,8 +21,8 @@ public class OrganisationService {
     @Inject
     OrganisationRepository organisationRepository;
 
-    public List<OrganisationDto> getOrganisations(List<BigDecimal> orgIds) {
-        List<OrganisationEntity> organisationEntities = organisationRepository.getOrganisationEntities(orgIds);
+    public List<OrganisationDto> getOrganisations() {
+        List<OrganisationEntity> organisationEntities = organisationRepository.getOrganisationEntities();
         return organisationEntities.stream().map(OrganisationDtoMapper::mapOrganisationDto).collect(Collectors.toList());
     }
 }

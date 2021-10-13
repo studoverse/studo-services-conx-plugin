@@ -128,8 +128,8 @@ public class UserService {
         return staffIds;
     }
 
-    public List<FunctionEntity> getFunctions(List<String> functions) {
-        return functionRepository.getFunctionEntities(functions);
+    public List<FunctionEntity> getFunctions(List<BigDecimal> orgIds) {
+        return functionRepository.getFunctionEntities(orgIds);
     }
 
 

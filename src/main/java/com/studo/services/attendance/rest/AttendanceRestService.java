@@ -58,14 +58,14 @@ public class AttendanceRestService {
 
     @GET
     @Path("functions")
-    public List<FunctionEntity> getFunctions(@QueryParam(value = "function") List<String> functions) {
-        return userService.getFunctions(functions);
+    public List<FunctionEntity> getFunctions(@DefaultValue("1") @QueryParam(value = "orgId") List<BigDecimal> orgIds) {
+        return userService.getFunctions(orgIds);
     }
 
     @GET
     @Path("organisations")
-    public List<OrganisationDto> getOrganisations(@DefaultValue("1") @QueryParam(value = "orgId") List<BigDecimal> orgIds) {
-        return organisationService.getOrganisations(orgIds);
+    public List<OrganisationDto> getOrganisations() {
+        return organisationService.getOrganisations();
     }
 
     // slow CO Public views
