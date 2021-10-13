@@ -1,3 +1,20 @@
+# Config für guid.yaml 
+
+mvn process resources
+
+1. Install iam_res
+2. Install sql_scripts
+3. 
+studo-services:
+    config:
+        backend_back_channel_client_secret: 'bbf57a5f-03cf-406b-81b1-a632948f139f'
+        backend_db_password_STUDO_SERVICES:  ${services.database.passwords.default}
+        backend_studo_service_token_secret: 'mysecretmysecretmysecretmysecretmysecretmysecret'
+        backend_studo_service_dal_base_url: 'https://dal-demo.campus-qr.at/admin'
+4. Install docker
+
+coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
+
 # Technical Infos
 
 You have to add the following property to your .env file:
