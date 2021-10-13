@@ -19,3 +19,8 @@ Authorization: Bearer {{access_token}}
 ###
 GET http://localhost:8080/studo/services/api/attendance/test
 Authorization: Bearer {{access_token}}
+
+
+###
+GET https://trunkline.tugraz.at/trunk_dev/co/studo/services/api/attendance
+Authorization: Bearer {{access_token}}
