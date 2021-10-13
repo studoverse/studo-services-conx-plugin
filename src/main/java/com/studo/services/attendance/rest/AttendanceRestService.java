@@ -186,6 +186,7 @@ public class AttendanceRestService {
     public List<StudyEntity> getAllStudiesSlow(
             @HeaderParam(value = "X-Authorization") String secret
     ) {
+        checkAuthorizationHeader(secret);
         return StudyEntity.listAll();
     }
 
