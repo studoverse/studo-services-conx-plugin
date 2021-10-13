@@ -28,7 +28,7 @@ public class CourseDtoMapper {
                 courseEntity.academicYear,
                 courseEntity.semester,
                 courseEntity.courseGroupEntities.stream()
-                        .filter(courseGroupEntity -> courseGroupEntity.deleted.equals(CourseService.NOT_DELETED_COURSE_GROUP))
+                        .filter(courseGroupEntity -> courseGroupEntity.deleted.equals(CourseService.NOT_DELETED_COURSE_GROUP)) // remove deleted groups
                         .map(courseGroupEntity -> getCourseGroupDto(courseEntity, courseGroupEntity, resourceFilter, eventFilter))
                         .collect(Collectors.toList())
         );

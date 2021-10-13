@@ -12,7 +12,11 @@ import java.util.List;
  */
 @ApplicationScoped
 public class FunctionRepository implements PanacheRepository<FunctionEntity> {
-    public List<FunctionEntity> getFunctionEntities(List<BigDecimal> orgIds){
-        return list("organisationId in ?1", orgIds);
+    public List<FunctionEntity> getFunctionEntities(List<String> functionIds){
+        return list("type in ?1", functionIds);
+    }
+
+    public List<FunctionEntity> getAllFunctionEntitiesSlow(){
+        return listAll();
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 @RegisterForReflection
-public class AttendanceDto {
+public class CoursesAndUsers {
     public List<CourseDto> courses;
     public List<StudentDto> students;
     public List<StaffDto> staffs;

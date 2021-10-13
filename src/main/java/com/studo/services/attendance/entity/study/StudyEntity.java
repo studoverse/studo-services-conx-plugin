@@ -23,4 +23,7 @@ public class StudyEntity extends PanacheEntityBase {
 
     @Column(name = "STUDBEZ")
     public String name;
+
+    @Column(name = "STATUS")
+    public String status;
 }

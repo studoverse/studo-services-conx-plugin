@@ -32,14 +32,35 @@ public class CourseEntity extends PanacheEntityBase {
     @Column(name = "STP_SP_TITEL")
     public String title;
 
-    @Column(name = "STP_LV_ART_NAME")
+    @Column(name = "STP_SP_TITEL_ENGL")
+    public String titleEn;
+
+    @Column(name = "STP_SP_SST")
+    public String semesterHours;
+
+    @Column(name = "STP_LV_ART_KURZ")
     public String type;
+
+    @Column(name = "STP_LV_ART_NAME")
+    public String typeName;
 
     @Column(name = "LV_STATUS_ALLE")
     public String allStates;
 
     @Column(name = "ORG_NR_BETREUT")
     public BigDecimal organisationId;
+
+    @Column(name = "ORG_NR_PRUEF")
+    public BigDecimal examiningOrganisationId;
+
+    @Column(name = "STP_SP_UNTERRICHTSEINHEITEN")
+    public BigDecimal contactHours;
+
+    @Column(name = "STP_SP_CREDITS")
+    public BigDecimal credits;
+
+    @Column(name = "STP_SP_GEWICHTUNG")
+    public BigDecimal weighting;
 
     @OneToMany(mappedBy = "courseEntity")
     public List<CourseGroupEntity> courseGroupEntities;

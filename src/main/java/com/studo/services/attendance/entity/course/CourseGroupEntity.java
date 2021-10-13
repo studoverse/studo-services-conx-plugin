@@ -8,6 +8,7 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,15 @@ public class CourseGroupEntity extends PanacheEntityBase {
 
     @Column(name = "GELOESCHT_FLAG")
     public String deleted;
+
+    @Column(name = "STANDARDGRUPPE_FLAG")
+    public String isStandard;
+
+    @Column(name = "ANMELDE_BEGINN")
+    public Date registrationStart;
+
+    @Column(name = "ANMELDE_ENDE")
+    public Date registrationEnd;
 
     @OneToMany(mappedBy = "courseGroupEntity")
     @Fetch(FetchMode.SELECT)

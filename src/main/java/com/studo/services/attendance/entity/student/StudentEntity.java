@@ -6,6 +6,7 @@ import org.hibernate.annotations.Immutable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
@@ -27,4 +28,27 @@ public class StudentEntity extends CoEntity {
     @Column(name = "EMAIL_ADRESSE")
     public String email;
 
+    @Column(name = "AKADGRAD")
+    public String title;
+
+    @Column(name = "AKADGRAD_NACH")
+    public String titleAfter;
+
+    @Column(name = "GEBURTSDATUM")
+    public String birthdate;
+
+    @Column(name = "GESCHLECHT")
+    public String gender;
+
+    @Column(name = "NATIONENBEZEICHNUNG")
+    public String citizenship;
+
+    @Column(name = "NATIONENBEZEICHNUNG2")
+    public String secondCitizenship;
+
+    @Column(name = "AUFNAHMEDATUM")
+    public Date matriculationDate;
+
+    @Column(name = "ABMELDUNGS_DATUM")
+    public Date exmatriculationDate;
 }
