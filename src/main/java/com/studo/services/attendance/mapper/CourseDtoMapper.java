@@ -3,7 +3,6 @@ package com.studo.services.attendance.mapper;
 import com.studo.services.attendance.dto.CourseDto;
 import com.studo.services.attendance.dto.CourseEventDto;
 import com.studo.services.attendance.dto.CourseGroupDto;
-import com.studo.services.attendance.dto.UserDto;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.entity.course.CourseEventEntity;
 import com.studo.services.attendance.entity.course.CourseGroupEntity;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.ofNullable;
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
  */
@@ -24,14 +22,15 @@ public class CourseDtoMapper {
     public static CourseDto mapCourseDto(@NotNull CourseEntity courseEntity, List<String> eventFilter, List<String> resourceFilter) {
         return new CourseDto(
                 courseEntity.id,
-                courseEntity.organisationEntity.id,
+                courseEntity.organisationId,
                 courseEntity.courseCode,
                 courseEntity.title,
                 courseEntity.academicYear,
                 courseEntity.semester,
                 courseEntity.courseGroupEntities.stream()
                         .filter(courseGroupEntity -> courseGroupEntity.deleted.equals(CourseService.NOT_DELETED_COURSE_GROUP))
-                        .map(courseGroupEntity -> getCourseGroupDto(courseEntity, courseGroupEntity, resourceFilter, eventFilter)).collect(Collectors.toList())
+                        .map(courseGroupEntity -> getCourseGroupDto(courseEntity, courseGroupEntity, resourceFilter, eventFilter))
+                        .collect(Collectors.toList())
         );
     }
 
@@ -44,9 +43,8 @@ public class CourseDtoMapper {
                 courseGroupEntity.id,
                 courseGroupEntity.name,
                 getStaffIds(courseGroupEntity),
-                getStaffDtos(courseGroupEntity),
                 getCourseEventDtos(courseGroupEntity, resourceFilter, eventFilter),
-                getStudents(courseGroupEntity)
+                getStudentIds(courseGroupEntity)
         );
     }
 
@@ -67,14 +65,10 @@ public class CourseDtoMapper {
                 .filter(courseEventEntity -> eventFilter.stream().anyMatch(s -> s.equals(courseEventEntity.type)))
                 .filter(courseEventEntity -> resourceFilter.stream().anyMatch(s -> s.equals(courseEventEntity.courseResourceType)));
     }
-    private static List<UserDto> getStudents(CourseGroupEntity courseGroupEntity) {
+    private static List<BigDecimal> getStudentIds(CourseGroupEntity courseGroupEntity) {
         return courseGroupEntity.courseStudentEntities.stream()
-                .filter(courseStudentEntity -> ofNullable(courseStudentEntity).isPresent() &&
-                        ofNullable(courseStudentEntity.studentEntity).isPresent())
-                .map(courseStudentEntity -> courseStudentEntity.studentEntity)
-                .map(UserDtoMapper::getUserDto).collect(Collectors.toList());
+                .map(courseStaffEntity -> courseStaffEntity.studentId).collect(Collectors.toList());
     }
-
     private static List<CourseEventDto> getCourseEventDtos(CourseGroupEntity courseGroupEntity,
                                                            List<String> eventFilter,
                                                            List<String> resourceFilter) {
@@ -82,14 +76,8 @@ public class CourseDtoMapper {
                 .map(CourseDtoMapper::getCourseEventDto).collect(Collectors.toList());
     }
 
-    private static List<UserDto> getStaffDtos(CourseGroupEntity courseGroupEntity) {
-        return courseGroupEntity.courseStaffEntities.stream()
-                .map(courseStaffEntity -> courseStaffEntity.staffEntity)
-                .map(UserDtoMapper::getUserDto).collect(Collectors.toList());
-    }
-
     private static List<BigDecimal> getStaffIds(CourseGroupEntity courseGroupEntity) {
         return courseGroupEntity.courseStaffEntities.stream()
-                .map(courseStaffEntity -> courseStaffEntity.staffEntity.id).collect(Collectors.toList());
+                .map(courseStaffEntity -> courseStaffEntity.staffId).collect(Collectors.toList());
     }
 }

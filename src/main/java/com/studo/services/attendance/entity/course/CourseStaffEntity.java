@@ -1,10 +1,10 @@
 package com.studo.services.attendance.entity.course;
 
-import com.studo.services.attendance.entity.staff.StaffEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
@@ -17,14 +17,12 @@ public class CourseStaffEntity extends PanacheEntityBase {
     @EmbeddedId
     public CourseStaffComposedKey id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LV_GRP_NR", referencedColumnName = "LV_GRP_NR", insertable=false, updatable=false)
     public CourseGroupEntity courseGroupEntity;
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PERSON_NR", referencedColumnName = "NR", insertable=false, updatable=false)
-    public StaffEntity staffEntity;
+    @Column(name = "PERSON_NR", insertable=false, updatable=false)
+    public BigDecimal staffId;
 
     @Column(name = "LA_P_FUNK_NAME")
     public String name;

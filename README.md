@@ -1,9 +1,21 @@
+# Technical Infos
+
+You have to add the following property to your .env file:
+ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
+
+* If you like to implement a pure rest service, you have to use the @UserSessionDisabled annotation
+  and use a /rest Path Prefix
+* If you like to prevent anonymous access use the @RolesAllowed("studo-services.read") annotation
+
+[Example REST Service with and without security annotations](src/main/java/com/studo/services/attendance/rest/AttendanceTestRestService.java)
+[Redirect JWT example](src/main/java/com/studo/services/attendance/rest/AttendanceRedirectRestService.java)
+
 # TODOS
 
 * pu-views nach STUDO_SERVICES granten (Zoli, Valentin) => DONE 
   * sammeln
   * deployment/sql_scripts folder hinterlegen
-  * trunk_dev einspielen (Zoni)
+  * trunk_dev einspielen => DONE
 
 * Tabellen als Liquibase Scripts (Zoli, Valentin) => DONE
   * extracten der filter Tabellen von C02
@@ -12,26 +24,26 @@
     * für content der Tabellen (soll leicht ausklinkbar sein)
 
 * Arbs Quarkus Code nach studo-services moven (Arb, Zoni, Luke) => DONE
-  * POM merge
-  * application yaml merge
-  * arb and running bringen
+  * POM merge => DONE
+  * application yaml merge => DONE
+  * arb and running bringen => DONE
 
 * CI auf gitlab.com im studo-services projekt (Luke) => DONE
 
-* Frontend wieder enablen (zoni)
-* Deployment Fehler analysieren (zoni)
-* Redirect mit JWT schreiben (Valentin)
+* Frontend wieder enablen (zoni) => DONE
+* Deployment Fehler analysieren (zoni) => DONE
+* Redirect mit JWT schreiben (zoni) => DONE
 
-* Authorisation (alle) (zoni)
-  * Scope studo-services.read scope anlegen
-  * @RolesAllowed("studo-services.read")
-  * Mapping von JWT Scopes auf roles
+* Authorisation (alle) (zoni)  => DONE
+  * Scope studo-services.read scope anlegen  => DONE
+  * @RolesAllowed("studo-services.read")  => DONE
+  * Mapping von JWT Scopes auf roles  => DONE
     
-    (* Umstellung auf von service app auf web-app und service)
+    (* Umstellung auf von service app auf web-app und service)  => DONE
   
-  (* Tenant Resolver
-    /api/service => service
-    /api/user => web-app)
+  * Tenant Resolver  => DONE
+    /api/studo/services/api/attendance => service => DONE
+    else => web app => DONE
 
 * Doku zur Inbetriebnahme
 

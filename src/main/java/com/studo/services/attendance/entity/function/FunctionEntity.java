@@ -1,14 +1,14 @@
 package com.studo.services.attendance.entity.function;
 
-import com.studo.services.attendance.entity.organisation.OrganisationEntity;
-import com.studo.services.attendance.entity.staff.StaffEntity;
 import com.studo.services.attendance.entity.staff.StaffFunctionCompositeKey;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
@@ -21,14 +21,11 @@ public class FunctionEntity extends PanacheEntityBase {
     @EmbeddedId
     public StaffFunctionCompositeKey id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "PERSON_NR", referencedColumnName = "NR", insertable=false, updatable=false)
-    public StaffEntity staffEntity;
+    @Column(name = "ORG_NR", insertable=false, updatable=false)
+    public BigDecimal organisationId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ORG_NR", referencedColumnName = "NR", insertable=false, updatable=false)
-    public OrganisationEntity organisationEntity;
+    @Column(name = "PERSON_NR", insertable=false, updatable=false)
+    public BigDecimal staffId;
 
     @Column(name = "NAME")
     public String name;

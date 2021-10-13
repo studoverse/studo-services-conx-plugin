@@ -108,6 +108,10 @@ conx:
             enabled: true
             expires-in-seconds: 1000
 
+# app specific properties
+studo-service:
+    token-secret: ${ENV_STUDO_SERVICE_TOKEN_SECRET}
+
 "%prod":
 
     conx:

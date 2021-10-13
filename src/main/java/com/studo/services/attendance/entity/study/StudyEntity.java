@@ -1,5 +1,5 @@
 package com.studo.services.attendance.entity.study;
-import com.studo.services.attendance.entity.student.StudentEntity;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.Immutable;
 
@@ -18,9 +18,8 @@ public class StudyEntity extends PanacheEntityBase {
     @Column(name = "ST_STUDIUM_NR")
     public BigDecimal id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ST_PERSON_NR", referencedColumnName = "NR")
-    public StudentEntity studentEntity;
+    @Column(name = "ST_PERSON_NR")
+    public BigDecimal studentId;
 
     @Column(name = "STUDBEZ")
     public String name;

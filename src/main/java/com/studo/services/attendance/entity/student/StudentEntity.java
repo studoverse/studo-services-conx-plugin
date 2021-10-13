@@ -1,14 +1,11 @@
 package com.studo.services.attendance.entity.student;
 
 import com.studo.services.attendance.entity.CoEntity;
-import com.studo.services.attendance.entity.course.CourseStudentEntity;
-import com.studo.services.attendance.entity.identity.Identity;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
@@ -29,12 +26,5 @@ public class StudentEntity extends CoEntity {
 
     @Column(name = "EMAIL_ADRESSE")
     public String email;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "studentEntity")
-    @Fetch(value = FetchMode.SUBSELECT)
-    public List<CourseStudentEntity> courseStudentEntities;
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "studentEntity")
-    public Identity identity;
 
 }
