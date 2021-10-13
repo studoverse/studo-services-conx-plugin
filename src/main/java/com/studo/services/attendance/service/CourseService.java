@@ -1,14 +1,13 @@
 package com.studo.services.attendance.service;
 
 import com.studo.services.attendance.dto.CourseDto;
-import com.studo.services.attendance.entity.c02.OrganisationFilter;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.mapper.CourseDtoMapper;
 import com.studo.services.attendance.repository.CourseRepository;
-import com.studo.services.attendance.repository.OrganisationRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,19 +22,14 @@ public class CourseService {
     @Inject
     CourseRepository courseRepository;
 
-    @Inject
-    OrganisationRepository organisationRepository;
-
-    public List<CourseDto> getCourses(List<CourseEntity> courseEntities) {
-        List<String> resourceFilter = courseRepository.getResourceFilter();
-        List<String> eventFilter = courseRepository.getEventFilter();
+    public List<CourseDto> getCourses(List<CourseEntity> courseEntities, List<String> resourceTypes, List<String> eventTypes) {
         return courseEntities.stream()
                 .map(courseEntity ->
-                        CourseDtoMapper.mapCourseDto(courseEntity, resourceFilter, eventFilter)).collect(Collectors.toList());
+                        CourseDtoMapper.mapCourseDto(courseEntity, resourceTypes, eventTypes)).collect(Collectors.toList());
     }
 
-    public List<CourseEntity> getCourseEntities() {
-        List<OrganisationFilter> organisationFilters = organisationRepository.getOrganisationFilters();
-        return courseRepository.getCourseEntities(organisationFilters);
+    public List<CourseEntity> getCourseEntities(List<BigDecimal> orgIds, String academicYear, List<String> semesters) {
+        return courseRepository.getCourseEntities(orgIds, academicYear, semesters);
     }
+
 }

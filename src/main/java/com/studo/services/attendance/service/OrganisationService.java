@@ -1,7 +1,6 @@
 package com.studo.services.attendance.service;
 
 import com.studo.services.attendance.dto.OrganisationDto;
-import com.studo.services.attendance.entity.c02.OrganisationFilter;
 import com.studo.services.attendance.entity.organisation.OrganisationEntity;
 import com.studo.services.attendance.mapper.OrganisationDtoMapper;
 import com.studo.services.attendance.repository.OrganisationRepository;
@@ -22,11 +21,7 @@ public class OrganisationService {
     @Inject
     OrganisationRepository organisationRepository;
 
-    public List<OrganisationDto> getOrganisations() {
-        List<OrganisationFilter> organisationFilters = organisationRepository.getOrganisationFilters();
-        List<BigDecimal> orgIds =
-                organisationFilters.stream().map(organisationFilter -> organisationFilter.id).collect(Collectors.toList());
-
+    public List<OrganisationDto> getOrganisations(List<BigDecimal> orgIds) {
         List<OrganisationEntity> organisationEntities = organisationRepository.getOrganisationEntities(orgIds);
         return organisationEntities.stream().map(OrganisationDtoMapper::mapOrganisationDto).collect(Collectors.toList());
     }

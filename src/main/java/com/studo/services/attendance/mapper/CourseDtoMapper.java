@@ -67,7 +67,7 @@ public class CourseDtoMapper {
     }
     private static List<BigDecimal> getStudentIds(CourseGroupEntity courseGroupEntity) {
         return courseGroupEntity.courseStudentEntities.stream()
-                .map(courseStaffEntity -> courseStaffEntity.studentId).distinct().collect(Collectors.toList());
+                .map(courseStaffEntity -> courseStaffEntity.studentId).collect(Collectors.toList());
     }
     private static List<CourseEventDto> getCourseEventDtos(CourseGroupEntity courseGroupEntity,
                                                            List<String> eventFilter,
@@ -78,6 +78,6 @@ public class CourseDtoMapper {
 
     private static List<BigDecimal> getStaffIds(CourseGroupEntity courseGroupEntity) {
         return courseGroupEntity.courseStaffEntities.stream()
-                .map(courseStaffEntity -> courseStaffEntity.staffId).distinct().collect(Collectors.toList());
+                .map(courseStaffEntity -> courseStaffEntity.staffId).collect(Collectors.toList());
     }
 }

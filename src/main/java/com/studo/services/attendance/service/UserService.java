@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,18 +33,40 @@ public class UserService {
     @Inject
     FunctionRepository functionRepository;
 
-    public List<IdentityDto> getIdentities() {
-        return Identity.findAll().project(IdentityDto.class).list();
+    public List<IdentityDto> getIdentities(List<CourseEntity> courseEntities) {
+        List<BigDecimal> studentIds = getStudentIds(courseEntities);
+        if (studentIds.size() == 0) return new ArrayList<>();
+
+        List<BigDecimal> staffIds = getStaffIds(courseEntities);
+        if (staffIds.size() == 0) return new ArrayList<>();
+
+        List<Identity> result = new ArrayList<>();
+
+        var builder = entityManager.getCriteriaBuilder();
+        var criteria = builder.createQuery(Identity.class);
+        var courseEntityRoot = criteria.from(Identity.class);
+        var predicate = createInStatement(builder, courseEntityRoot.get("studentId"), studentIds);
+        criteria.select(courseEntityRoot).where(predicate);
+
+        result.addAll(entityManager.createQuery(criteria).getResultList());
+
+        criteria = builder.createQuery(Identity.class);
+        courseEntityRoot = criteria.from(Identity.class);
+        predicate = createInStatement(builder, courseEntityRoot.get("staffId"), staffIds);
+        criteria.select(courseEntityRoot).where(predicate);
+
+        result.addAll(entityManager.createQuery(criteria).getResultList());
+
+        return result.stream().map(studentEntity ->
+                        new IdentityDto(studentEntity.id,
+                                studentEntity.staffId,
+                                studentEntity.studentId,
+                                studentEntity.obfuscatedId)).collect(Collectors.toList());
     }
 
     public List<StudentDto> getStudents(List<CourseEntity> courseEntities) {
-        List<BigDecimal> studentIds = courseEntities.stream()
-                .map(courseEntity -> courseEntity.courseGroupEntities)
-                .flatMap(courseGroupEntities -> courseGroupEntities.stream()
-                        .map(courseGroupEntity -> courseGroupEntity.courseStudentEntities)
-                        .flatMap(courseStudentEntities -> courseStudentEntities.stream()
-                                .map(courseStudentEntity -> courseStudentEntity.studentId))
-                ).distinct().collect(Collectors.toList());
+        List<BigDecimal> studentIds = getStudentIds(courseEntities);
+        if (studentIds.size() == 0) return new ArrayList<>();
 
         var builder = entityManager.getCriteriaBuilder();
         var criteria = builder.createQuery(StudentEntity.class);
@@ -62,14 +85,20 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<StaffDto> getStaff(List<CourseEntity> courseEntities) {
-        List<BigDecimal> staffIds = courseEntities.stream()
+    private List<BigDecimal> getStudentIds(List<CourseEntity> courseEntities) {
+        List<BigDecimal> studentIds = courseEntities.stream()
                 .map(courseEntity -> courseEntity.courseGroupEntities)
                 .flatMap(courseGroupEntities -> courseGroupEntities.stream()
-                        .map(courseGroupEntity -> courseGroupEntity.courseStaffEntities)
+                        .map(courseGroupEntity -> courseGroupEntity.courseStudentEntities)
                         .flatMap(courseStudentEntities -> courseStudentEntities.stream()
-                                .map(courseStudentEntity -> courseStudentEntity.staffId))
+                                .map(courseStudentEntity -> courseStudentEntity.studentId))
                 ).distinct().collect(Collectors.toList());
+        return studentIds;
+    }
+
+    public List<StaffDto> getStaff(List<CourseEntity> courseEntities) {
+        List<BigDecimal> staffIds = getStaffIds(courseEntities);
+        if (staffIds.size() == 0) return new ArrayList<>();
 
         var builder = entityManager.getCriteriaBuilder();
         var criteria = builder.createQuery(StaffEntity.class);
@@ -88,8 +117,19 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<FunctionEntity> getFunctions() {
-        return functionRepository.getFunctionEntities();
+    private List<BigDecimal> getStaffIds(List<CourseEntity> courseEntities) {
+        List<BigDecimal> staffIds = courseEntities.stream()
+                .map(courseEntity -> courseEntity.courseGroupEntities)
+                .flatMap(courseGroupEntities -> courseGroupEntities.stream()
+                        .map(courseGroupEntity -> courseGroupEntity.courseStaffEntities)
+                        .flatMap(courseStudentEntities -> courseStudentEntities.stream()
+                                .map(courseStudentEntity -> courseStudentEntity.staffId))
+                ).distinct().collect(Collectors.toList());
+        return staffIds;
+    }
+
+    public List<FunctionEntity> getFunctions(List<String> functions) {
+        return functionRepository.getFunctionEntities(functions);
     }
 
 

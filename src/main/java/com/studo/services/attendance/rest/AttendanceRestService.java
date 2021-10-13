@@ -2,7 +2,6 @@ package com.studo.services.attendance.rest;
 
 import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
 import com.studo.services.attendance.dto.AttendanceDto;
-import com.studo.services.attendance.dto.IdentityDto;
 import com.studo.services.attendance.dto.OrganisationDto;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.entity.function.FunctionEntity;
@@ -14,9 +13,8 @@ import org.jboss.resteasy.annotations.GZIP;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,32 +39,33 @@ public class AttendanceRestService {
     UserService userService;
 
     @GET
-    public AttendanceDto getAttendance() {
-        List<CourseEntity> courseEntities = courseService.getCourseEntities();
+    public AttendanceDto getAttendance(
+            @DefaultValue("1") @QueryParam(value = "orgId") List<BigDecimal> orgIds,
+            @DefaultValue("2021/22") @QueryParam(value = "academicYear") String academicYear,
+            @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters,
+            @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
+            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
+    ) {
+
+        List<CourseEntity> courseEntities = courseService.getCourseEntities(orgIds, academicYear, semesters);
         return new AttendanceDto(
-                courseService.getCourses(courseEntities),
+                courseService.getCourses(courseEntities, resourceTypes, eventTypes),
                 userService.getStudents(courseEntities),
-                userService.getStaff(courseEntities)
+                userService.getStaff(courseEntities),
+                userService.getIdentities(courseEntities)
         );
     }
 
     @GET
     @Path("functions")
-    public List<FunctionEntity> getFunctions() {
-        return userService.getFunctions();
+    public List<FunctionEntity> getFunctions(@QueryParam(value = "function") List<String> functions) {
+        return userService.getFunctions(functions);
     }
 
     @GET
     @Path("organisations")
-    public List<OrganisationDto> getOrganisations() {
-        return organisationService.getOrganisations();
-    }
-
-    // slow CO Public views
-    @GET
-    @Path("identities")
-    public List<IdentityDto> getIdentities() {
-        return userService.getIdentities();
+    public List<OrganisationDto> getOrganisations(@DefaultValue("1") @QueryParam(value = "orgId") List<BigDecimal> orgIds) {
+        return organisationService.getOrganisations(orgIds);
     }
 
     // slow CO Public views
@@ -75,7 +74,6 @@ public class AttendanceRestService {
     public List<StudyEntity> getStudies() {
         return StudyEntity.listAll();
     }
-
 
     @GET
     @Path("test")
