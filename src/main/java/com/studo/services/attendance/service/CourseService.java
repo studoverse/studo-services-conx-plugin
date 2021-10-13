@@ -28,8 +28,8 @@ public class CourseService {
                         CourseDtoMapper.mapCourseDto(courseEntity, resourceTypes, eventTypes)).collect(Collectors.toList());
     }
 
-    public List<CourseEntity> getCourseEntities(List<BigDecimal> orgIds, String academicYear, List<String> semesters) {
-        return courseRepository.getCourseEntities(orgIds, academicYear, semesters);
+    public List<CourseEntity> getCourseEntities(String academicYear, List<String> semesters) {
+        return courseRepository.getCourseEntities(academicYear, semesters);
     }
 
 }

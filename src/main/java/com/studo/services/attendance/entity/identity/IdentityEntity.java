@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Immutable
 @Table(name = "PU_IDENTITAETEN_V", schema = "TUG_NEW")
-public class Identity extends CoEntity {
+public class IdentityEntity extends CoEntity {
 
     @Column(name = "PERSON_NR")
     public BigDecimal staffId;

@@ -12,13 +12,11 @@ import java.util.List;
  */
 @ApplicationScoped
 public class CourseRepository implements PanacheRepository<CourseEntity> {
-    public List<CourseEntity> getCourseEntities(List<BigDecimal> orgIds,
-                                                String academicYear,
+    public List<CourseEntity> getCourseEntities(String academicYear,
                                                 List<String> semesters
     ) {
-        return CourseEntity.list("LV_STATUS_ALLE like ?1 and ORG_NR_BETREUT in ?2 and SJ_NAME in ?3 and semester in ?4 ",
+        return CourseEntity.list("LV_STATUS_ALLE like ?1 and SJ_NAME in ?2 and semester in ?3",
                 "%BF%",
-                orgIds,
                 academicYear,
                 semesters
         );

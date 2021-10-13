@@ -5,7 +5,7 @@ import com.studo.services.attendance.dto.StaffDto;
 import com.studo.services.attendance.dto.StudentDto;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.entity.function.FunctionEntity;
-import com.studo.services.attendance.entity.identity.Identity;
+import com.studo.services.attendance.entity.identity.IdentityEntity;
 import com.studo.services.attendance.entity.staff.StaffEntity;
 import com.studo.services.attendance.entity.student.StudentEntity;
 import com.studo.services.attendance.repository.FunctionRepository;
@@ -40,18 +40,18 @@ public class UserService {
         List<BigDecimal> staffIds = getStaffIds(courseEntities);
         if (staffIds.size() == 0) return new ArrayList<>();
 
-        List<Identity> result = new ArrayList<>();
+        List<IdentityEntity> result = new ArrayList<>();
 
         var builder = entityManager.getCriteriaBuilder();
-        var criteria = builder.createQuery(Identity.class);
-        var courseEntityRoot = criteria.from(Identity.class);
+        var criteria = builder.createQuery(IdentityEntity.class);
+        var courseEntityRoot = criteria.from(IdentityEntity.class);
         var predicate = createInStatement(builder, courseEntityRoot.get("studentId"), studentIds);
         criteria.select(courseEntityRoot).where(predicate);
 
         result.addAll(entityManager.createQuery(criteria).getResultList());
 
-        criteria = builder.createQuery(Identity.class);
-        courseEntityRoot = criteria.from(Identity.class);
+        criteria = builder.createQuery(IdentityEntity.class);
+        courseEntityRoot = criteria.from(IdentityEntity.class);
         predicate = createInStatement(builder, courseEntityRoot.get("staffId"), staffIds);
         criteria.select(courseEntityRoot).where(predicate);
 
@@ -128,8 +128,12 @@ public class UserService {
         return staffIds;
     }
 
-    public List<FunctionEntity> getFunctions(List<BigDecimal> orgIds) {
-        return functionRepository.getFunctionEntities(orgIds);
+    public List<FunctionEntity> getFunctions(List<String> functionTypes) {
+        return functionRepository.getFunctionEntities(functionTypes);
+    }
+
+    public List<FunctionEntity> getAllFunctionsSlow() {
+        return functionRepository.getAllFunctionEntitiesSlow();
     }
 
 
