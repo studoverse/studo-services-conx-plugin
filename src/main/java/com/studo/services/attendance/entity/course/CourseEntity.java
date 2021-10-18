@@ -36,7 +36,7 @@ public class CourseEntity extends PanacheEntityBase {
     public String titleEn;
 
     @Column(name = "STP_SP_SST")
-    public String semesterHours;
+    public BigDecimal semesterHours;
 
     @Column(name = "STP_LV_ART_KURZ")
     public String type;
@@ -57,7 +57,7 @@ public class CourseEntity extends PanacheEntityBase {
     public BigDecimal contactHours;
 
     @Column(name = "STP_SP_CREDITS")
-    public BigDecimal credits;
+    public String credits;
 
     @Column(name = "STP_SP_GEWICHTUNG")
     public BigDecimal weighting;

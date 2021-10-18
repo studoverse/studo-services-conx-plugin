@@ -35,7 +35,7 @@ public class StudentEntity extends CoEntity {
     public String titleAfter;
 
     @Column(name = "GEBURTSDATUM")
-    public String birthdate;
+    public Date birthdate;
 
     @Column(name = "GESCHLECHT")
     public String gender;
