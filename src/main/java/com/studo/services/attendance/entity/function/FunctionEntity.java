@@ -1,5 +1,6 @@
 package com.studo.services.attendance.entity.function;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.studo.services.attendance.entity.staff.StaffFunctionCompositeKey;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.Immutable;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 @Table(name = "PU_PERS_ORG_FUNK_DE_FUNKTYP_V", schema = "TUG_NEW")
 public class FunctionEntity extends PanacheEntityBase {
 
+    @JsonIgnore
     @EmbeddedId
     public StaffFunctionCompositeKey id;
 
