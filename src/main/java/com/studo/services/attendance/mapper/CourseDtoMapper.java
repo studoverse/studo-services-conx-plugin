@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class CourseDtoMapper {
 
-    public static CourseDto mapCourseDto(@NotNull CourseEntity courseEntity, List<String> eventFilter, List<String> resourceFilter) {
+    public static CourseDto mapCourseDto(@NotNull CourseEntity courseEntity, List<String> resourceFilter, List<String> eventFilter) {
         return new CourseDto(
                 courseEntity.id,
                 courseEntity.organisationId,
@@ -36,8 +36,8 @@ public class CourseDtoMapper {
 
     private static CourseGroupDto getCourseGroupDto(CourseEntity courseEntity,
                                                     CourseGroupEntity courseGroupEntity,
-                                                    List<String> eventFilter,
-                                                    List<String> resourceFilter) {
+                                                    List<String> resourceFilter,
+                                                    List<String> eventFilter) {
         return new CourseGroupDto(
                 courseEntity.id,
                 courseGroupEntity.id,
@@ -59,8 +59,8 @@ public class CourseDtoMapper {
     }
 
     private static Stream<CourseEventEntity> getCourseEventFiltered(CourseGroupEntity courseGroupEntity,
-                                                                    List<String> eventFilter,
-                                                                    List<String> resourceFilter) {
+                                                                    List<String> resourceFilter,
+                                                                    List<String> eventFilter) {
         return courseGroupEntity.courseEventEntities.stream()
                 .filter(courseEventEntity -> eventFilter.stream().anyMatch(s -> s.equals(courseEventEntity.type)))
                 .filter(courseEventEntity -> resourceFilter.stream().anyMatch(s -> s.equals(courseEventEntity.courseResourceType)));
@@ -70,8 +70,8 @@ public class CourseDtoMapper {
                 .map(courseStaffEntity -> courseStaffEntity.studentId).collect(Collectors.toList());
     }
     private static List<CourseEventDto> getCourseEventDtos(CourseGroupEntity courseGroupEntity,
-                                                           List<String> eventFilter,
-                                                           List<String> resourceFilter) {
+                                                           List<String> resourceFilter,
+                                                           List<String> eventFilter) {
         return getCourseEventFiltered(courseGroupEntity, resourceFilter, eventFilter)
                 .map(CourseDtoMapper::getCourseEventDto).collect(Collectors.toList());
     }
