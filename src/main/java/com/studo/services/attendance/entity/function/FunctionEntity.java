@@ -19,9 +19,8 @@ import java.math.BigDecimal;
 @Table(name = "PU_PERS_ORG_FUNK_DE_FUNKTYP_V", schema = "TUG_NEW")
 public class FunctionEntity extends PanacheEntityBase {
 
-    @JsonIgnore
     @EmbeddedId
-    public StaffFunctionCompositeKey id;
+    private StaffFunctionCompositeKey id;
 
     @Column(name = "ORG_NR", insertable=false, updatable=false)
     public BigDecimal organisationId;
@@ -34,4 +33,8 @@ public class FunctionEntity extends PanacheEntityBase {
 
     @Column(name = "KURZBEZEICHNUNG")
     public String type;
+
+    public String getId() {
+        return id.toString();
+    }
 }

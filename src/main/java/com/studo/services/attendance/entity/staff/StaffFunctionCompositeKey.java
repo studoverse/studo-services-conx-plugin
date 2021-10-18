@@ -33,4 +33,9 @@ public class StaffFunctionCompositeKey implements Serializable {
     public int hashCode() {
         return Objects.hash(functionId, organisationId, staffId);
     }
+
+    @Override
+    public String toString() {
+        return functionId + "742" + organisationId + "742" + staffId;
+    }
 }
