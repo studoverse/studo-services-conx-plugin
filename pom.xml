@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- CAMPUSonline COnX platform version -->
-        <conx.platform.version>0.4.0-SNAPSHOT</conx.platform.version>
+        <conx.platform.version>0.3.0</conx.platform.version>
         <!-- the quarkus platform version must correlate to the COnX platform version -->
         <quarkus.platform.version>1.13.5.Final</quarkus.platform.version>
 

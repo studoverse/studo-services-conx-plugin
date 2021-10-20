@@ -12,6 +12,7 @@ studo-services:
         backend_studo_service_token_secret: 'mysecretmysecretmysecretmysecretmysecretmysecret'
         backend_studo_service_dal_base_url: 'https://dal-demo.campus-qr.at/admin'
 4. Install docker
+5. Set shared secret for `studo-dal-app` client-id (??)
 
 coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
 

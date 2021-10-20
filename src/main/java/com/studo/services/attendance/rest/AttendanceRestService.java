@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 // disable the user session to allow machine to machine communication
 @UserSessionDisabled
-//@RolesAllowed("studo-services.read")
+@RolesAllowed("studo-services.read")
 @Produces("application/json")
 @Path("rest/attendance")
 public class AttendanceRestService {
@@ -49,19 +49,6 @@ public class AttendanceRestService {
     @Inject
     UserService userService;
 
-    @HeaderParam(value = "X-Authorization")
-    String authorizationHeader;
-
-    @ConfigProperty(name = "studo-service.token-secret")
-    String secret; // mysecretmysecretmysecretmysecretmysecretmysecret for local developement
-
-    private void checkAuthorizationHeader() {
-        /*
-        if (!Objects.equals(authorizationHeader, this.secret.substring(0,32))) {
-            throw new SecurityException("Invalid authorization header");
-        }*/
-    }
-
     @GET
     @Path("coursesAndUsers") // Use either coursesAndUsers or users + courses
     public CoursesAndUsers getCoursesAndUsers(
@@ -70,7 +57,6 @@ public class AttendanceRestService {
             @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
             @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
     ) {
-        checkAuthorizationHeader();
         List<CourseEntity> courseEntities = courseService.getCourseEntities( academicYear, semesters);
 
         return new CoursesAndUsers(
@@ -87,7 +73,6 @@ public class AttendanceRestService {
             @QueryParam(value = "ids") List<String> ids,
             @QueryParam(value = "idName") String idName
     ) {
-        checkAuthorizationHeader();
         if (!idName.equals("obfuscatedId") && !idName.equals("staffId") && !idName.equals("studentId")) {
             throw new IllegalArgumentException("Invalid idName"); // Don't allow sql injections and only allow filters with good performance
         }
@@ -150,7 +135,6 @@ public class AttendanceRestService {
             @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
             @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
     ) {
-        checkAuthorizationHeader();
         List<CourseEntity> courseEntities = courseService.getCourseEntities(academicYear, semesters);
         return courseService.getCourses(courseEntities, resourceTypes, eventTypes);
     }
@@ -160,28 +144,24 @@ public class AttendanceRestService {
     public List<FunctionEntity> getFunctions(
             @QueryParam(value = "functionTypes") List<String> functionTypes
     ) {
-        checkAuthorizationHeader();
         return userService.getFunctions(functionTypes);
     }
 
     @GET
     @Path("allFunctionsSlow")
     public List<FunctionEntity> getAllFunctionsSlow() {
-        checkAuthorizationHeader();
         return userService.getAllFunctionsSlow();
     }
 
     @GET
     @Path("organisations")
     public List<OrganisationDto> getOrganisations() {
-        checkAuthorizationHeader();
         return organisationService.getOrganisations();
     }
 
     @GET
     @Path("studiesSlow") // Returns also studies from students who are not active students anymore
     public List<StudyEntity> getAllStudiesSlow() {
-        checkAuthorizationHeader();
         return StudyEntity.listAll();
     }
 
@@ -194,7 +174,6 @@ public class AttendanceRestService {
     public List<StudyEntity> getStudies(
             @QueryParam("status") List<String> status
     ) {
-        checkAuthorizationHeader();
         return StudyEntity.list("status in ?1", status);
     }
 
@@ -204,14 +183,12 @@ public class AttendanceRestService {
             @QueryParam("studentIds") List<String> studentIds,
             @QueryParam("status") List<String> status
     ) {
-        checkAuthorizationHeader();
         return StudyEntity.list("studentId in ?1 and status in ?2", studentIds, status);
     }
 
     @GET
     @Path("test")
     public String test() {
-        checkAuthorizationHeader();
         return "blabla";
     }
 }
