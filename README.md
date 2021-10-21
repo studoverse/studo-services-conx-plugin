@@ -1,21 +1,41 @@
-# Config für guid.yaml 
+# Studo Services
 
-mvn process resources
+## Installation
 
-1. Install iam_res
-2. Install sql_scripts
-3. 
+### Process ressources
+```
+mvn process-resources
+```
+
+### Install iam_res
+```
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0001_studo-service.read.scope
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app.client
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0003_app_user.client
+```
+
+### Install sql_scripts
+```
+coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0001_create_schema.sql
+coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0002_grants.sql
+```
+
+### Set env vars (guid.yaml ?)
+``` 
 studo-services:
     config:
         backend_back_channel_client_secret: 'bbf57a5f-03cf-406b-81b1-a632948f139f'
         backend_db_password_STUDO_SERVICES:  ${services.database.passwords.default}
         backend_studo_service_token_secret: 'mysecretmysecretmysecretmysecretmysecretmysecret'
         backend_studo_service_dal_base_url: 'https://dal-demo.campus-qr.at/admin'
-4. Install docker
+```
 
+### Install docker
+```
 coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
+```
 
-# Technical Infos
+## Technical Infos
 
 You have to add the following property to your .env file:
 ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
@@ -27,53 +47,7 @@ ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
 [Example REST Service with and without security annotations](src/main/java/com/studo/services/attendance/rest/AttendanceTestRestService.java)
 [Redirect JWT example](src/main/java/com/studo/services/attendance/rest/AttendanceRedirectRestService.java)
 
-# TODOS
-
-* pu-views nach STUDO_SERVICES granten (Zoli, Valentin) => DONE 
-  * sammeln
-  * deployment/sql_scripts folder hinterlegen
-  * trunk_dev einspielen => DONE
-
-* Tabellen als Liquibase Scripts (Zoli, Valentin) => DONE
-  * extracten der filter Tabellen von C02
-  * migrate to liquibase
-    * für Tabellen
-    * für content der Tabellen (soll leicht ausklinkbar sein)
-
-* Arbs Quarkus Code nach studo-services moven (Arb, Zoni, Luke) => DONE
-  * POM merge => DONE
-  * application yaml merge => DONE
-  * arb and running bringen => DONE
-
-* CI auf gitlab.com im studo-services projekt (Luke) => DONE
-
-* Frontend wieder enablen (zoni) => DONE
-* Deployment Fehler analysieren (zoni) => DONE
-* Redirect mit JWT schreiben (zoni) => DONE
-
-* Authorisation (alle) (zoni)  => DONE
-  * Scope studo-services.read scope anlegen  => DONE
-  * @RolesAllowed("studo-services.read")  => DONE
-  * Mapping von JWT Scopes auf roles  => DONE
-    
-    (* Umstellung auf von service app auf web-app und service)  => DONE
-  
-  * Tenant Resolver  => DONE
-    /api/studo/services/api/attendance => service => DONE
-    else => web app => DONE
-
-* Doku zur Inbetriebnahme
-
-# Installation 
-mvn process resources
-
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0001_app.client
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app_user.client
-coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0001_create_schema.sql
-coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0002_grants.sql
-coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
-
-# Studo Services
+## Example APIs
 
 * https://trunkline.tugraz.at/trunk_dev/co/studo/services/app/
 * http://localhost:8080/studo/services/api/role-examples?org-id=1
