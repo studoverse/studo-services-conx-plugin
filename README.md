@@ -38,7 +38,7 @@ coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
 ## Technical Infos for local development
 
 ### Setup
-Use the [SPERSONIC.md](SUPERSONIC.md) as a setup reference
+Use the [SUPERSONIC.md](SUPERSONIC.md) as a setup reference
 
 You have to add the following property to your .env file:
 ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
