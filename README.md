@@ -10,7 +10,7 @@ mvn process-resources
 ### Install iam_res
 ```
 coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0001_studo-service.read.scope
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app.client
+coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app_backend.client
 coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0003_app_user.client
 ```
 
