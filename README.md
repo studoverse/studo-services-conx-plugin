@@ -35,7 +35,7 @@ studo-services:
 coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
 ```
 
-## Technical Infos
+## Technical Infos for local development
 
 You have to add the following property to your .env file:
 ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
