@@ -12,20 +12,18 @@ client.test("Keycloak Access Token successfully received.", function() {
 %}
 
 ### we check the test endpoint, because to original endpoint is very long running
-GET http://localhost:8080/studo/services/api/rest/attendance/test
+GET {{base-url}}/studo/services/api/rest/attendance/test
 Authorization: Bearer {{access_token}}
 
 ### check if the endpoint can be accessed without access token
-GET http://localhost:8080/studo/services/api/rest/attendance/hello-world
+GET {{base-url}}/studo/services/api/rest/attendance/hello-world
 
 ### check if a anonymous client does not have access to the secure hello world endpoint
-GET http://localhost:8080/studo/services/api/rest/attendance/secure-hello-world
+GET {{base-url}}/studo/services/api/rest/attendance/secure-hello-world
 
 ### check if the dal client has access to the secure-hello-world, because of its scope studo-services.read
-GET http://localhost:8080/studo/services/api/rest/attendance/secure-hello-world
+GET {{base-url}}/studo/services/api/rest/attendance/secure-hello-world
 Authorization: Bearer {{access_token}}
 
 ###
-GET https://trunkline.tugraz.at/trunk_dev/co/studo/services/api/attendance/redirect
-
-GET http://localhost:4200/studo/services/api/attendance/redirect
+GET {{base-url}}/studo/services/api/attendance/redirect

@@ -1,9 +1,0 @@
-//@realm=CAMPUSonline
-{
-  "clientId": "${stack.oidc.app.client.id}",
-  "publicClient": false,
-  "standardFlowEnabled": false,
-  "serviceAccountsEnabled": true,
-  "enabled": true,
-  "defaultClientScopes": ["co-auth-service", "co-desktop-service"]
-}
