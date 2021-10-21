@@ -95,25 +95,33 @@ public class AttendanceRestService {
     FA,"{abgesagt,cancelled,null,null}"
     FG,"{gelöscht,deleted,null,null}"
 
+    ----------------------
     EventTypes:
+
+    Lehrveranstaltung:
     A,"{Abhaltung,regular class,null,null}"
     V,"{Vorbesprechung,preparatory class,null,null}"
     P,"{Prüfung (geplant),examination (planned),null,null}"
     AV,"{Aufbau u. Vorbereitung,installations & preparation,null,null}"
     N,"{Nachbereitung,follow-up maintenance,null,null}"
     PT,"{Prüfungstermin,exam date,null,null}"
-    CBT,"{CBT-Abhaltung,CBT session,null,null}" // Appointment is managed by external software (med-uni graz/wien) ??
+    CBT,"{CBT-Abhaltung,CBT session,null,null}" // Lehrveranstaltung-Appointment is managed by external software (med-uni graz/wien): Computer based Training
+
+    Veranstaltung:
     A,"{Abhaltung,regular class,null,null}"
     VV,"{Vorbereitung,preparation,null,null}"
     VN,"{Nachbereitung,follow-up maintenance,null,null}"
-    K,"{kein Ereignistyp,no type of event,null,null}" // ??
+
+    Sonstiges Ereignis:
+    K,"{kein Ereignistyp,no type of event,null,null}"
     F,"{Ferien,holidays,null,null}"
     FT,"{Feiertag(e),public holiday(s),null,null}"
-    W,"{Wartung,maintenance,null,null}" / ??
+    W,"{Wartung,maintenance,null,null}"
     LT,"{LV-freier Tag,lecture-free day,null,null}"
-    LS,"{LV-freie Stunden,lecture-free hours,null,null}"
-    SPERRE,"{Sperre,lock,null,null}" // ??
+    LS,"{LV-freie Stunden,lecture-free hours,null,null}" // Probably not in use
+    SPERRE,"{Sperre,lock,null,null}" //  Raum wird für Buchung gesperrt
 
+    ----------------------
     LV_STATUS_ALLE:  (comma separated string, dynamically calculated by database, might not be stable across CO-releases)
     GP,geplant
     GM,gemeldet
@@ -124,7 +132,8 @@ public class AttendanceRestService {
     AB,abgelehnt
     NEUGLV,Kopie einer LV im anderen Semester
     AG,abgehalten
-    ZGK,zustandegekommen // ??
+    ZGK,zustandegekommen // Zustande gekommene Lehraufträge
+    AGH // Abgehaltene Lehraufträge
      */
 
     @GET
@@ -165,8 +174,22 @@ public class AttendanceRestService {
         return StudyEntity.listAll();
     }
 
-    /*
-    // status: ??
+    /* Status options (9.9.2021):
+    a       Studienplatzannahme: Zusage und Einzahlung der Beiträge
+    E       Ersteinschreibung: Erstmalige Einschreibung an einer Hochschule
+    y / z   Wiedereinschreibung: Wiedereinschreibung erfolgt, Beiträge noch offen
+    B       Wiedereinschreibung, Neueinschreibung: Wiedereinschreibung ins gleiche Studium nach Schließung oder Neueinschreibung in ein Zweitstudium (z.B. Masterstudium), wird nach Bezahlung der offenen Beiträge automatisch gesetzt
+    o       Beiträge offen: Studienstatus OK / Studium offen
+    I       Rückmeldung, Inskription: Rückmeldung, wird nach Bezahlung der offenen Beiträge automatisch gesetzt
+    U       Urlaub: Unterbrechung des gesamten Semesters
+    Z       Schließung: Studium geschlossen, Wiederholung/Wiederbewerbung möglich
+    X       Endgültige Schließung: Studium geschlossen, keine Fortsetzung möglich
+    V / R   Verzicht auf Studienplatz, Rücktritt von Immatrikulation: Studienplatz nicht angenommen
+    f       Fehlerhafter Studienverlauf
+
+    Status options (older):
+    G       Logisch gelöscht
+    Y       Schließung: Studium geschlossen, erschwert zu öffnen
      */
 
     @GET
