@@ -24,9 +24,9 @@ coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0002_grants.sql
 ``` 
 studo-services:
     config:
-        backend_back_channel_client_secret: 'bbf57a5f-03cf-406b-81b1-a632948f139f'
+        backend_back_channel_client_secret: 'generate_here_a_first_uuid_and_send_to_studo'
         backend_db_password_STUDO_SERVICES:  ${services.database.passwords.default}
-        backend_studo_service_token_secret: 'mysecretmysecretmysecretmysecretmysecretmysecret'
+        backend_studo_service_token_secret: 'generate_here_a_second_uuid_and_send_to_studo'
         backend_studo_service_dal_base_url: 'https://dal-demo.campus-qr.at/admin'
 ```
 
