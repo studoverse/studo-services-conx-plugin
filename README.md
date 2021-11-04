@@ -2,35 +2,40 @@
 
 ## Installation
 
-### Process ressources
+### Process resources and prepare `deployment` folder (Done by a studo developer)
 ```
 mvn process-resources
 ```
+Then zip `target/deployment` and send it to the CampusOnline administrator at the university.
 
 ### Install iam_res
 ```
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0001_studo-service.read.scope
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0002_app_backend.client
-coinst deploy TRUNKdev IAM_RES target/deployment/iam_res/0003_app_user.client
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/0001_studo-service.read.scope
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/0002_app_backend.client
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/0003_app_user.client
 ```
 
 ### Install sql_scripts
 ```
-coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0001_create_schema.sql
-coinst deploy TRUNKdev SQL target/deployment/sql_scripts/0002_grants.sql
+coinst deploy TRUNKdev SQL deployment/sql_scripts/0001_create_schema.sql
+coinst deploy TRUNKdev SQL deployment/sql_scripts/0002_grants.sql
 ```
+Generate a random password for the newly created `STUDO_SERVICES` database user.
 
-### Set env vars (guid.yaml ?)
+### Set env vars in guid.yaml (big yaml with all docker containers, may have different name on installation)
 ``` 
 studo-services:
     config:
         backend_back_channel_client_secret: 'generate_here_a_first_uuid_and_send_to_studo'
-        backend_db_password_STUDO_SERVICES:  ${services.database.passwords.default}
+        backend_db_password_STUDO_SERVICES: 'STUDO_SERVICES database password'
         backend_studo_service_token_secret: 'generate_here_a_second_uuid_and_send_to_studo'
-        backend_studo_service_dal_base_url: 'https://dal-demo.campus-qr.at/admin'
+        backend_studo_service_dal_base_url: 'DAL URL (for example https://dal-demo.campus-qr.at/admin)'
+        backend_studo_service_debug_mode: false
 ```
 
 ### Install docker
+This command deploys the latest commit working on the `snapshot` branch.
+The docker image is already pre-built by CampusOnline's CI.
 ```
 coinst deploy TRUNKdev DOCKER target/deployment/docker/studo-services.yml
 ```
@@ -58,3 +63,11 @@ ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
 * http://localhost:8080/studo/services/api/role-examples?org-id=1
 * http://localhost:8080/studo/services/api/role-examples/check-demo-1?org-id=1
 * http://localhost:8080/studo/services/api/role-examples/check-demo-2?org-id=1
+
+### Troubleshooting
+
+#### Gradle dependencies can't be fetched from CampusOnline Nexus
+
+The CampusOnline Nexus is only accessible form their internal VPN, so add the correct mirrors to your Maven settings.
+ * Make sure that you have a local maven installation and `~/.m2/settings.xml` exists
+ * Copy the contents from the project's `settings.xml` into `~/.m2/settings.xml`
