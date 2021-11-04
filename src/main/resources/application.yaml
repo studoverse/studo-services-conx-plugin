@@ -110,8 +110,10 @@ conx:
 
 # app specific properties
 studo-service:
+    backend-client-secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
     token-secret: ${ENV_STUDO_SERVICE_TOKEN_SECRET}
     dal-base-url: ${ENV_STUDO_SERVICE_DAL_BASE_URL}
+    debug-mode: ${ENV_STUDO_SERVICE_DEBUG_MODE:false}
 
 "%prod":
 

@@ -314,6 +314,10 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jboss.logmanager</groupId>
+            <artifactId>log4j2-jboss-logmanager</artifactId>
+        </dependency>
         <!-- currently COnX uses a logback for logging, so we have to disable the standard quarkus logging -->
         <!-- this will change in the near future -->
         <dependency>

@@ -15,6 +15,9 @@ client.test("Keycloak Access Token successfully received.", function() {
 GET {{base-url}}/studo/services/api/rest/attendance/test
 Authorization: Bearer {{access_token}}
 
+### Execute the debug print
+GET {{base-url}}/studo/services/api/rest/attendance/debug
+
 ### check if the endpoint can be accessed without access token
 GET {{base-url}}/studo/services/api/rest/attendance/hello-world
 

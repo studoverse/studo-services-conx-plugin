@@ -42,6 +42,7 @@ services:
             # app specific properties
             - ENV_STUDO_SERVICE_TOKEN_SECRET=${backend_studo_service_token_secret}
             - ENV_STUDO_SERVICE_DAL_BASE_URL=${backend_studo_service_dal_base_url}
+            - ENV_STUDO_SERVICE_DEBUG_MODE=${backend_studo_service_debug_mode:-false}
 
         deploy:
             labels:
