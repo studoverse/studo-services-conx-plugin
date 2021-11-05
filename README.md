@@ -71,3 +71,8 @@ ENV_STUDO_SERVICE_TOKEN_SECRET=mysecretmysecretmysecretmysecretmysecretmysecret
 The CampusOnline Nexus is only accessible form their internal VPN, so add the correct mirrors to your Maven settings.
  * Make sure that you have a local maven installation and `~/.m2/settings.xml` exists
  * Copy the contents from the project's `settings.xml` into `~/.m2/settings.xml`
+
+#### Directly redeploy only the `studo-services` docker container
+```
+coinst redeploy QC02 studo-services deployment/docker/studo-services.yml
+```
