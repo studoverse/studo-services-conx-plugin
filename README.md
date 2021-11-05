@@ -75,5 +75,5 @@ The CampusOnline Nexus is only accessible form their internal VPN, so add the co
 
 #### Directly redeploy only the `studo-services` docker container
 ```
-coinst redeploy QC02 studo-services deployment/docker/studo-services.yml
+coinst redeploy QC02 studo-services
 ```
