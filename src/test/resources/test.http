@@ -30,3 +30,7 @@ Authorization: Bearer {{access_token}}
 
 ###
 GET {{base-url}}/studo/services/api/attendance/redirect
+
+### check if the dal client has access to the secure-hello-world, because of its scope studo-services.read
+GET {{base-url}}/studo/services/api/rest/attendance/coursesAndUsers
+Authorization: Bearer {{access_token}}
