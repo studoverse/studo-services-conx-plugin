@@ -14,6 +14,7 @@ coinst deploy TRUNKdev IAM_RES deployment/iam_res/0001_studo-service.read.scope
 coinst deploy TRUNKdev IAM_RES deployment/iam_res/0002_app_backend.client
 coinst deploy TRUNKdev IAM_RES deployment/iam_res/0003_app_user.client
 ```
+Find the `studo-services-app` user and copy it's client-secret, we need it for the guid.yaml
 
 ### Install sql_scripts
 ```
@@ -26,7 +27,7 @@ Generate a random password for the newly created `STUDO_SERVICES` database user.
 ``` 
 studo-services:
     config:
-        backend_back_channel_client_secret: 'generate_here_a_first_uuid_and_send_to_studo'
+        backend_back_channel_client_secret: 'studo-services-app client secret'
         backend_db_password_STUDO_SERVICES: 'STUDO_SERVICES database password'
         backend_studo_service_token_secret: 'generate_here_a_second_uuid_and_send_to_studo'
         backend_studo_service_dal_base_url: 'DAL URL (for example https://dal-demo.campus-qr.at/admin)'

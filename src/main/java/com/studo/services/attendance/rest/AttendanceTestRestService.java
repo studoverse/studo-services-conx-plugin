@@ -23,7 +23,7 @@ public class AttendanceTestRestService {
     return "hello world";
   }
 
-  //@ConfigProperty(name = "studo-service.debug-mode") Boolean debug;
+  @ConfigProperty(name = "studo-service.debug-mode") Boolean debug;
   @ConfigProperty(name = "studo-service.token-secret") String token_secret;
   @ConfigProperty(name = "studo-service.backend-client-secret") String client_secret;
   @ConfigProperty(name = "studo-service.dal-base-url") String dal_base_url;
@@ -31,7 +31,7 @@ public class AttendanceTestRestService {
   @GET
   @Path("debug")
   public String debug() {
-    //if (!debug) return "Please enable debug mode in the guid.yaml";
+    if (!debug) return "Please enable debug mode in the guid.yaml";
 
     logger.warn("studo-service.token-secret: " + token_secret);
     logger.warn("studo-service.backend-client-secret: " + client_secret);
