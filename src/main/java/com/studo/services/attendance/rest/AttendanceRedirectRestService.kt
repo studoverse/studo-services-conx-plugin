@@ -1,83 +1,90 @@
-package com.studo.services.attendance.rest;
+package com.studo.services.attendance.rest
 
-import at.campusonline.pub.auth.api.authinfo.AuthInfo;
-import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
-import at.campusonline.pub.auth.api.subject.SecuritySubject;
-import at.campusonline.pub.auth.rest.api.identities.AuthIdentityResource;
-import io.smallrye.jwt.build.Jwt;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.jwt.JsonWebToken;
-
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
+import at.campusonline.pub.auth.api.authinfo.AuthInfo
+import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled
+import at.campusonline.pub.auth.api.subject.SecuritySubject
+import org.eclipse.microprofile.jwt.JsonWebToken
+import javax.ws.rs.GET
+import at.campusonline.pub.auth.rest.api.identities.AuthIdentityResource
+import javax.ws.rs.core.UriBuilder
+import com.studo.services.attendance.rest.AttendanceRedirectRestService
+import io.smallrye.jwt.build.Jwt
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import javax.inject.Inject
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
+import javax.ws.rs.core.Response
 
 @Produces("application/json")
 @UserSessionDisabled
 @Path("attendance/redirect")
-public class AttendanceRedirectRestService {
+class AttendanceRedirectRestService {
+    @Inject
+    lateinit var subject: SecuritySubject
 
-  private static final String TOKEN_PARAMETER = "token";
+    @Inject
+    lateinit var authInfo: AuthInfo
 
-  @Inject
-  SecuritySubject subject;
+    @Inject
+    lateinit var token: JsonWebToken
 
-  @Inject
-  AuthInfo authInfo;
+    @ConfigProperty(name = "studo-service.token-secret")
+    lateinit var secret: String
 
-  @Inject
-  JsonWebToken token;
+    @ConfigProperty(name = "studo-service.dal-base-url")
+    lateinit var dalBaseUrl: String
 
-  @ConfigProperty(name = "studo-service.token-secret")
-  String secret;
+    @ConfigProperty(name = "conx.public-api-url")
+    lateinit var coPublicApiUrl: String
 
-  @ConfigProperty(name = "studo-service.dal-base-url")
-  String dalBaseUrl;
+    // example: https://trunkline.tugraz.at/trunk_dev/co
+    val coBaseUrl: String get() = coPublicApiUrl.removeSuffix("/public")
 
-  /**
-   * ensure the secret has the right length
-   */
-  private String getSecret() {
-    return secret.substring(0,32);
-  }
+    /**
+     * Url of the studo-services [AttendanceRedirectRestService.redirect] endpoint
+     */
+    val loginRedirectUrl: String get() = "$coBaseUrl/studo/services/api/attendance/redirect"
 
-  /**
-   * We use a signed token, so the studo dal application can verify the token.
-   */
-  private String getEncryptedStudoServiceToken() {
-    if (token.getRawToken() == null) {
-      return "anonymous";
+    val keycloakAuthorizationUrl: String get() = "$coPublicApiUrl/auth/api/session/authorization"
+
+    /**
+     * ensure the secret has the right length
+     */
+    private val sanitizedSecret get() = secret.substring(0, 32)
+
+    /**
+     * Redirect to the studo dal endpoint.
+     */
+    @GET
+    fun redirect(): Response {
+        if (authInfo.isAnonymous) {
+            val uri = UriBuilder
+                    .fromUri(keycloakAuthorizationUrl)
+                    .queryParam("redirect_uri", loginRedirectUrl)
+                    .build()
+            return Response.temporaryRedirect(uri).build()
+        }
+
+        //We use a signed token, so the studo dal application can verify the token.
+        val signedStudoCrossAuthJwtToken = if (token.rawToken == null) {
+            "anonymous"
+        } else {
+            Jwt.subject(subject.obfuscatedIdentityId)
+                    .preferredUserName(subject.identity.name)
+                    .jws()
+                    .signWithSecret(sanitizedSecret)
+        }
+
+        // this uri redirect to the studo dal application
+        // currently we use a fake endpoint to verify data is transported correctly
+        val uri = UriBuilder
+                .fromUri(dalBaseUrl)
+                .queryParam(TOKEN_PARAMETER, signedStudoCrossAuthJwtToken)
+                .build()
+        return Response.temporaryRedirect(uri).build()
     }
 
-    return Jwt.subject(subject.getObfuscatedIdentityId())
-            .preferredUserName(subject.getIdentity().getName())
-            .jws()
-            .signWithSecret(getSecret());
-  }
-
-  /**
-   * Redirect to the studo dal endpoint.
-   */
-  @GET
-  public Response redirect() {
-
-    if (authInfo.isAnonymous()) {
-      return Response.ok("please login").build();
+    companion object {
+        private const val TOKEN_PARAMETER = "token"
     }
-
-    AuthIdentityResource identity = subject.getIdentity();
-
-    // this uri redirect to the studo dal application
-    // currently we use a fake endpoint to verify data is transported correctly
-    URI uri = UriBuilder.fromUri(dalBaseUrl)
-            .queryParam(TOKEN_PARAMETER, getEncryptedStudoServiceToken())
-            .build();
-
-    return Response.temporaryRedirect(uri).build();
-  }
-
 }

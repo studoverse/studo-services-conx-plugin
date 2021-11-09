@@ -20,13 +20,14 @@ public class AttendanceTestRestService {
   @GET
   @Path("hello-world")
   public String helloWorld() {
-    return "hello world";
+    return "hello world on " + co_public_api_url;
   }
 
   @ConfigProperty(name = "studo-service.debug-mode") Boolean debug;
   @ConfigProperty(name = "studo-service.token-secret") String token_secret;
   @ConfigProperty(name = "studo-service.backend-client-secret") String client_secret;
   @ConfigProperty(name = "studo-service.dal-base-url") String dal_base_url;
+  @ConfigProperty(name = "conx.public-api-url") String co_public_api_url;
 
   @GET
   @Path("debug")
@@ -44,7 +45,7 @@ public class AttendanceTestRestService {
   @Path("secure-hello-world")
   @RolesAllowed("studo-services.read")
   public String secureHelloWorld() {
-    return "secure hello world";
+    return "secure hello world on " + co_public_api_url;
   }
 
 }
