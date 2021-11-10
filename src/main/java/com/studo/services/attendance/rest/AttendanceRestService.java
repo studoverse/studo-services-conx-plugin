@@ -134,6 +134,9 @@ public class AttendanceRestService {
     AG,abgehalten
     ZGK,zustandegekommen // Zustande gekommene Lehraufträge
     AGH // Abgehaltene Lehraufträge
+
+    STP_SP_GEWICHTUNG: Honorar and SWS (Semesterwochenstunden) der Lehrenden – Lehrveranstaltungen unterschiedlich gewichten. Faktor für die Gewichtung der Einheiten von Lehraufträgen zur Lehrveranstaltung
+    STP_SP_UNTERRICHTSEINHEITEN: Lehreinheiten
      */
 
     @GET
