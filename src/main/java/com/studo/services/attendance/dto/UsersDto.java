@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @RegisterForReflection
 public class UsersDto {
-    public List<IdentityEntity> identities;
-    public List<StudentEntity> students;
-    public List<StaffEntity> staffs;
+    public List<IdentityDto> identities;
+    public List<StudentDto> students;
+    public List<StaffDto> staffs;
 }

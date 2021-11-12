@@ -1,10 +1,7 @@
 package com.studo.services.attendance.rest;
 
 import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled;
-import com.studo.services.attendance.dto.CoursesAndUsers;
-import com.studo.services.attendance.dto.CourseDto;
-import com.studo.services.attendance.dto.OrganisationDto;
-import com.studo.services.attendance.dto.UsersDto;
+import com.studo.services.attendance.dto.*;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.entity.function.FunctionEntity;
 import com.studo.services.attendance.entity.identity.IdentityEntity;
@@ -67,22 +64,55 @@ public class AttendanceRestService {
         );
     }
 
-    @GET
-    @Path("users") // max 999 elements
-    public UsersDto getUsers(
-            @QueryParam(value = "ids") List<String> ids,
-            @QueryParam(value = "idName") String idName
-    ) {
-        if (!idName.equals("obfuscatedId") && !idName.equals("staffId") && !idName.equals("studentId")) {
-            throw new IllegalArgumentException("Invalid idName"); // Don't allow sql injections and only allow filters with good performance
-        }
-        List<IdentityEntity> identities = IdentityEntity.list(idName + " in ?1", ids.stream().map(BigDecimal::new).collect(Collectors.toList()));
+    private UsersDto getUsersDto(List<IdentityEntity> identities) {
         List<StudentEntity> students = StudentEntity.list("id in ?1",
                 identities.stream().map(identityEntity -> identityEntity.studentId).distinct().collect(Collectors.toList()));
         List<StaffEntity> staffs = StaffEntity.list("id in ?1",
                 identities.stream().map(identityEntity -> identityEntity.staffId).distinct().collect(Collectors.toList()));
 
-        return new UsersDto(identities, students, staffs);
+        return new UsersDto(
+                identities.stream().map(identityEntity ->
+                                new IdentityDto(identityEntity.id,
+                                        identityEntity.staffId,
+                                        identityEntity.studentId,
+                                        identityEntity.obfuscatedId))
+                        .collect(Collectors.toList()),
+                students.stream().map(studentEntity ->
+                                new StudentDto(studentEntity.id,
+                                        studentEntity.lastName,
+                                        studentEntity.firstName,
+                                        studentEntity.matriculationNumber,
+                                        studentEntity.email))
+                        .collect(Collectors.toList()),
+                staffs.stream().map(staffEntity ->
+                                new StaffDto(staffEntity.id,
+                                        staffEntity.lastName,
+                                        staffEntity.firstName,
+                                        staffEntity.title,
+                                        staffEntity.email))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @GET
+    @Path("usersByObfuscatedId") // max 999 elements
+    public UsersDto getUsersByObfuscatedId(@QueryParam(value = "ids") List<String> ids) {
+        List<IdentityEntity> identities = IdentityEntity.list("obfuscatedId in ?1", ids);
+        return getUsersDto(identities);
+    }
+
+    @GET
+    @Path("usersByStaffId") // max 999 elements
+    public UsersDto getUsersByStaffId(@QueryParam(value = "ids") List<BigDecimal> ids) {
+        List<IdentityEntity> identities = IdentityEntity.list("staffId in ?1", ids);
+        return getUsersDto(identities);
+    }
+
+    @GET
+    @Path("usersByStudentId") // max 999 elements
+    public UsersDto getUsersByStudentId(@QueryParam(value = "ids") List<BigDecimal> ids) {
+        List<IdentityEntity> identities = IdentityEntity.list("studentId in ?1", ids);
+        return getUsersDto(identities);
     }
 
     /*
@@ -172,7 +202,7 @@ public class AttendanceRestService {
     }
 
     @GET
-    @Path("studiesSlow") // Returns also studies from students who are not active students anymore
+    @Path("allStudiesSlow") // Returns also studies from students who are not active students anymore
     public List<StudyEntity> getAllStudiesSlow() {
         return StudyEntity.listAll();
     }
@@ -213,8 +243,8 @@ public class AttendanceRestService {
     }
 
     @GET
-    @Path("test")
-    public String test() {
-        return "blabla";
+    @Path("version")
+    public String version() {
+        return "2021-11-12 17:50";
     }
 }

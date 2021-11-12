@@ -57,11 +57,11 @@ public class UserService {
 
         result.addAll(entityManager.createQuery(criteria).getResultList());
 
-        return result.stream().map(studentEntity ->
-                        new IdentityDto(studentEntity.id,
-                                studentEntity.staffId,
-                                studentEntity.studentId,
-                                studentEntity.obfuscatedId)).collect(Collectors.toList());
+        return result.stream().map(identityEntity ->
+                        new IdentityDto(identityEntity.id,
+                                identityEntity.staffId,
+                                identityEntity.studentId,
+                                identityEntity.obfuscatedId)).collect(Collectors.toList());
     }
 
     public List<StudentDto> getStudents(List<CourseEntity> courseEntities) {
@@ -107,12 +107,12 @@ public class UserService {
         criteria.select(courseEntityRoot).where(predicate);
         var staffEntities = entityManager.createQuery(criteria).getResultList();
 
-        return staffEntities.stream().map(studentEntity ->
-                        new StaffDto(studentEntity.id,
-                                studentEntity.lastName,
-                                studentEntity.firstName,
-                                studentEntity.title,
-                                studentEntity.email)
+        return staffEntities.stream().map(staffEntity ->
+                        new StaffDto(staffEntity.id,
+                                staffEntity.lastName,
+                                staffEntity.firstName,
+                                staffEntity.title,
+                                staffEntity.email)
                 )
                 .collect(Collectors.toList());
     }
