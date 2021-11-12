@@ -206,7 +206,7 @@ public class AttendanceRestService {
     @GET
     @Path("studies")
     public List<StudyEntity> getStudies(
-            @QueryParam("studentIds") List<String> studentIds,
+            @QueryParam("studentIds") List<BigDecimal> studentIds,
             @QueryParam("status") List<String> status
     ) {
         return StudyEntity.list("studentId in ?1 and status in ?2", studentIds, status);
