@@ -8,6 +8,7 @@ import javax.ws.rs.GET
 import at.campusonline.pub.auth.rest.api.identities.AuthIdentityResource
 import javax.ws.rs.core.UriBuilder
 import com.studo.services.attendance.rest.AttendanceRedirectRestService
+import io.quarkus.security.Authenticated
 import io.smallrye.jwt.build.Jwt
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import javax.inject.Inject
@@ -56,13 +57,10 @@ class AttendanceRedirectRestService {
      * Redirect to the studo dal endpoint.
      */
     @GET
+    @Authenticated
     fun redirect(): Response {
         if (authInfo.isAnonymous) {
-            val uri = UriBuilder
-                    .fromUri(keycloakAuthorizationUrl)
-                    .queryParam("redirect_uri", loginRedirectUrl)
-                    .build()
-            return Response.temporaryRedirect(uri).build()
+            return Response.ok("this should not happen!!!!").build()
         }
 
         //We use a signed token, so the studo dal application can verify the token.
