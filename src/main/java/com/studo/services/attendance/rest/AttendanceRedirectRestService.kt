@@ -11,10 +11,12 @@ import com.studo.services.attendance.rest.AttendanceRedirectRestService
 import io.quarkus.security.Authenticated
 import io.smallrye.jwt.build.Jwt
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import java.net.URLDecoder
 import javax.inject.Inject
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.core.Response
+import javax.ws.rs.*;
 
 @Produces("application/json")
 @UserSessionDisabled
@@ -38,16 +40,6 @@ class AttendanceRedirectRestService {
     @ConfigProperty(name = "conx.public-api-url")
     lateinit var coPublicApiUrl: String
 
-    // example: https://trunkline.tugraz.at/trunk_dev/co
-    val coBaseUrl: String get() = coPublicApiUrl.removeSuffix("/public")
-
-    /**
-     * Url of the studo-services [AttendanceRedirectRestService.redirect] endpoint
-     */
-    val loginRedirectUrl: String get() = "$coBaseUrl/studo/services/api/attendance/redirect"
-
-    val keycloakAuthorizationUrl: String get() = "$coPublicApiUrl/auth/api/session/authorization"
-
     /**
      * ensure the secret has the right length
      */
@@ -58,26 +50,25 @@ class AttendanceRedirectRestService {
      */
     @GET
     @Authenticated
-    fun redirect(): Response {
+    fun redirect(@DefaultValue("") @QueryParam(value = "redirect") redirect: String): Response {
         if (authInfo.isAnonymous) {
             return Response.ok("this should not happen!!!!").build()
         }
 
+        val redirectUrl = if (redirect.isEmpty()) null else URLDecoder.decode(redirect, "UTF-8")
+
         //We use a signed token, so the studo dal application can verify the token.
-        val signedStudoCrossAuthJwtToken = if (token.rawToken == null) {
-            "anonymous"
-        } else {
-            Jwt.subject(subject.obfuscatedIdentityId)
-                    .preferredUserName(subject.identity.name)
-                    .jws()
-                    .signWithSecret(sanitizedSecret)
-        }
+        val signedStudoCrossAuthJwtToken = Jwt.subject(subject.obfuscatedIdentityId)
+                .preferredUserName(subject.identity.name)
+                .jws()
+                .signWithSecret(sanitizedSecret)
 
         // this uri redirect to the studo dal application
         // currently we use a fake endpoint to verify data is transported correctly
         val uri = UriBuilder
                 .fromUri(dalBaseUrl)
                 .queryParam(TOKEN_PARAMETER, signedStudoCrossAuthJwtToken)
+                .apply { if (redirectUrl != null) queryParam("redirect", redirectUrl) }
                 .build()
         return Response.temporaryRedirect(uri).build()
     }
