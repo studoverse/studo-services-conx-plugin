@@ -6,44 +6,52 @@ import com.studo.services.attendance.dto.CourseGroupDto;
 import com.studo.services.attendance.entity.course.CourseEntity;
 import com.studo.services.attendance.entity.course.CourseEventEntity;
 import com.studo.services.attendance.entity.course.CourseGroupEntity;
-import com.studo.services.attendance.service.CourseService;
 import io.smallrye.common.constraint.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Arbër Gjergjizi <arber.gjergjizi@campus02.at>
  */
 public class CourseDtoMapper {
 
-    public static CourseDto mapCourseDto(@NotNull CourseEntity courseEntity, List<String> resourceFilter, List<String> eventFilter) {
+    public static CourseDto mapCourseDto(@NotNull CourseEntity courseEntity) {
         return new CourseDto(
                 courseEntity.id,
-                courseEntity.organisationId,
                 courseEntity.courseCode,
-                courseEntity.title,
                 courseEntity.academicYear,
                 courseEntity.semester,
+                courseEntity.title,
+                courseEntity.titleEn,
+                courseEntity.semesterHours,
+                courseEntity.type,
+                courseEntity.typeName,
+                courseEntity.allStates,
+                courseEntity.organisationId,
+                courseEntity.examiningOrganisationId,
+                courseEntity.contactHours,
+                courseEntity.credits,
+                courseEntity.weighting,
                 courseEntity.courseGroupEntities.stream()
-                        .filter(courseGroupEntity -> courseGroupEntity.deleted.equals(CourseService.NOT_DELETED_COURSE_GROUP)) // remove deleted groups
-                        .map(courseGroupEntity -> getCourseGroupDto(courseEntity, courseGroupEntity, resourceFilter, eventFilter))
+                        .map(courseGroupEntity -> getCourseGroupDto(courseEntity, courseGroupEntity))
                         .collect(Collectors.toList())
         );
     }
 
     private static CourseGroupDto getCourseGroupDto(CourseEntity courseEntity,
-                                                    CourseGroupEntity courseGroupEntity,
-                                                    List<String> resourceFilter,
-                                                    List<String> eventFilter) {
+                                                    CourseGroupEntity courseGroupEntity) {
         return new CourseGroupDto(
                 courseEntity.id,
                 courseGroupEntity.id,
                 courseGroupEntity.name,
+                courseGroupEntity.deleted,
+                courseGroupEntity.isStandard,
+                courseGroupEntity.registrationStart,
+                courseGroupEntity.registrationEnd,
                 getStaffIds(courseGroupEntity),
-                getCourseEventDtos(courseGroupEntity, resourceFilter, eventFilter),
+                getCourseEventDtos(courseGroupEntity),
                 getStudentIds(courseGroupEntity)
         );
     }
@@ -54,25 +62,29 @@ public class CourseDtoMapper {
                 courseEventEntity.start,
                 courseEventEntity.end,
                 courseEventEntity.teachingUnits,
-                courseEventEntity.place
+                courseEventEntity.teachingUnitsAgh,
+                courseEventEntity.teachingUnitsCancelled,
+                courseEventEntity.type,
+                courseEventEntity.typeName,
+                courseEventEntity.place,
+                courseEventEntity.courseResourceType,
+                courseEventEntity.seriesNr,
+                courseEventEntity.modErlerneNr,
+                courseEventEntity.title,
+                courseEventEntity.comment,
+                courseEventEntity.internalComment,
+                courseEventEntity.previousEventId,
+                courseEventEntity.createdOn
         );
     }
 
-    private static Stream<CourseEventEntity> getCourseEventFiltered(CourseGroupEntity courseGroupEntity,
-                                                                    List<String> resourceFilter,
-                                                                    List<String> eventFilter) {
-        return courseGroupEntity.courseEventEntities.stream()
-                .filter(courseEventEntity -> eventFilter.stream().anyMatch(s -> s.equals(courseEventEntity.type)))
-                .filter(courseEventEntity -> resourceFilter.stream().anyMatch(s -> s.equals(courseEventEntity.courseResourceType)));
-    }
     private static List<BigDecimal> getStudentIds(CourseGroupEntity courseGroupEntity) {
         return courseGroupEntity.courseStudentEntities.stream()
                 .map(courseStaffEntity -> courseStaffEntity.studentId).collect(Collectors.toList());
     }
-    private static List<CourseEventDto> getCourseEventDtos(CourseGroupEntity courseGroupEntity,
-                                                           List<String> resourceFilter,
-                                                           List<String> eventFilter) {
-        return getCourseEventFiltered(courseGroupEntity, resourceFilter, eventFilter)
+
+    private static List<CourseEventDto> getCourseEventDtos(CourseGroupEntity courseGroupEntity) {
+        return courseGroupEntity.courseEventEntities.stream()
                 .map(CourseDtoMapper::getCourseEventDto).collect(Collectors.toList());
     }
 

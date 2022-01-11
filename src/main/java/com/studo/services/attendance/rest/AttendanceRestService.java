@@ -8,20 +8,17 @@ import com.studo.services.attendance.entity.identity.IdentityEntity;
 import com.studo.services.attendance.entity.staff.StaffEntity;
 import com.studo.services.attendance.entity.student.StudentEntity;
 import com.studo.services.attendance.entity.study.StudyEntity;
-import com.studo.services.attendance.service.OrganisationService;
 import com.studo.services.attendance.service.CourseService;
+import com.studo.services.attendance.service.OrganisationService;
 import com.studo.services.attendance.service.UserService;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.annotations.GZIP;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,14 +47,12 @@ public class AttendanceRestService {
     @Path("coursesAndUsers") // Use either coursesAndUsers or users + courses
     public CoursesAndUsers getCoursesAndUsers(
             @DefaultValue("2021/22") @QueryParam(value = "academicYear") String academicYear,
-            @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters,
-            @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
-            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
+            @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters
     ) {
         List<CourseEntity> courseEntities = courseService.getCourseEntities( academicYear, semesters);
 
         return new CoursesAndUsers(
-                courseService.getCourses(courseEntities, resourceTypes, eventTypes),
+                courseService.getCourses(courseEntities),
                 userService.getStudents(courseEntities),
                 userService.getStaff(courseEntities),
                 userService.getIdentities(courseEntities)
@@ -82,14 +77,28 @@ public class AttendanceRestService {
                                         studentEntity.lastName,
                                         studentEntity.firstName,
                                         studentEntity.matriculationNumber,
-                                        studentEntity.email))
+                                        studentEntity.email,
+                                        studentEntity.title,
+                                        studentEntity.titleAfter,
+                                        studentEntity.birthdate,
+                                        studentEntity.gender,
+                                        studentEntity.citizenship,
+                                        studentEntity.secondCitizenship,
+                                        studentEntity.matriculationDate,
+                                        studentEntity.exmatriculationDate))
                         .collect(Collectors.toList()),
                 staffs.stream().map(staffEntity ->
                                 new StaffDto(staffEntity.id,
                                         staffEntity.lastName,
                                         staffEntity.firstName,
                                         staffEntity.title,
-                                        staffEntity.email))
+                                        staffEntity.academicTitle,
+                                        staffEntity.officialTitle,
+                                        staffEntity.otherTitle,
+                                        staffEntity.email,
+                                        staffEntity.gender,
+                                        staffEntity.birthdate,
+                                        staffEntity.phoneNumber))
                         .collect(Collectors.toList())
         );
     }
@@ -173,12 +182,10 @@ public class AttendanceRestService {
     @Path("courses")
     public List<CourseDto> getCourses(
             @DefaultValue("2021/22") @QueryParam(value = "academicYear") String academicYear,
-            @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters, // Either "W" or "S"
-            @DefaultValue("FT") @QueryParam(value = "resourceType") List<String> resourceTypes,
-            @DefaultValue("A") @QueryParam(value = "eventType") List<String> eventTypes
+            @DefaultValue("W") @QueryParam(value = "semester") List<String> semesters // Either "W" or "S"
     ) {
         List<CourseEntity> courseEntities = courseService.getCourseEntities(academicYear, semesters);
-        return courseService.getCourses(courseEntities, resourceTypes, eventTypes);
+        return courseService.getCourses(courseEntities);
     }
 
     @GET

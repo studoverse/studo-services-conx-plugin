@@ -5,6 +5,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public class CourseGroupDto {
     public BigDecimal courseId;
     public BigDecimal groupId;
     public String name;
+    public String deleted;
+    public String isStandard;
+    public Date registrationStart;
+    public Date registrationEnd;
     public List<BigDecimal> lecturerStaffIds;
     public List<CourseEventDto> events;
     public List<BigDecimal> studentIds;

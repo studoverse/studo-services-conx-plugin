@@ -36,12 +36,45 @@ public class CourseEventEntity extends PanacheEntityBase {
     @Column(name = "UNTERRICHTSEINHEITEN")
     public Integer teachingUnits;
 
+    @Column(name = "UNTERRICHTSEINHEITEN_AGH")
+    public Integer teachingUnitsAgh; // ???
+
+    @Column(name = "UNTERRICHTSEINHEITEN_ABGESAGT")
+    public Integer teachingUnitsCancelled;
+
     @Column(name = "TERMIN_EREIGNIS_TYP_KB")
     public String type;
+
+    @Column(name = "TERMIN_EREIGNIS_TYP_NAME")
+    public String typeName;
 
     @Column(name = "ORT")
     public String place;
 
     @Column(name = "TERMIN_TYP_KB")
     public String courseResourceType;
+
+    @Column(name = "TERMIN_TYP_NAME")
+    public String courseResourceName;
+
+    @Column(name = "SERIEN_NR")
+    public BigDecimal seriesNr; // For appointment series
+
+    @Column(name = "MOD_ELERNE_NR")
+    public BigDecimal modErlerneNr; // ???
+
+    @Column(name = "TERMIN_TITEL")
+    public String title;
+
+    @Column(name = "TERMIN_BETREFF")
+    public String comment;
+
+    @Column(name = "INTERNE_BEMERKUNG")
+    public String internalComment;
+
+    @Column(name = "TE_TERMIN_ALT_NR")
+    public BigDecimal previousEventId; // != null when event was modified
+
+    @Column(name = "TERMIN_ERSTELLT_AM")
+    public Date createdOn;
 }

@@ -7,7 +7,6 @@ import com.studo.services.attendance.repository.CourseRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,16 +15,12 @@ import java.util.stream.Collectors;
  */
 @ApplicationScoped
 public class CourseService {
-
-    public final static String NOT_DELETED_COURSE_GROUP = "N";
-
     @Inject
     CourseRepository courseRepository;
 
-    public List<CourseDto> getCourses(List<CourseEntity> courseEntities, List<String> resourceTypes, List<String> eventTypes) {
+    public List<CourseDto> getCourses(List<CourseEntity> courseEntities) {
         return courseEntities.stream()
-                .map(courseEntity ->
-                        CourseDtoMapper.mapCourseDto(courseEntity, resourceTypes, eventTypes)).collect(Collectors.toList());
+                .map(courseEntity -> CourseDtoMapper.mapCourseDto(courseEntity)).collect(Collectors.toList());
     }
 
     public List<CourseEntity> getCourseEntities(String academicYear, List<String> semesters) {

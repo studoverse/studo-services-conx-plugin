@@ -13,10 +13,19 @@ import java.util.List;
 @RegisterForReflection
 public class CourseDto {
     public BigDecimal courseId;
-    public BigDecimal organizationId;
     public String courseNumber;
-    public String name;
     public String academicYear;
     public String semester;
+    public String name;
+    public String nameEn;
+    public BigDecimal semesterHours;
+    public String type;
+    public String typeName;
+    public String allStates;
+    public BigDecimal organizationId;
+    public BigDecimal examiningOrganisationId;
+    public BigDecimal contactHours;
+    public String credits;
+    public BigDecimal weighting;
     public List<CourseGroupDto> groups;
 }

@@ -80,7 +80,15 @@ public class UserService {
                                 studentEntity.lastName,
                                 studentEntity.firstName,
                                 studentEntity.matriculationNumber,
-                                studentEntity.email)
+                                studentEntity.email,
+                                studentEntity.title,
+                                studentEntity.titleAfter,
+                                studentEntity.birthdate,
+                                studentEntity.gender,
+                                studentEntity.citizenship,
+                                studentEntity.secondCitizenship,
+                                studentEntity.matriculationDate,
+                                studentEntity.exmatriculationDate)
                 )
                 .collect(Collectors.toList());
     }
@@ -112,7 +120,13 @@ public class UserService {
                                 staffEntity.lastName,
                                 staffEntity.firstName,
                                 staffEntity.title,
-                                staffEntity.email)
+                                staffEntity.academicTitle,
+                                staffEntity.officialTitle,
+                                staffEntity.otherTitle,
+                                staffEntity.email,
+                                staffEntity.gender,
+                                staffEntity.birthdate,
+                                staffEntity.phoneNumber)
                 )
                 .collect(Collectors.toList());
     }

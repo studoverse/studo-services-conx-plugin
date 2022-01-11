@@ -15,5 +15,11 @@ public class StaffDto {
     public String lastName;
     public String firstName;
     public String title;
+    public String academicTitle;
+    public String officialTitle;
+    public String otherTitle;
     public String email;
+    public String gender;
+    public String birthdate;
+    public String phoneNumber;
 }

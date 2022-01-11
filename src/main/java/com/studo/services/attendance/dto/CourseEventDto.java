@@ -16,5 +16,17 @@ public class CourseEventDto {
     public Date start;
     public Date end;
     public Integer teachingUnits;
+    public Integer teachingUnitsAgh;
+    public Integer teachingUnitsCancelled;
+    public String type;
+    public String typeName;
     public String place;
+    public String courseResourceType;
+    public BigDecimal seriesNr;
+    public BigDecimal modErlerneNr;
+    public String title;
+    public String comment;
+    public String internalComment;
+    public BigDecimal previousEventId;
+    public Date createdOn;
 }
