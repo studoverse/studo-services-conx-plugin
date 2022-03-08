@@ -11,6 +11,7 @@ import com.studo.services.attendance.entity.study.StudyEntity;
 import com.studo.services.attendance.service.CourseService;
 import com.studo.services.attendance.service.OrganisationService;
 import com.studo.services.attendance.service.UserService;
+import com.studo.services.utils.StatsUtils;
 import org.jboss.resteasy.annotations.GZIP;
 
 import javax.annotation.security.RolesAllowed;
@@ -252,6 +253,12 @@ public class AttendanceRestService {
     @GET
     @Path("version")
     public String version() {
-        return "2021-11-12 17:50";
+        return "2022-03-08 14:20";
+    }
+
+    @GET
+    @Path("stats")
+    public StatsDto getStats() {
+        return StatsUtils.INSTANCE.getContainerStats();
     }
 }
