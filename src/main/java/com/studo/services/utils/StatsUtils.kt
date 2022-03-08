@@ -65,6 +65,8 @@ object StatsUtils {
     }
 
     fun getContainerStats(): StatsDto {
+        System.gc()
+
         // Call heapMemoryMB() as soon as possible after getGarbageCollectorStats() to have associated values
         val garbageCollectionStats = getGarbageCollectorStats()
 
