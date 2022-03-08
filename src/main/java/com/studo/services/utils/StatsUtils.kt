@@ -2,7 +2,6 @@ package com.studo.services.utils
 
 import com.studo.services.attendance.dto.StatsDto
 import java.lang.management.ManagementFactory
-import java.lang.management.ThreadInfo
 
 object StatsUtils {
     private val garbageCollectorsYoungRegion = listOf("PS Scavenge", "ParNew", "G1 Young Generation", "Copy", "ZGC")
@@ -73,17 +72,17 @@ object StatsUtils {
         val threadCount = ManagementFactory.getThreadMXBean().peakThreadCount
         ManagementFactory.getThreadMXBean().resetPeakThreadCount()
 
-        return StatsDto(
-            threadCount = threadCount,
-            heapMB = heapMemoryMB(),
-            nonHeapMB = nonHeapMemoryMB(),
-            systemLoadAverage = systemLoadAverage(),
-            availableProcessors = availableProcessors(),
-            minorGcCount = garbageCollectionStats.minorGcCount,
-            minorGcMs = garbageCollectionStats.minorGcMs,
-            majorGcCount = garbageCollectionStats.majorGcCount,
-            majorGcMs = garbageCollectionStats.majorGcMs,
-        )
+        return StatsDto().apply {
+            this.threadCount = threadCount
+            heapMB = heapMemoryMB()
+            nonHeapMB = nonHeapMemoryMB()
+            systemLoadAverage = systemLoadAverage()
+            availableProcessors = availableProcessors()
+            minorGcCount = garbageCollectionStats.minorGcCount
+            minorGcMs = garbageCollectionStats.minorGcMs
+            majorGcCount = garbageCollectionStats.majorGcCount
+            majorGcMs = garbageCollectionStats.majorGcMs
+        }
     }
 
     // E.g. 1.8 or 11
