@@ -70,7 +70,8 @@ services:
                 - "traefik.http.middlewares.${stack.id}-proxy-headers.headers.customrequestheaders.X-Forwarded-Prefix=${web_context_root}/co"
             resources:
                 limits:
-                    memory: ${backend_memory:-536870912}
+                    #memory: ${backend_memory:-536870912} TODO restore to original when OOM @Z issues are fixed
+                    memory: 1024MB
             replicas: ${backend_replicas:-1}
             restart_policy:
                 condition: on-failure
