@@ -36,3 +36,4 @@ build-docker:
     artifacts:
         paths:
             - target/*.zip
+    when: manual
