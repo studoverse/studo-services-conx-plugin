@@ -29,9 +29,10 @@ build-docker:
         QUARKUS_CONTAINER_IMAGE_BUILD: "true"
         QUARKUS_CONTAINER_IMAGE_PUSH: "true"
         VERSION: $CI_COMMIT_SHORT_SHA
+        COMMIT_ID: $CI_COMMIT_SHORT_SHA
     script:
         - mvn $MAVEN_CLI_OPTS clean versions:set -DnewVersion=$VERSION
-        - mvn $MAVEN_CLI_OPTS clean at.campusonline.conx.maven:conx-maven-plugin:0.1.0:package -Dmaven.deploy.skip=true deploy
+        - mvn $MAVEN_CLI_OPTS clean -Dbuild.revision=$COMMIT_ID at.campusonline.conx.maven:conx-maven-plugin:0.1.0:package -Dmaven.deploy.skip=true deploy
     artifacts:
         paths:
             - target/*.zip
