@@ -1,10 +1,9 @@
-import { AuthSessionResource } from '@campusonline/auth';
-import { DesktopState } from '@campusonline/desktop';
+import {DesktopSessionResource, DesktopState} from '@campusonline/desktop';
 
 export interface AppState {
 
   desktopState: DesktopState;
-  session: AuthSessionResource;
+  session: DesktopSessionResource;
   textBundles?: string[];
 
 }

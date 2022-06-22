@@ -13,7 +13,7 @@ export class AppUriService {
   }
 
   getAuthDemoSubjectUri(): string {
-    return apiUri('/auth-demo/subject');
+    return apiUri('/users/subject');
   }
 
 }

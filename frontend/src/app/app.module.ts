@@ -7,6 +7,8 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AppAuthHttpInterceptor} from "./app-auth-http-interceptor";
 
 /**
  * This is the supreme module of our app.
@@ -27,7 +29,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     MatSidenavModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AppAuthHttpInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

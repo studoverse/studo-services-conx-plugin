@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './features/home/home-page/home-page.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomePageComponent} from './features/home/home-page/home-page.component';
 
 const routes: Routes = [
   {
@@ -18,8 +18,7 @@ const routes: Routes = [
   {
     path: 'coa',
     children: [
-      { path: '', loadChildren: () => import('@campusonline/desktop').then(m => m.DesktopDebugRoutingModule) },
-      { path: '', loadChildren: () => import('@campusonline/auth').then(m => m.AuthRoutingModule) }
+      { path: '', loadChildren: () => import('@campusonline/desktop').then(m => m.DesktopDebugRoutingModule) }
     ]
   },
   {

@@ -7,7 +7,6 @@ import com.studo.services.attendance.repository.OrganisationRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 

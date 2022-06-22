@@ -1,8 +1,0 @@
-//@realm=CAMPUSonline
-{
-  "clientId": "${stack.oidc.app-user.client.id}",
-  "publicClient": true,
-  "standardFlowEnabled": true,
-  "enabled": true,
-  "redirectUris": ["${web_context_root}/co/${stack.url.prefix}/*"]
-}

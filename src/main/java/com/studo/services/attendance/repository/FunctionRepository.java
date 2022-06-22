@@ -4,7 +4,6 @@ import com.studo.services.attendance.entity.function.FunctionEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**

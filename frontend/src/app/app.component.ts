@@ -1,16 +1,18 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AuthActionResource, AuthActionService, AuthSessionResource } from '@campusonline/auth';
-import { Subscription } from 'rxjs';
-import { AppStateService } from './core/state/app-state.service';
-import { NavigationMenuResource } from '@campusonline/model';
-import { Router } from '@angular/router';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {AppStateService} from './core/state/app-state.service';
+import {NavigationMenuResource} from '@campusonline/model';
+import {Router} from '@angular/router';
 import {
   DesktopDebugService,
+  DesktopLoginService,
   DesktopMode,
   DesktopPageResource,
-  DesktopResource
+  DesktopResource,
+  DesktopSessionResource
 } from '@campusonline/desktop';
-import { switchMap, take } from 'rxjs/operators';
+import {switchMap, take} from 'rxjs/operators';
+import {apiUri} from "@shared/uri/api-uri";
 
 /**
  * This is our supreme component in our app.
@@ -25,11 +27,10 @@ export class AppComponent implements OnInit {
 
   menu?: NavigationMenuResource;
   desktop?: DesktopResource;
-  session?: AuthSessionResource;
+  session?: DesktopSessionResource;
   page?: DesktopPageResource;
   mode?: DesktopMode;
   loadSidebar?: boolean = false; // lazy load sidebar improves performance
-  authActionResource?: AuthActionResource;
 
   subs: Subscription[] = [];
 
@@ -37,13 +38,12 @@ export class AppComponent implements OnInit {
     private stateService: AppStateService,
     private router: Router,
     public debugService: DesktopDebugService,
-    private authActionService: AuthActionService,
+    private loginService: DesktopLoginService,
     private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.subscribeInitialState();
-    this.subscribeAuthActions();
     this.subscribeLanguage();
   }
 
@@ -53,26 +53,9 @@ export class AppComponent implements OnInit {
   private subscribeInitialState(): void {
     this.subs.push(
       this.stateService.getInitialState$().pipe(take(1)).subscribe(state => {
-        this.stateService.nextState(state);
         this.subscribeState();
+        this.stateService.nextState(state);
       }));
-  }
-
-  /**
-   * Subscribe to auth actions (401, 403 from backend) and handle auth actions.
-   * You can use the auth debug container, to manually trigger redirects.
-   */
-  private subscribeAuthActions(): void {
-    this.subs.push(this.authActionService.getAction$().subscribe(action => {
-
-      if (this.debugService.isContainerEnabled('auth')) {
-        this.authActionResource = action;
-      } else {
-        this.authActionService.handleAction(action);
-      }
-
-      this.cd.markForCheck();
-    }));
   }
 
   /**
@@ -115,15 +98,32 @@ export class AppComponent implements OnInit {
   }
 
   onLanguageSelect(language: string): void {
-    this.subs.push(this.stateService.setLanguage$(language).subscribe());
+    this.subs.push(this.stateService.setLanguage$(language).pipe(
+      switchMap(() => this.stateService.loadDesktop())
+    ).subscribe((desktop) => {
+      this.stateService.nextDesktopState(desktop);
+      this.cd.markForCheck();
+    }));
   }
 
   onLogin(): void {
-    this.router.navigate(['/coa/auth/login']);
+    this.stateService.loadDesktop().subscribe(desktop => {
+      if (this.loginService.handleLogin({
+        desktop: desktop,
+        defaultLoginUri: apiUri('/auth/authn/login') + '?post_login_route={post_login_route}',
+        postLoginRoute: '/'
+      })) {
+        console.info('login handler handled login');
+      } else {
+        console.info('login handler does not handle login');
+        this.stateService.nextDesktopState(desktop);
+        this.cd.markForCheck();
+      }
+    });
   }
 
   onLogout(): void {
-    this.router.navigate(['/coa/auth/logout']);
+    location.href = apiUri('/auth/authn/logout');
   }
 
 }

@@ -1,0 +1,20 @@
+### Obtain a JWT access token from openid-connect endpoint
+POST {{auth-server-url}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{client-id}}&client_secret={{client-secret}}
+
+> {%
+client.test("Keycloak Access Token successfully received.", function() {
+    client.global.set("access_token", response.body.access_token);
+    client.assert(!!client.global.get("access_token"), "Access Token is not null");
+});
+%}
+
+###
+GET {{base-url}}/studo/services/api/rest/greetings/1
+Authorization: Bearer {{access_token}}
+
+###
+GET {{base-url}}/studo/services/api/rest/greetings/1
+Authorization: Bearer {{access_token}}

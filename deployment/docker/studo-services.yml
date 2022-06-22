@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+    app:
+        image: ${docker.registry}/${docker.group}/${docker.artefact.id}:${docker.artefact.version}
+        deploy:
+            replicas: ${replicas:-1}
+            max_replicas_per_node: ${max_replicas_per_node:-0}
+            placement:
+                constraints: [node.labels.co-node-type != ignore]
+                preferences: [spread: node.labels.co-node-type]
+            resources:
+                limits:
+                    memory: ${memory:-536870912}
+            restart_policy:
+                condition: on-failure
+                delay: 2s
+                max_attempts: ${max_restart_attempts:-5}
+                window: 30m
+            labels:
+                - "ingress=co"
+                - "traefik.enable=true"
+                - "co.router.network=default"
+                - "co.globalUniqueId=${globalUniqueId}"
+                - "traefik.http.services.studo-services-backend.loadbalancer.server.port=8080"
+                - "traefik.http.routers.studo-services-backend.entrypoints=web"
+
+                # Entrypoint REST
+                - "traefik.http.routers.studo-services-backend.rule=PathPrefix(`/studo/services`)"
+                - "traefik.http.routers.studo-services-backend.middlewares=studo-services-proxy-headers"
+
+                # Other Special Endpoints
+                - "traefik.http.routers.studo-services-q-health.rule=PathPrefix(`/studo/services/q/health`)"
+                - "traefik.http.routers.studo-services-q-health.middlewares=studo-services-proxy-headers,studo-services-backend-stripprefix"
+
+                # Define Middleware Tools
+                - "traefik.http.middlewares.studo-services-backend-stripprefix.stripprefix.prefixes=/studo/services"
+                - "traefik.http.middlewares.studo-services-proxy-headers.headers.customrequestheaders.X-Forwarded-Host=${co_service_name}"
+                - "traefik.http.middlewares.studo-services-proxy-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+                - "traefik.http.middlewares.studo-services-proxy-headers.headers.customrequestheaders.X-Forwarded-Port=443"
+                - "traefik.http.middlewares.studo-services-proxy-headers.headers.customrequestheaders.X-Forwarded-Ssl=true"
+                - "traefik.http.middlewares.studo-services-proxy-headers.headers.customrequestheaders.X-Forwarded-Prefix=${web_context_root}/co"
+        environment:
+            - CO_JAVA_OPTIONS=${java_options}
+            - ENV_CONX_APPLICATION_PATH=/studo/services
+            - ENV_CONX_BASE_URL=${co_service_baseurl}/co
+            - ENV_CONX_BASE_URL_RELATIVE=${web_context_root}/co
+            - ENV_CONX_PLSQL_COOKIE_PATH=${web_context_root}/
+            - ENV_CONX_OIDC_APP_CLIENT=studo-services-app
+            - ENV_CONX_OIDC_APP_USER_CLIENT=studo-services-app-user
+            - ENV_CO_DB_JDBC_URL=jdbc:oracle:thin:@${db_connect_string}
+            - ENV_CO_DB_USERNAME=${database_username:-STUDO_SERVICES}
+            - ENV_CO_DB_PASSWORD_ENCRYPTED=${database_password}
+            - ENV_CO_AUTH_SERVER_URL=${co_auth_server_authurl}
+            - ENV_CONX_PUBLIC_API_URL=${co_service_baseurl}/co/public
+            - ENV_CONX_OIDC_CLIENT_CREDENTIALS_SECRET_ENCRYPTED=${back_channel_client_secret}
+            - ENV_CONX_HTTP_ACCESS_LOG_HEADERS=${http_access_log_headers:-false}
+            - ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS=${http_access_log_security_headers:-false}
+            - ENV_QUARKUS_LOG_LEVEL=${log_quarkus_level:-WARN}
+            - ENV_QUARKUS_LOG_CATEGORY_HTTP_ACCESS_LOG_LEVEL=${log_http_access_level:-INFO}
+            - ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL=${log_campusonline_level:-WARN}
+            - ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL=${log_oidc_level:-WARN}
+            - ENV_QUARKUS_LOG_CATEGORY_HTTP_HEADERS_LEVEL=${log_http_headers_level:-WARN}
+            - ENV_QUARKUS_LOG_CATEGORY_HTTP_WIRE_LEVEL=${log_http_wire_level:-WARN}
+
+            # app specific properties
+            - ENV_STUDO_SERVICE_TOKEN_SECRET=${backend_studo_service_token_secret}
+            - ENV_STUDO_SERVICE_DAL_BASE_URL=${backend_studo_service_dal_base_url}
+            - ENV_STUDO_SERVICE_DEBUG_MODE=${backend_studo_service_debug_mode:-false}
+        labels:
+            - "co.log.tag=studo-services"

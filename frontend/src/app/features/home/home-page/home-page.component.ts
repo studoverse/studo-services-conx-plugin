@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthSessionResource, AuthSessionService } from '@campusonline/auth';
-import { Subscription } from 'rxjs';
-import { AppStateService } from '../../../core/state/app-state.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {AppStateService} from '../../../core/state/app-state.service';
+import {DesktopSessionResource, DesktopSessionService} from "@campusonline/desktop";
 
 @Component({
   templateUrl: 'home-page.component.html'
@@ -10,11 +10,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
 
-  session?: AuthSessionResource;
+  session?: DesktopSessionResource;
 
   constructor(
     private stateService: AppStateService,
-    private sessionService: AuthSessionService) {
+    private sessionService: DesktopSessionService) {
   }
 
   ngOnInit(): void {

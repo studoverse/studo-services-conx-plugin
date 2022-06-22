@@ -1,0 +1,19 @@
+quarkus:
+  resteasy:
+    path: /studo/services/api
+  test:
+    include-module-pattern: com.studo:studo-services
+
+conx:
+  auth:
+    context-types: org
+    role-namespaces: EXAMPLES
+    session-type: oidc
+
+  desktop:
+    desktop-api-mode: offline
+    login-type: oidc
+
+app:
+  example-property: 'hello example property'
+

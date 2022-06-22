@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AuthSessionService, AuthUriService } from '@campusonline/auth';
 import { combineLatest, Observable } from 'rxjs';
 import { AppState } from './app-state';
-import { map } from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { INIT_DESKTOP_STATE } from './init/init-desktop-state';
 import { INIT_LANGUAGE } from './init/init-language';
@@ -13,6 +12,8 @@ import {
   DesktopPageService,
   DesktopResource,
   DesktopResourceService,
+  DesktopSessionResource,
+  DesktopSessionService,
   DesktopStateService,
   DesktopUriService
 } from '@campusonline/desktop';
@@ -27,7 +28,7 @@ import { INIT_TEXT_BUNDLES } from './init/init-text-bundles';
 export class AppStateService {
 
   constructor(
-    private sessionService: AuthSessionService,
+    private sessionService: DesktopSessionService,
     private desktopStateService: DesktopStateService,
     private desktopService: DesktopResourceService,
     private pageService: DesktopPageService,
@@ -35,25 +36,42 @@ export class AppStateService {
     private navigationService: DesktopNavigationService,
     private i18nService: I18nService,
     private desktopUriService: DesktopUriService,
-    private authUriService: AuthUriService,
+    private authUriService: DesktopUriService,
     private http: HttpClient) {
+  }
+
+  public loadDesktop(): Observable<DesktopResource> {
+    return this.http.get<DesktopResource>(this.desktopUriService.getDesktopUri());
+  }
+
+  private loadDesktopAndTranslations(session: DesktopSessionResource):
+    Observable<[DesktopSessionResource, DesktopResource]> {
+    return combineLatest([
+      this.loadDesktop(),
+      this.i18nService.updateTranslations(INIT_LANGUAGE)
+    ]).pipe(
+      map(([desktop]) => {
+        return [session, desktop];
+      }));
   }
 
   getInitialState$(): Observable<AppState> {
     this.i18nService.addTextBundles(INIT_TEXT_BUNDLES);
 
-    return combineLatest([
-      this.http.get<DesktopResource>(this.desktopUriService.getDesktopUri()),
-      this.sessionService.loadSession(),
-      this.i18nService.updateTranslations(INIT_LANGUAGE)
-    ]).pipe(
-      map(([desktop, session]) => {
+    return this.sessionService.loadSession().pipe(
+      switchMap((session) => this.loadDesktopAndTranslations(session))
+    ).pipe(
+      map(([session, desktop]) => {
         return {
           desktopState: {...INIT_DESKTOP_STATE, desktop: desktop},
           session: session,
           textBundles: INIT_TEXT_BUNDLES
         };
       }));
+  }
+
+  nextDesktopState(desktop: DesktopResource): void {
+    this.desktopService.nextDesktop(desktop);
   }
 
   nextState(state: AppState): void {
@@ -105,7 +123,10 @@ export class AppStateService {
   setLanguage$(language: string): Observable<boolean> {
     return this.sessionService.setLanguage$(language)
       .pipe(
-        // todo, write selected language into the backend session
+        map(language => this.sessionService.getSessionValue()),
+        switchMap(session => {
+          return this.http.put(this.authUriService.getSessionUri(), session);
+        }),
         map(() => true)
       );
   }

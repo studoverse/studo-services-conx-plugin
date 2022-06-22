@@ -1,18 +1,18 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog
-    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                                       http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet author="CAMPUSonline" id="create-table-greetings">
         <createTable tableName="greetings">
             <column name="id" type="number">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="text" type="varchar(100)"  />
+            <column name="text" type="varchar(100)"/>
         </createTable>
     </changeSet>
 
@@ -29,209 +29,6 @@
             <column name="id">3</column>
             <column name="text">nuqneH qo'!</column>
         </insert>
-    </changeSet>
-    
-    <changeSet id="create-filter-tables" author="STUDO">
-        <createTable tableName="co_loc_attendance_function">
-            <!--
-                List of person functions (e.g. full-time teacher) that are used to select the users to be sent
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="FUNCTION_TYPE" type="varchar(100)" />
-        </createTable>
-
-        <createTable tableName="co_loc_attendance_org">
-            <!--
-                CampusOnline organisations whose data is to be synchronised
-            -->
-            <column name="ORG_NR" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="co_loc_course_filter">
-            <!--
-                List of person functions (e.g. full-time teacher) which can then be used to assign rights
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="ACADEMIC_YEAR" type="varchar(10)" />
-            <column name="SEMESTER_W" type="varchar(1)" />
-            <column name="SEMESTER_S" type="varchar(1)" />
-        </createTable>
-
-        <createTable tableName="co_loc_event_type_filter">
-            <!--
-                The semester(s) whose courses and enrollments are selected
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="EVENT_TYPE" type="varchar(100)" />
-        </createTable>
-
-        <createTable tableName="co_loc_prefix">
-            <!--
-                Prefix to be added in front of student IDs to avoid duplicate ID problem between students and teachers
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="PREFIX" type="varchar(100)" />
-        </createTable>
-
-        <createTable tableName="co_loc_resource_type_filter">
-            <!--
-                Type of events (e.g. fixed event, web event) to be synchronised
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="RESOURCE_TYPE" type="varchar(20)" />
-        </createTable>
-
-        <createTable tableName="co_loc_course_state_filter">
-            <!--
-
-            -->
-            <column name="ID" type="number">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="STATE_FILTER" type="varchar(200)"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="insert-C02-filter-tables" author="STUDO">
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">1</column>
-            <column name="FUNCTION_TYPE">F_KO_STR</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">2</column>
-            <column name="FUNCTION_TYPE">F_BA_STS</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">3</column>
-            <column name="FUNCTION_TYPE">P_BT_FAC</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">4</column>
-            <column name="FUNCTION_TYPE">R_LG</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">6</column>
-            <column name="FUNCTION_TYPE">R_SG</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">7</column>
-            <column name="FUNCTION_TYPE">R_SR</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">11</column>
-            <column name="FUNCTION_TYPE">F_SG</column>
-        </insert>
-        <insert tableName="co_loc_attendance_function">
-            <column name="ID">12</column>
-            <column name="FUNCTION_TYPE">F_LG</column>
-        </insert>
-
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14201</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14022</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14166</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14036</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14037</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14038</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14162</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14200</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14032</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14031</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14139</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14160</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14018</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14017</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14016</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14011</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14007</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14006</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14199</column>
-        </insert>
-        <insert tableName="co_loc_attendance_org">
-            <column name="ORG_NR">14012</column>
-        </insert>
-
-        <insert tableName="co_loc_course_filter">
-            <column name="ID">1</column>
-            <column name="ACADEMIC_YEAR">2021/22</column>
-            <column name="SEMESTER_W">W</column>
-            <column name="SEMESTER_S">S</column>
-        </insert>
-
-        <insert tableName="co_loc_event_type_filter">
-            <column name="ID">1</column>
-            <column name="EVENT_TYPE">A</column>
-        </insert>
-
-        <insert tableName="co_loc_prefix">
-            <column name="ID">1</column>
-            <column name="PREFIX">8</column>
-        </insert>
-
-
-        <insert tableName="co_loc_resource_type_filter">
-            <column name="ID">1</column>
-            <column name="RESOURCE_TYPE">FT</column>
-        </insert>
-        <insert tableName="co_loc_resource_type_filter">
-            <column name="ID">2</column>
-            <column name="RESOURCE_TYPE">WT</column>
-        </insert>
-
-        <insert tableName="co_loc_course_state_filter">
-            <column name="ID">1</column>
-            <column name="STATE_FILTER">BF</column>
-        </insert>
-
-
     </changeSet>
 
 </databaseChangeLog>

@@ -1,6 +1,0 @@
-//@realm=CAMPUSonline
-{
-    "name": "studo-services.read",
-    "description": "Scope which enables a client to read data provided by the studo-services app.",
-    "protocol": "openid-connect"
-}

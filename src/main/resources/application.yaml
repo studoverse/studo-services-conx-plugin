@@ -1,127 +1,148 @@
 quarkus:
 
-    datasource:
-        db-kind: other
-        username: ${ENV_QUARKUS_DATASOURCE_USERNAME}
-        password: ${ENV_QUARKUS_DATASOURCE_PASSWORD_ENCRYPTED}
-        jdbc:
-            url: ${ENV_QUARKUS_DATASOURCE_JDBC_URL}
-            driver: oracle.jdbc.OracleDriver
+  config:
+    locations: application_custom.yaml
 
-    liquibase:
-        migrate-at-start: ${ENV_QUARKUS_LIQUIBASE_MIGRATE_AT_START:true}
+  datasource:
+    db-kind: oracle
+    username: ${ENV_CO_DB_USERNAME}
+    password: ${ENV_CO_DB_PASSWORD_ENCRYPTED}
+    jdbc:
+      url: ${ENV_CO_DB_JDBC_URL}
 
-    hibernate-orm:
-        second-level-caching-enabled: false
-        dialect: org.hibernate.dialect.Oracle12cDialect
-        fetch:
-            max-depth: 0
-        jdbc:
-            statement-fetch-size: 1000
-        log:
-            sql: ${ENV_QUARKUS_HIBERNATE_ORM_LOG_SQL:false}
-            jdbc-warnings: true
+  jib:
+    base-jvm-image: conexus.tugraz.at/campusonline/co-quarkus:2-latest
 
-    oidc:
-        service:
-            auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
-            client-id: ${ENV_OID_CLIENT_ID}
-            application-type: service
-            credentials:
-                # add separate client secret
-                secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
-            authentication:
-                cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
-            roles:
-                role-claim-path: scope
-        user:
-            auth-server-url: ${ENV_QUARKUS_OIDC_AUTH_SERVER_URL}
-            client-id: ${ENV_OID_CLIENT_ID}
-            application-type: web_app
-            authentication:
-                redirect-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_REDIRECT_PATH:/}
-                restore-path-after-redirect: true
-                cookie-path: ${ENV_QUARKUS_OIDC_AUTHENTICATION_COOKIE_PATH:/}
-            token:
-                refresh-expired: true
-            logout:
-                path: ${ENV_QUARKUS_OIDC_LOGOUT_LOGOUT_PATH:/}
-                post-logout-path: ${ENV_QUARKUS_OIDC_LOGOUT_POST_LOGOUT_PATH:/}
+  container-image:
+    registry: conexus.tugraz.at
+    group: campusonline
 
-    oidc-client:
-        client-id: ${ENV_QUARKUS_OIDC_CLIENT_CLIENT_ID}
-        auth-server-url: ${ENV_QUARKUS_OIDC_CLIENT_AUTH_SERVER_URL}
-        early-tokens-acquisition: false
-        credentials:
-            secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
-            client-secret:
-                method: post
-
-    http:
-        proxy:
-            proxy-address-forwarding: true
-            enable-forwarded-host: true
-
+  hibernate-orm:
+    second-level-caching-enabled: false
+    dialect: org.hibernate.dialect.Oracle12cDialect
+    fetch:
+      max-depth: 0
+    jdbc:
+      statement-fetch-size: 1000
     log:
-        level: ${ENV_QUARKUS_LOG_LEVEL:INFO}
-        category:
-            "at.campusonline":
-                level: ${ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL:INFO}
-                min-level: ${ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL:INFO}
-            "io.quarkus.oidc":
-                level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
-                min-level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
+      jdbc-warnings: true
 
-    jib:
-        base-jvm-image: conexus.tugraz.at/campusonline/co-quarkus:1-latest
+  oidc:
+    tenant-enabled: false
+    user:
+      auth-server-url: ${ENV_CO_AUTH_SERVER_URL}
+      client-id: ${ENV_CONX_OIDC_APP_USER_CLIENT}
+      application-type: web_app
+      authentication:
+        redirect-path: ${conx.backend-url-relative}/auth/authn/login
+        restore-path-after-redirect: true
+        cookie-path: ${conx.backend-url-relative}/
+      token:
+        refresh-expired: true
+      logout:
+        path: ${conx.application-path}/api/auth/authn/logout
+        post-logout-path: ${conx.backend-url-relative}/auth/authn/post-logout
+    service:
+      auth-server-url: ${ENV_CO_AUTH_SERVER_URL}
+      client-id: ${ENV_CONX_OIDC_APP_USER_CLIENT}
+      application-type: service
+      roles:
+        role-claim-path: scope
 
-    container-image:
-        build: ${ENV_DOCKER_BUILD:false}
-        push: ${ENV_DOCKER_PUSH:false}
-        registry: ${ENV_DOCKER_REGISTRY:conexus.tugraz.at}
-        group: studo
-        name: studo-services
-        tag: ${ENV_DOCKER_TAG:snapshot}
+  oidc-client:
+    discovery-enabled: false
+    token-path: /protocol/openid-connect/token
+    client-id: ${ENV_CONX_OIDC_APP_CLIENT}
+    auth-server-url: ${ENV_CO_AUTH_SERVER_URL}
+    early-tokens-acquisition: false
+    credentials:
+      secret: ${ENV_CONX_OIDC_CLIENT_CREDENTIALS_SECRET_ENCRYPTED}
+      client-secret:
+        method: post
 
-co-public-api/mp-rest/url: ${ENV_CONX_PUBLIC_API_URL}
-co-public-api/mp-rest/scope: javax.inject.Singleton
+  security:
+    jaxrs:
+      deny-unannotated-endpoints: ${ENV_CONX_SECURITY_DENY_UNANNOTATED_ENDPOINTS:true}
+
+  http:
+    idle-timeout: 150S
+    proxy:
+      proxy-address-forwarding: true
+      enable-forwarded-host: true
+
+  log:
+    console:
+      stderr: true
+    level: ${ENV_QUARKUS_LOG_LEVEL:INFO}
+    category:
+      "at.campusonline":
+        level: ${ENV_QUARKUS_LOG_CATEGORY_CAMPUSONLINE_LEVEL:INFO}
+      "io.quarkus.http.access-log":
+        level: ${ENV_QUARKUS_LOG_CATEGORY_HTTP_ACCESS_LOG_LEVEL:INFO}
+      "io.quarkus.oidc":
+        level: ${ENV_QUARKUS_LOG_CATEGORY_OIDC_LEVEL:INFO}
+      "org.apache.http.headers":
+        level: ${ENV_QUARKUS_LOG_CATEGORY_HTTP_HEADERS_LEVEL:INFO}
+      "org.apache.http.wire":
+        level: ${ENV_QUARKUS_LOG_CATEGORY_HTTP_WIRE_LEVEL:INFO}
+
+  rest-client:
+    co-public-api:
+      url: ${ENV_CONX_PUBLIC_API_URL}
+    co-auth-api:
+      url: ${ENV_CONX_PUBLIC_API_URL}
+    co-desktop-api:
+      url: ${ENV_CONX_PUBLIC_API_URL}
+    co-config-api:
+      url: ${ENV_CONX_PUBLIC_API_URL}
 
 conx:
-    backend-url: ${ENV_CONX_BACKEND_URL_FOR_DEV}
-    frontend-url: ${ENV_CONX_FRONTEND_URL_FOR_DEV}
-    public-api-url: ${ENV_CONX_PUBLIC_API_URL}
+  application-path: ${ENV_CONX_APPLICATION_PATH:}
+  base-url: ${ENV_CONX_BASE_URL}
+  base-url-relative: ${ENV_CONX_BASE_URL_RELATIVE}
 
-    http:
-        access-log-headers: ${ENV_CONX_HTTP_ACCESS_LOG_HEADERS:false}
-        access-log-security-headers: ${ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS:false}
+  backend-url: ${conx.base-url}${conx.application-path}/api
+  backend-url-relative: ${conx.base-url-relative}${conx.application-path}/api
+  frontend-url: ${conx.base-url}${conx.application-path}/app
 
-    auth:
-        url:
-            # if running behind a proxy X-Forwarded-Prefix header value will be added
-            # to all auth urls
-            prefix-interceptor:
-                enabled: true
-                path: ${ENV_CONX_AUTH_URL_PREFIX_INTERCEPTOR_PATH}
-        context-types: org
-        role-namespaces: VERANSTALTUNGEN,EXAMPLES
-        role-cache:
-            enabled: true
-            expires-in-seconds: 1000
+  public-api-url: ${ENV_CONX_PUBLIC_API_URL}
 
-# app specific properties
-studo-service:
-    backend-client-secret: ${ENV_QUARKUS_OIDC_CLIENT_CREDENTIALS_SECRET}
-    token-secret: ${ENV_STUDO_SERVICE_TOKEN_SECRET}
-    dal-base-url: ${ENV_STUDO_SERVICE_DAL_BASE_URL}
-    debug-mode: ${ENV_STUDO_SERVICE_DEBUG_MODE:false}
+  http:
+    access-log-headers: ${ENV_CONX_HTTP_ACCESS_LOG_HEADERS:false}
+    access-log-security-headers: ${ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS:false}
 
-"%prod":
+  auth:
+    cookie-path: ${conx.backend-url}/
+    plsql-cookie-path: ${ENV_CONX_PLSQL_COOKIE_PATH}
 
-    conx:
-        backend-url: ${ENV_CONX_BACKEND_URL_FOR_PROD}
-        frontend-url: ${ENV_CONX_FRONTEND_URL_FOR_PROD}
+"%dev":
+  conx:
+    frontend-url: ${conx.base-url}/app
 
 "%test":
-    quarkus:
-        application:
-            version: 1.0.0
+  ENV_CONX_APPLICATION_PATH: '/dummy-app-path'
+  ENV_CONX_BASE_URL: http://localhost:4200
+  ENV_CONX_BASE_URL_RELATIVE: ''
+  ENV_CONX_PLSQL_COOKIE_PATH: /
+  ENV_CO_DB_JDBC_URL: ''
+  ENV_CO_DB_USERNAME: DB_DUMMY_USER
+  ENV_CO_DB_PASSWORD_ENCRYPTED: ''
+  ENV_CONX_PUBLIC_API_URL: https://dummyline.at/dummy/co/public
+  ENV_CO_AUTH_SERVER_URL: https://dummy-auth-server.com
+  ENV_CONX_OIDC_APP_USER_CLIENT: dummy-app-user
+  ENV_CONX_OIDC_APP_CLIENT: dummy-app
+  ENV_CONX_OIDC_CLIENT_CREDENTIALS_SECRET_ENCRYPTED: ''
+
+  quarkus:
+    application:
+      version: 1.0.0
+    http:
+      test-port: 0
+    oidc-client:
+      enabled: false
+    datasource:
+      db-kind: h2
+      jdbc:
+        url: jdbc:h2:mem:myDB
+    liquibase:
+      migrate-at-start: true

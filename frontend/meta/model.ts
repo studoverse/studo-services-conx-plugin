@@ -4,35 +4,120 @@
  */
 
 export interface paths {
-  "/auth/authn/login/{any}": {
+  "/auth/session": {
     get: {
       parameters: {
-        path: {
-          any: string;
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
         };
       };
       responses: {
-        /** OK */
-        200: unknown;
+        /**
+         * OK
+         */
+        "200": unknown;
+      };
+    };
+    put: {
+      parameters: {
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": unknown;
       };
     };
   };
-  "/auth/authz/logout": {
+  "/rest/attendance/usersByStaffId": {
+    get: {
+      parameters: {
+        query: {
+          ids?: number[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["UsersDto"];
+        };
+      };
+    };
+  };
+  "/users/subject": {
     get: {
       responses: {
-        /** OK */
-        200: unknown;
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
+        };
+      };
+    };
+  };
+  "/users/permissions/secured-object-with-org-ctx": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
+        };
+      };
+    };
+  };
+  "/users/permissions/read-permission-for-object/with-org-ctx": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
+        };
+      };
+    };
+  };
+  "/version": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "*/*": components["schemas"]["VersionResource"];
+        };
       };
     };
   };
   "/auth-demo/subject": {
     get: {
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
         };
       };
     };
@@ -40,36 +125,343 @@ export interface paths {
   "/greetings": {
     get: {
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["GreetingListResource"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["GreetingListResource1"];
         };
       };
     };
   };
   "/auth/authn/logout": {
     get: {
+      parameters: {
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
+        };
+      };
       responses: {
-        /** OK */
-        200: unknown;
+        /**
+         * OK
+         */
+        "200": unknown;
       };
     };
   };
-  "/auth/authz/redirection{any}": {
+  "/rest/attendance/secure-hello-world": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/rest/attendance/usersByStudentId": {
     get: {
       parameters: {
-        path: {
-          any: string;
-        };
         query: {
-          session_code?: string;
+          ids?: number[];
         };
       };
       responses: {
-        /** OK */
-        200: unknown;
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["UsersDto"];
+        };
+      };
+    };
+  };
+  "/rest/attendance/stats": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["StatsDto"];
+        };
+      };
+    };
+  };
+  "/users/permissions/read-access-for-app": {
+    get: {
+      parameters: {
+        query: {
+          org_id: string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
+        };
+      };
+    };
+  };
+  "/rest/attendance/allStudiesSlow": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["StudyEntity"][];
+        };
+      };
+    };
+  };
+  "/user/desktop": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["DesktopResource"];
+        };
+      };
+    };
+  };
+  "/version/authenticated-version": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "*/*": components["schemas"]["VersionResource"];
+        };
+      };
+    };
+  };
+  "/role-examples/check-demo-1": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/rest/attendance/debug": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/role-examples/check-demo-2": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/rest/attendance/allFunctionsSlow": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["FunctionEntity"][];
+        };
+      };
+    };
+  };
+  "/rest/attendance/courses": {
+    get: {
+      parameters: {
+        query: {
+          academicYear?: string;
+          semester?: string[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["CourseDto"][];
+        };
+      };
+    };
+  };
+  "/rest/attendance/studiesSlow": {
+    get: {
+      parameters: {
+        query: {
+          status?: string[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["StudyEntity"][];
+        };
+      };
+    };
+  };
+  "/rest/attendance/version": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/rest/attendance/coursesAndUsers": {
+    get: {
+      parameters: {
+        query: {
+          academicYear?: string;
+          semester?: string[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["CoursesAndUsers"];
+        };
+      };
+    };
+  };
+  "/role-examples": {
+    get: {
+      parameters: {
+        query: {
+          "org-id": string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["RoleExampleResource"];
+        };
+      };
+    };
+  };
+  "/rest/attendance/organisations": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["OrganisationDto"][];
+        };
+      };
+    };
+  };
+  "/rest/attendance/functions": {
+    get: {
+      parameters: {
+        query: {
+          functionTypes?: string[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["FunctionEntity"][];
+        };
+      };
+    };
+  };
+  "/auth/authn/login": {
+    get: {
+      parameters: {
+        query: {
+          post_login_route?: string;
+        };
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": unknown;
+      };
+    };
+  };
+  "/rest/attendance/studies": {
+    get: {
+      parameters: {
+        query: {
+          status?: string[];
+          studentIds?: number[];
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["StudyEntity"][];
+        };
+      };
+    };
+  };
+  "/rest/temporary-dal-endpoint": {
+    get: {
+      parameters: {
+        query: {
+          token?: string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["DalIdentityResource"];
+        };
       };
     };
   };
@@ -84,23 +476,28 @@ export interface paths {
         };
       };
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": string;
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
         };
       };
     };
   };
-  "/auth/authz/login": {
+  "/rest/attendance/usersByObfuscatedId": {
     get: {
+      parameters: {
+        query: {
+          ids?: string[];
+        };
+      };
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["UsersDto"];
         };
       };
     };
@@ -111,34 +508,65 @@ export interface paths {
         query: {
           state?: string;
         };
-      };
-      responses: {
-        /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/auth/authz/authorization{any}": {
-    get: {
-      parameters: {
-        path: {
-          any: string;
+        cookie: {
+          PSESSIONID?: { [key: string]: any };
         };
       };
       responses: {
-        /** OK */
-        200: unknown;
+        /**
+         * OK
+         */
+        "200": unknown;
       };
     };
   };
-  "/user/desktop": {
+  "/attendance/redirect": {
+    get: {
+      parameters: {
+        query: {
+          redirect?: string;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": unknown;
+      };
+    };
+  };
+  "/rest/attendance/hello-world": {
     get: {
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["DesktopResource"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": string;
+        };
+      };
+    };
+  };
+  "/users/permissions/read-permission-for-object/with-multiple-org-ctx": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
+        };
+      };
+    };
+  };
+  "/users/permissions/read-permission-for-object/with-unknown-org-ctx": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
         };
       };
     };
@@ -146,11 +574,11 @@ export interface paths {
   "/auth-demo/session": {
     get: {
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["Session"];
         };
       };
     };
@@ -163,51 +591,179 @@ export interface paths {
         };
       };
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["GreetingResource"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["GreetingResource1"];
         };
       };
     };
   };
-  "/auth/authz/session": {
+  "/rest/greetings": {
     get: {
       responses: {
-        /** OK */
-        200: {
-          content: {
-            "application/json": components["schemas"]["Session"];
-          };
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["GreetingListResource1"];
+        };
+      };
+    };
+  };
+  "/rest/greetings/{example-id}": {
+    get: {
+      parameters: {
+        path: {
+          "example-id": number;
+        };
+      };
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["GreetingResource1"];
+        };
+      };
+    };
+  };
+  "/users/permissions/secured-object-with-unknown-org-ctx": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["PermissionResource"];
+        };
+      };
+    };
+  };
+  "/users/session": {
+    get: {
+      responses: {
+        /**
+         * OK
+         */
+        "200": {
+          "application/json": components["schemas"]["UserSession"];
         };
       };
     };
   };
 }
 
+export interface operations {}
+
 export interface components {
   schemas: {
     AuthIdentityResource: {
-      externalPersonId?: number;
-      internalIdentityId?: number;
-      name?: string;
       obfuscatedIdentityId?: string;
+      internalIdentityId?: number;
       staffId?: number;
       studentId?: number;
+      externalPersonId?: number;
+      name?: string;
+      validProfiles?: string[];
+      anonymous?: boolean;
+    };
+    /**
+     * deprecated since 11.02.2022, use UserSessionRestService instead
+     */
+    AuthLogoutResource: {
+      next?: components["schemas"]["LinkResource"];
+      message?: string;
     };
     AuthRolesOfIdentitySetResource: {
       items?: string[];
       identity?: components["schemas"]["AuthIdentityResource"];
     };
-    CachedAuthRolesOfIdentitySetResource: {
-      cachedEntity?: components["schemas"]["AuthRolesOfIdentitySetResource"];
+    /**
+     * deprecated since 11.02.2022, use UserSessionRestService instead
+     */
+    AuthSessionResource: {
+      valid?: boolean;
+      obfuscatedIdentityId?: string;
+      userGroup?: string;
+      language?: string;
       debug?: string;
-      exp?: number;
-      fromCache?: boolean;
-      iat?: number;
+      requiresRedirectToSessionProvider?: boolean;
       sessionReference?: string;
     };
+    /**
+     * deprecated since 11.02.2022, use UserSessionRestService instead
+     */
+    AuthSessionTokenResource: {
+      valid?: boolean;
+      debug?: string;
+      sessionToken?: string;
+    };
+    CachedAuthRolesOfIdentitySetResource: {
+      cachedEntity?: components["schemas"]["AuthRolesOfIdentitySetResource"];
+      fromCache?: boolean;
+      exp?: number;
+      iat?: number;
+      debug?: string;
+      sessionReference?: string;
+    };
+    CourseDto: {
+      courseId?: number;
+      courseNumber?: string;
+      academicYear?: string;
+      semester?: string;
+      name?: string;
+      nameEn?: string;
+      semesterHours?: number;
+      type?: string;
+      typeName?: string;
+      allStates?: string;
+      organizationId?: number;
+      examiningOrganisationId?: number;
+      contactHours?: number;
+      credits?: string;
+      weighting?: number;
+      groups?: components["schemas"]["CourseGroupDto"][];
+    };
+    CourseEventDto: {
+      eventId?: number;
+      start?: string;
+      end?: string;
+      teachingUnits?: number;
+      teachingUnitsAgh?: number;
+      teachingUnitsCancelled?: number;
+      type?: string;
+      typeName?: string;
+      place?: string;
+      courseResourceType?: string;
+      seriesNr?: number;
+      modErlerneNr?: number;
+      title?: string;
+      comment?: string;
+      internalComment?: string;
+      previousEventId?: number;
+      createdOn?: string;
+    };
+    CourseGroupDto: {
+      courseId?: number;
+      groupId?: number;
+      name?: string;
+      deleted?: string;
+      isStandard?: string;
+      registrationStart?: string;
+      registrationEnd?: string;
+      lecturerStaffIds?: number[];
+      events?: components["schemas"]["CourseEventDto"][];
+      studentIds?: number[];
+    };
+    CoursesAndUsers: {
+      courses?: components["schemas"]["CourseDto"][];
+      students?: components["schemas"]["StudentDto"][];
+      staffs?: components["schemas"]["StaffDto"][];
+      identities?: components["schemas"]["IdentityDto"][];
+    };
+    DalIdentityResource: { identityUid?: string; name?: string };
     DesktopFooterResource: {
       info?: components["schemas"]["I18nTextResource"];
       links?: components["schemas"]["UiLinkResource"][];
@@ -216,69 +772,245 @@ export interface components {
       homeLink?: components["schemas"]["UiLinkResource"];
       logoLink?: components["schemas"]["UiLinkResource"];
     };
+    DesktopLoginResource: {
+      loginType?: components["schemas"]["DesktopLoginType"];
+      loginLink?: components["schemas"]["LinkResource"];
+    };
+    DesktopLoginType: "CO3" | "OIDC";
     DesktopMetaResource: {
-      customThemeLink?: components["schemas"]["EmbeddedLinkResource"];
       systemThemeLink?: components["schemas"]["EmbeddedLinkResource"];
+      customThemeLink?: components["schemas"]["EmbeddedLinkResource"];
     };
     DesktopResource: {
-      footer?: components["schemas"]["DesktopFooterResource"];
-      header?: components["schemas"]["DesktopHeaderResource"];
+      session?: components["schemas"]["DesktopSessionResource"];
+      login?: components["schemas"]["DesktopLoginResource"];
       meta?: components["schemas"]["DesktopMetaResource"];
+      header?: components["schemas"]["DesktopHeaderResource"];
+      footer?: components["schemas"]["DesktopFooterResource"];
     };
+    DesktopSessionResource: { languageKey?: string; profileKey?: string };
     EmbeddedLinkResource: {
       href?: string;
       type?: components["schemas"]["EmbeddedLinkType"];
     };
     EmbeddedLinkType: "CSS" | "IMAGE" | "SCRIPT";
-    /** All erroneous requests result in this CAMPUSonline specific error resource. */
+    /**
+     * All erroneous requests result in this CAMPUSonline specific error resource.
+     */
     ErrorResource: {
-      detail?: string;
-      /** an understandable technical error message with additional error specific information in a string map. */
-      diagnosticContext?: { [key: string]: string };
-      instance?: string;
-      /** The http status code is included in the error resource. */
-      status?: number;
-      title?: string;
       type: string;
+      title?: string;
+      detail?: string;
+      stackTrace?: string;
+      instance?: string;
+      /**
+       * An technical understandable error message with additional error specific information in a string map
+       */
+      diagnosticContext?: { [key: string]: string };
+      /**
+       * The http status code is included in the error resource.
+       */
+      status?: number;
+    };
+    FunctionEntity: {
+      id?: components["schemas"]["StaffFunctionCompositeKey"];
+      organisationId?: number;
+      staffId?: number;
+      name?: string;
+      type?: string;
+      showInPersList?: string;
+      startDate?: string;
+      endDate?: string;
     };
     GreetingListResource: {
-      items?: components["schemas"]["GreetingResource"][];
+      items?: components["schemas"]["GreetingResource1"][];
     };
-    GreetingResource: {
+    GreetingListResource1: {
+      items?: components["schemas"]["GreetingResource1"][];
+    };
+    GreetingResource: { id?: number; text?: string };
+    GreetingResource1: { id?: number; text?: string };
+    I18nTextResource: { key: string; replacements?: { [key: string]: string } };
+    /**
+     * The I18nValueResource is used for internationalized texts. It consists of a map where the key is the Language.key form the Language enum and the value is the text in the corresponding language.
+     */
+    I18nValueResource: { value?: { [key: string]: string } };
+    IdentityDto: {
       id?: number;
-      text?: string;
+      staffId?: number;
+      studentId?: number;
+      obfuscatedId?: string;
     };
-    I18nTextResource: {
-      key: string;
-      replacements?: { [key: string]: string };
-    };
-    /** Generic resource to track modifications (create, update, delete) of a specific resource */
+    /**
+     * Enum with all supported languages in CAMPUSonline. The Language.key is used in the I18nValueResource as a map index.
+     */
+    Language:
+      | "AR"
+      | "ARZ"
+      | "BE"
+      | "BG"
+      | "BS"
+      | "CA"
+      | "CNR"
+      | "CZ"
+      | "DA"
+      | "DE"
+      | "EL"
+      | "EN"
+      | "EO"
+      | "ES"
+      | "ET"
+      | "FA"
+      | "FI"
+      | "FR"
+      | "FU"
+      | "GA"
+      | "HA"
+      | "HE"
+      | "HI"
+      | "HR"
+      | "HU"
+      | "HY"
+      | "ID"
+      | "IS"
+      | "IT"
+      | "JA"
+      | "KO"
+      | "LA"
+      | "LT"
+      | "LV"
+      | "MK"
+      | "MN"
+      | "MS"
+      | "MT"
+      | "NL"
+      | "NO"
+      | "PL"
+      | "PT"
+      | "RO"
+      | "RU"
+      | "SGN"
+      | "SK"
+      | "SL"
+      | "SQ"
+      | "SR"
+      | "SV"
+      | "SW"
+      | "TA"
+      | "TH"
+      | "TR"
+      | "UK"
+      | "VI"
+      | "ZH";
+    LinkResource: { href?: string };
+    /**
+     * Generic resource to track modifications (create, update, delete) of a specific resource
+     */
     ModificationResource: {
-      modifiedAt?: string;
-      modifiedByClientId?: string;
       modifiedByPersonUid?: string;
-      type?: components["schemas"]["ModificationType"] & unknown;
+      modifiedByClientId?: string;
+      modifiedAt?: string;
+      type?: components["schemas"]["ModificationType"] & { [key: string]: any };
     };
     ModificationType: "CREATE" | "DELETE" | "UPDATE";
+    OrganisationDto: {
+      id?: number;
+      organizationName?: string;
+      organizationId?: number;
+    };
+    PermissionResource: { permission?: string; allowed?: boolean };
+    RoleExampleResource: { exampleRead?: boolean };
+    /**
+     * deprecated since 11.02.2022, use UserSessionRestService instead
+     */
+    SepiUrlsResource: {
+      createUrl?: string;
+      deleteUrl?: string;
+      checkUrl?: string;
+    };
     Session: {
-      debug?: string;
-      language?: string;
+      valid?: boolean;
       obfuscatedIdentityId?: string;
+      userGroup?: string;
+      language?: string;
+      debug?: string;
       requiresRedirectToSessionProvider?: boolean;
       sessionReference?: string;
-      userGroup?: string;
-      valid?: boolean;
+    };
+    StaffDto: {
+      id?: number;
+      lastName?: string;
+      firstName?: string;
+      title?: string;
+      academicTitle?: string;
+      officialTitle?: string;
+      otherTitle?: string;
+      email?: string;
+      gender?: string;
+      birthdate?: string;
+      phoneNumber?: string;
+    };
+    StaffFunctionCompositeKey: {
+      functionId?: number;
+      organisationId?: number;
+      staffId?: number;
+    };
+    StatsDto: {
+      threadCount?: number;
+      heapMB?: number;
+      nonHeapMB?: number;
+      systemLoadAverage?: number;
+      availableProcessors?: number;
+      minorGcCount?: number;
+      minorGcMs?: number;
+      majorGcCount?: number;
+      majorGcMs?: number;
+    };
+    StudentDto: {
+      id?: number;
+      lastName?: string;
+      firstName?: string;
+      matriculationNumber?: string;
+      email?: string;
+      title?: string;
+      titleAfter?: string;
+      birthdate?: string;
+      gender?: string;
+      citizenship?: string;
+      secondCitizenship?: string;
+      matriculationDate?: string;
+      exmatriculationDate?: string;
+    };
+    StudyEntity: {
+      id?: number;
+      studentId?: number;
+      name?: string;
+      status?: string;
     };
     UiLinkResource: {
       href?: string;
       label?: components["schemas"]["I18nTextResource"];
       target?: string;
     };
+    UserSession: {
+      persistent?: boolean;
+      subject?: string;
+      clientId?: string;
+      personUid?: string;
+      proxyUser?: string;
+      profileKey?: string;
+      languageKey?: string;
+      debug?: string;
+      validProfileKeys?: string[];
+      sessionModificationDebug?: string;
+    };
+    UsersDto: {
+      identities?: components["schemas"]["IdentityDto"][];
+      students?: components["schemas"]["StudentDto"][];
+      staffs?: components["schemas"]["StaffDto"][];
+    };
+    VersionResource: { version?: string; name?: string };
     MapStringString: { [key: string]: string };
     MapStringSetString: { [key: string]: string[] };
   };
 }
-
-export interface operations {}
-
-export interface external {}
