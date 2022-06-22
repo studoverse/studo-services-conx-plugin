@@ -22,7 +22,7 @@ build-docker:
     image: maven:latest
     stage: build
     only:
-        - snapshot
+        - main
     tags:
         - co-cloud
     variables:
