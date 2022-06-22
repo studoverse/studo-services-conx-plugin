@@ -28,9 +28,10 @@ build-docker:
     variables:
         QUARKUS_CONTAINER_IMAGE_BUILD: "true"
         QUARKUS_CONTAINER_IMAGE_PUSH: "true"
-        QUARKUS_CONTAINER_IMAGE_TAG: "snapshot"
+        VERSION: $CI_COMMIT_SHORT_SHA
     script:
-        - mvn $MAVEN_CLI_OPTS clean -Dmaven.deploy.skip=true -Ddocker.artefact.version=snapshot deploy
+        - mvn $MAVEN_CLI_OPTS clean versions:set -DnewVersion=$BUILD_TAG
+        - mvn $MAVEN_CLI_OPTS clean -Dmaven.deploy.skip=true deploy
     artifacts:
         paths:
             - target/quarkus-app/*
