@@ -30,7 +30,7 @@ build-docker:
         QUARKUS_CONTAINER_IMAGE_PUSH: "true"
         VERSION: $CI_COMMIT_SHORT_SHA
     script:
-        - mvn $MAVEN_CLI_OPTS clean versions:set -DnewVersion=$BUILD_TAG
+        - mvn $MAVEN_CLI_OPTS clean versions:set -DnewVersion=$VERSION
         - mvn $MAVEN_CLI_OPTS clean -Dmaven.deploy.skip=true deploy
     artifacts:
         paths:
