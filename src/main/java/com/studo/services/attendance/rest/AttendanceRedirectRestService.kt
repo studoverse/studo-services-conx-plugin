@@ -3,20 +3,15 @@ package com.studo.services.attendance.rest
 import at.campusonline.pub.auth.api.authinfo.AuthInfo
 import at.campusonline.pub.auth.api.jaxrs.UserSessionDisabled
 import at.campusonline.pub.auth.api.subject.SecuritySubject
-import org.eclipse.microprofile.jwt.JsonWebToken
-import javax.ws.rs.GET
-import at.campusonline.pub.auth.rest.api.identities.AuthIdentityResource
-import javax.ws.rs.core.UriBuilder
-import com.studo.services.attendance.rest.AttendanceRedirectRestService
 import io.quarkus.security.Authenticated
 import io.smallrye.jwt.build.Jwt
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.eclipse.microprofile.jwt.JsonWebToken
 import java.net.URLDecoder
 import javax.inject.Inject
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.Response
-import javax.ws.rs.*;
+import javax.ws.rs.core.UriBuilder
 
 @Produces("application/json")
 @UserSessionDisabled
@@ -31,10 +26,10 @@ class AttendanceRedirectRestService {
     @Inject
     lateinit var token: JsonWebToken
 
-    @ConfigProperty(name = "studo-service.token-secret")
+    @ConfigProperty(name = "studo-services.token-secret")
     lateinit var secret: String
 
-    @ConfigProperty(name = "studo-service.dal-base-url")
+    @ConfigProperty(name = "studo-services.dal-base-url")
     lateinit var dalBaseUrl: String
 
     @ConfigProperty(name = "conx.public-api-url")
