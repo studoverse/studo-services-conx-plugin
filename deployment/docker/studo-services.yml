@@ -65,8 +65,8 @@ services:
             - ENV_QUARKUS_LOG_CATEGORY_HTTP_WIRE_LEVEL=${log_http_wire_level:-WARN}
 
             # app specific properties
-            - ENV_STUDO_SERVICE_TOKEN_SECRET=${backend_studo_service_token_secret}
-            - ENV_STUDO_SERVICE_DAL_BASE_URL=${backend_studo_service_dal_base_url}
-            - ENV_STUDO_SERVICE_DEBUG_MODE=${backend_studo_service_debug_mode:-false}
+            - ENV_STUDO_SERVICES_TOKEN_SECRET=${backend_studo_service_token_secret}
+            - ENV_STUDO_SERVICES_DAL_BASE_URL=${backend_studo_service_dal_base_url}
+            - ENV_STUDO_SERVICES_DEBUG_MODE=${backend_studo_service_debug_mode:-false}
         labels:
             - "co.log.tag=studo-services"

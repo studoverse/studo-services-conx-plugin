@@ -17,7 +17,7 @@ import javax.ws.rs.QueryParam;
 @Path("rest/temporary-dal-endpoint")
 public class TemporaryDalEndpoint {
 
-  @ConfigProperty(name = "studo-service.token-secret")
+  @ConfigProperty(name = "studo-services.token-secret")
   String secret;
 
   /**
