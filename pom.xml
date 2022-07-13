@@ -201,6 +201,7 @@
         <dependency>
             <groupId>at.campusonline.conx.quarkus</groupId>
             <artifactId>campusonline-extension</artifactId>
+            <version>2.4.1.Final</version>
         </dependency>
         <!-- we use the auth api for authentication and authorization -->
         <dependency>
