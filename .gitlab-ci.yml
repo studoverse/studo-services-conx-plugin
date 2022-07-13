@@ -37,3 +37,25 @@ build-docker:
     artifacts:
         paths:
             - target/*.zip
+
+build-snapshot-docker:
+    image: maven:latest
+    stage: build
+    branches:
+        - main
+    tags:
+        - co-cloud
+    variables:
+        QUARKUS_CONTAINER_IMAGE_BUILD: "true"
+        QUARKUS_CONTAINER_IMAGE_PUSH: "true"
+        VERSION: "1.0.0-SNAPSHOT"
+        COMMIT_ID: $CI_COMMIT_SHORT_SHA
+    script:
+        - mvn $MAVEN_CLI_OPTS versions:set -DnewVersion=$VERSION
+        - mvn $MAVEN_CLI_OPTS clean -Dbuild.revision=$COMMIT_ID -Dmaven.deploy.skip=true deploy
+        - mvn $MAVEN_CLI_OPTS -Dbuild.revision=$COMMIT_ID at.campusonline.conx.maven:conx-maven-plugin:0.1.0:package -Dmaven.deploy.skip=true package
+    artifacts:
+        paths:
+            - target/*.zip
+    when: manual
+
