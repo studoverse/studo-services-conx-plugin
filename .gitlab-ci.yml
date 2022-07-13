@@ -41,7 +41,7 @@ build-docker:
 build-snapshot-docker:
     image: maven:latest
     stage: build
-    branches:
+    only:
         - main
     tags:
         - co-cloud
