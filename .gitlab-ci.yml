@@ -19,7 +19,7 @@ cache:
         - /var/maven/.m2
 
 build-docker:
-    image: maven:latest
+    image: maven:3.8.4-openjdk-17-slim
     stage: build
     only:
         - /^(\d+\.)(\d+\.)(\d+)(-[a-z]+)?$/
@@ -39,7 +39,7 @@ build-docker:
             - target/*.zip
 
 build-snapshot-docker:
-    image: maven:latest
+    image: maven:3.8.4-openjdk-17-slim
     stage: build
     only:
         - main
