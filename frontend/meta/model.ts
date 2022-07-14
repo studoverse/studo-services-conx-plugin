@@ -110,18 +110,6 @@ export interface paths {
       };
     };
   };
-  "/auth-demo/subject": {
-    get: {
-      responses: {
-        /**
-         * OK
-         */
-        "200": {
-          "application/json": components["schemas"]["CachedAuthRolesOfIdentitySetResource"];
-        };
-      };
-    };
-  };
   "/greetings": {
     get: {
       responses: {
@@ -129,7 +117,7 @@ export interface paths {
          * OK
          */
         "200": {
-          "application/json": components["schemas"]["GreetingListResource1"];
+          "application/json": components["schemas"]["GreetingListResource"];
         };
       };
     };
@@ -243,42 +231,8 @@ export interface paths {
       };
     };
   };
-  "/role-examples/check-demo-1": {
-    get: {
-      parameters: {
-        query: {
-          "org-id": string;
-        };
-      };
-      responses: {
-        /**
-         * OK
-         */
-        "200": {
-          "application/json": string;
-        };
-      };
-    };
-  };
   "/rest/attendance/debug": {
     get: {
-      responses: {
-        /**
-         * OK
-         */
-        "200": {
-          "application/json": string;
-        };
-      };
-    };
-  };
-  "/role-examples/check-demo-2": {
-    get: {
-      parameters: {
-        query: {
-          "org-id": string;
-        };
-      };
       responses: {
         /**
          * OK
@@ -362,23 +316,6 @@ export interface paths {
          */
         "200": {
           "application/json": components["schemas"]["CoursesAndUsers"];
-        };
-      };
-    };
-  };
-  "/role-examples": {
-    get: {
-      parameters: {
-        query: {
-          "org-id": string;
-        };
-      };
-      responses: {
-        /**
-         * OK
-         */
-        "200": {
-          "application/json": components["schemas"]["RoleExampleResource"];
         };
       };
     };
@@ -571,18 +508,6 @@ export interface paths {
       };
     };
   };
-  "/auth-demo/session": {
-    get: {
-      responses: {
-        /**
-         * OK
-         */
-        "200": {
-          "application/json": components["schemas"]["Session"];
-        };
-      };
-    };
-  };
   "/greetings/{example-id}": {
     get: {
       parameters: {
@@ -595,7 +520,7 @@ export interface paths {
          * OK
          */
         "200": {
-          "application/json": components["schemas"]["GreetingResource1"];
+          "application/json": components["schemas"]["GreetingResource"];
         };
       };
     };
@@ -607,7 +532,7 @@ export interface paths {
          * OK
          */
         "200": {
-          "application/json": components["schemas"]["GreetingListResource1"];
+          "application/json": components["schemas"]["GreetingListResource"];
         };
       };
     };
@@ -624,7 +549,7 @@ export interface paths {
          * OK
          */
         "200": {
-          "application/json": components["schemas"]["GreetingResource1"];
+          "application/json": components["schemas"]["GreetingResource"];
         };
       };
     };
@@ -823,13 +748,9 @@ export interface components {
       endDate?: string;
     };
     GreetingListResource: {
-      items?: components["schemas"]["GreetingResource1"][];
-    };
-    GreetingListResource1: {
-      items?: components["schemas"]["GreetingResource1"][];
+      items?: components["schemas"]["GreetingResource"][];
     };
     GreetingResource: { id?: number; text?: string };
-    GreetingResource1: { id?: number; text?: string };
     I18nTextResource: { key: string; replacements?: { [key: string]: string } };
     /**
      * The I18nValueResource is used for internationalized texts. It consists of a map where the key is the Language.key form the Language enum and the value is the text in the corresponding language.
@@ -919,7 +840,6 @@ export interface components {
       organizationId?: number;
     };
     PermissionResource: { permission?: string; allowed?: boolean };
-    RoleExampleResource: { exampleRead?: boolean };
     /**
      * deprecated since 11.02.2022, use UserSessionRestService instead
      */
@@ -927,15 +847,6 @@ export interface components {
       createUrl?: string;
       deleteUrl?: string;
       checkUrl?: string;
-    };
-    Session: {
-      valid?: boolean;
-      obfuscatedIdentityId?: string;
-      userGroup?: string;
-      language?: string;
-      debug?: string;
-      requiresRedirectToSessionProvider?: boolean;
-      sessionReference?: string;
     };
     StaffDto: {
       id?: number;
