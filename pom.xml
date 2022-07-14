@@ -374,14 +374,6 @@
                 </executions>
             </plugin>
 
-            <!-- we use a specific maven-compiler-plugin to specify our desired java version and project encodings -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <parameters>${maven.compiler.parameters}</parameters>
-                </configuration>
-            </plugin>
 
             <!-- we use the maven-surefire-plugin for running tests -->
             <plugin>
@@ -506,6 +498,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <parameters>${maven.compiler.parameters}</parameters>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
