@@ -13,10 +13,10 @@ variables:
     QUARKUS_CONTAINER_IMAGE_USERNAME: "${DOCKER_USER}"
     QUARKUS_CONTAINER_IMAGE_PASSWORD: "${DOCKER_PASSWORD}"
 
-cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-        - /var/maven/.m2
+#cache:
+#    key: ${CI_COMMIT_REF_SLUG}
+#    paths:
+#        - /var/maven/.m2
 
 build-docker:
     image: maven:3.8.4-openjdk-17-slim
