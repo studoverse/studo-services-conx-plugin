@@ -282,7 +282,7 @@
             </snapshots>
             <id>campusonline-public-maven</id>
             <name>CAMPUSonline Public Maven Repository</name>
-            <url>${maven.repository}</url>
+            <url>https://nexus.campusonline.community/repository/campusonline-public-maven</url>
         </repository>
     </repositories>
     <pluginRepositories>
