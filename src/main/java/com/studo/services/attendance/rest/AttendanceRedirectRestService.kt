@@ -57,7 +57,7 @@ class AttendanceRedirectRestService {
 
         val redirectUrl = if (redirect.isEmpty()) null else URLDecoder.decode(redirect, "UTF-8")
 
-        //We use a signed token, so the studo dal application can verify the token.
+        // We use a signed token, so the studo dal application can verify the token.
         val signedStudoCrossAuthJwtToken = Jwt.subject(subject.obfuscatedIdentityId)
                 .preferredUserName(subject.identity.name)
                 .jws()
