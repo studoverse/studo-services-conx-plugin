@@ -23,15 +23,13 @@ public class AttendanceTestRestService {
     return "hello world on " + co_public_api_url;
   }
 
-  @ConfigProperty(name = "studo-services.debug-mode")
+  @ConfigProperty(name = "ENV_STUDO_SERVICES_DEBUG_MODE")
   Boolean debug;
-  @ConfigProperty(name = "studo-services.token-secret")
+  @ConfigProperty(name = "ENV_STUDO_SERVICES_TOKEN_SECRET")
   String token_secret;
-  @ConfigProperty(name = "studo-services.backend-client-secret")
-  String client_secret;
-  @ConfigProperty(name = "studo-services.dal-base-url")
+  @ConfigProperty(name = "ENV_STUDO_SERVICES_DAL_BASE_URL")
   String dal_base_url;
-  @ConfigProperty(name = "conx.public-api-url")
+  @ConfigProperty(name = "ENV_CONX_PUBLIC_API_URL")
   String co_public_api_url;
 
   @GET
@@ -40,7 +38,7 @@ public class AttendanceTestRestService {
     if (!debug) return "Please enable debug mode in the guid.yaml";
 
     logger.warn("studo-service.token-secret: " + token_secret);
-    logger.warn("studo-service.backend-client-secret: " + client_secret);
+    //logger.warn("studo-service.backend-client-secret: " + client_secret);
     logger.warn("studo-service.dal-base-url: " + dal_base_url);
 
     return "Logged ENV vars";
@@ -53,4 +51,5 @@ public class AttendanceTestRestService {
     return "secure hello world on " + co_public_api_url;
   }
 
+  private Boolean
 }

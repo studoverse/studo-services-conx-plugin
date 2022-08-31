@@ -31,13 +31,13 @@ class AttendanceRedirectRestService {
     @Inject
     lateinit var token: JsonWebToken
 
-    @ConfigProperty(name = "studo-services.token-secret")
+    @ConfigProperty(name = "ENV_STUDO_SERVICES_TOKEN_SECRET")
     lateinit var secret: String
 
-    @ConfigProperty(name = "studo-services.dal-base-url")
+    @ConfigProperty(name = "ENV_STUDO_SERVICES_DAL_BASE_URL")
     lateinit var dalBaseUrl: String
 
-    @ConfigProperty(name = "conx.public-api-url")
+    @ConfigProperty(name = "ENV_CONX_PUBLIC_API_URL")
     lateinit var coPublicApiUrl: String
 
     /**
