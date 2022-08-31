@@ -50,6 +50,4 @@ public class AttendanceTestRestService {
   public String secureHelloWorld() {
     return "secure hello world on " + co_public_api_url;
   }
-
-  private Boolean
 }
