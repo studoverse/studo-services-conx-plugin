@@ -70,3 +70,4 @@ services:
             - ENV_STUDO_SERVICES_DEBUG_MODE=${backend_studo_service_debug_mode:-false}
         labels:
             - "co.log.tag=studo-services"
+            -
