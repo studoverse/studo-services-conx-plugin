@@ -54,7 +54,7 @@ services:
             - ENV_CO_DB_PASSWORD_ENCRYPTED=${database_password}
             - ENV_CO_AUTH_SERVER_URL=${co_auth_server_authurl}
             - ENV_CONX_PUBLIC_API_URL=${co_service_baseurl}/co/public
-            - ENV_CONX_OIDC_CLIENT_CREDENTIALS_SECRET_ENCRYPTED=${back_channel_client_secret}
+            - ENV_CONX_OIDC_CLIENT_CREDENTIALS_SECRET_ENCRYPTED=${back_channel_client_secret} # Also accepts unencrypted secret
             - ENV_CONX_HTTP_ACCESS_LOG_HEADERS=${http_access_log_headers:-false}
             - ENV_CONX_HTTP_ACCESS_LOG_SECURITY_HEADERS=${http_access_log_security_headers:-false}
             - ENV_QUARKUS_LOG_LEVEL=${log_quarkus_level:-WARN}
