@@ -1,0 +1,6 @@
+//@realm=CAMPUSonline
+{
+    "name": "studo-services.read",
+    "description": "Scope which is required if you want to get information from the supersonic service.",
+    "protocol": "openid-connect"
+}
