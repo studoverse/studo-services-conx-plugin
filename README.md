@@ -10,9 +10,10 @@ Then zip `target/deployment` and send it to the CampusOnline administrator at th
 
 ### Install iam_res
 ```
-coinst deploy TRUNKdev IAM_RES deployment/iam_res/0001_studo-service.read.scope
-coinst deploy TRUNKdev IAM_RES deployment/iam_res/0002_app_backend.client
-coinst deploy TRUNKdev IAM_RES deployment/iam_res/0003_app_user.client
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/studo-services.read.scope.json
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/studo-services-all.read.scope.json
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/studo-services-app.client.json
+coinst deploy TRUNKdev IAM_RES deployment/iam_res/studo-services-app-user.client.json
 ```
 Find the `studo-services-app` user and copy it's client-secret, we need it for the guid.yaml
 Set "Valid redirect URIs" to your Flow's URL.
