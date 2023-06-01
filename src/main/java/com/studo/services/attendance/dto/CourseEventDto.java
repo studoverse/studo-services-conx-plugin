@@ -29,4 +29,5 @@ public class CourseEventDto {
     public String internalComment;
     public BigDecimal previousEventId;
     public Date createdOn;
+    public BigDecimal lecturerStaffId; // TODO insert staffId of lecturer who will teach at this event.
 }
